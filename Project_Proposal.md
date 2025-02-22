@@ -11,7 +11,7 @@ This is our project proposal document where we will layout two possible ideas to
 - Travis [@Travis975](https://github.com/Travis975)
 
 ## Main Idea
-Project Name: FileNest
+Project Name: Notro
 
 - A self-hostable cloud storage for you and your friends with Discord compatibility.
 
