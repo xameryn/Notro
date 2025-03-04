@@ -1,0 +1,29 @@
+.container{
+    background-color: rgb(23, 23, 23);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.servers-div{
+    display: flex;
+    flex-direction: column;
+}
+
+.my-account{
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+}
+
+a {
+    background-color: black;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 5px;
+  }
+  a:hover {
+    background-color: #323232;
+  }
+
+

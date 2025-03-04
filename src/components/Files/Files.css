@@ -1,0 +1,26 @@
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.files-container{
+    border-radius: 12px;
+    margin: 80px;
+    padding: 40px;
+    height: 50%;
+    width: 70%;
+    background-color: rgb(22, 22, 22);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    overflow-y: auto;
+}
+
+.file {
+    width: 75px;
+    margin-bottom: 20px;
+    height: 120px;
+    background-color: black;
+}
