@@ -1,19 +1,16 @@
-import './App.css'
-import LeftSidebar from './components/LeftSidebar/LeftSidebar'
-import Files from './components/Files/Files'
-import Upload from './components/Upload/Upload'
+import React from 'react';
+import { useRoutes } from 'react-router-dom';
+import ConnectPage from './pages/ConnectPage';
+import HomePage from './pages/HomePage';
 
 function App() {
+  let routes = useRoutes([
+    { path: '/connect', element: <ConnectPage /> },
+    { path: '/', element: <HomePage /> }
+  ]);
 
-  return (
-    <>
-    <div id="main">
-      <LeftSidebar />
-      <Files />
-      <Upload />
-    </div>
-    </>
-  )
+  return routes;
 }
+
 
 export default App

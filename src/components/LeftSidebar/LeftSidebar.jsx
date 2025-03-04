@@ -1,7 +1,10 @@
 import React from 'react'
 import './LeftSidebar.css'
+import { useNavigate } from 'react-router-dom'
 
 const LeftSidebar = () => {
+
+  const navigate = useNavigate()
   return (
     <div className='container'>
         <h1>Your Servers</h1>
@@ -17,6 +20,7 @@ const LeftSidebar = () => {
 
         <div className='my-account'>
             <a>My Account</a>
+            <button className="temp-red-background" onClick={() => navigate('/connect')}>LOG OUT</button>
         </div>
     </div>
   )
