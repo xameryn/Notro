@@ -1,103 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Files.css'
+import DraggableDialog from '../DraggableDialog/DraggableDialog'
 
 const Files = () => {
-  return (
-    <div>
-        <h1>Shared Files</h1>
 
-        <div className='files-container'>
+    const randomFileNames = ["Dog", "Carrot", "Cat", "Meme", "Funny", "Baseball", "Something", "Another file", "Rabbit", "Computer", "Tooth", "Interesting", "Word", "Whatever", "Dog", "Carrot", "Cat", "Meme", "Funny", "Baseball", "Something", "Another file", "Rabbit", "Computer", "Tooth", "Interesting", "Word", "Whatever"]
 
-            <div className='file'>
-                file
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [fileToView, setFileToView] = useState('');
+  
+    const openFile = (file) => {
+      setFileToView(file);
+      setIsOpen(true);
+    };
+  
+    const closeFile = () => {
+      setIsOpen(false);
+    };
+    
+    return (
+        <div>
+            <h1>Shared Files</h1>
+
+            <div className='files-container'>
+
+              {randomFileNames.map((fileName) => (
+
+                <div key={fileName} className='file' onClick={() => openFile(`${fileName}`)}>
+                  {fileName}
+                </div>
+
+              ))}
             </div>
 
-            <div className='file'>
-                file
-            </div>
+            {isOpen && <DraggableDialog open={isOpen} onClose={closeFile} file={fileToView} />}
 
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
-
-            <div className='file'>
-                file
-            </div>
         </div>
-    </div>
   )
 }
 
 export default Files
+
