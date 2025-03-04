@@ -4,7 +4,7 @@ import DraggableDialog from '../DraggableDialog/DraggableDialog'
 
 const Files = () => {
 
-    const randomFileNames = ["Dog", "Carrot", "Cat", "Meme", "Funny", "Baseball", "Something", "Another file", "Rabbit", "Computer", "Tooth", "Interesting", "Word", "Whatever", "Dog", "Carrot", "Cat", "Meme", "Funny", "Baseball", "Something", "Another file", "Rabbit", "Computer", "Tooth", "Interesting", "Word", "Whatever"]
+    const randomFileNames = ["Dog", "Carrot", "Cat", "Meme", "Funny", "Baseball", "Something", "Another file", "Rabbit", "Computer", "Tooth", "Interesting", "Word", "Whatever"]
 
 
     const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +30,6 @@ const Files = () => {
                 <div key={fileName} className='file' onClick={() => openFile(`${fileName}`)}>
                   {fileName}
                 </div>
-
               ))}
             </div>
 

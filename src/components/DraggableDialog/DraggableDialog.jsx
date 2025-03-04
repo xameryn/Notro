@@ -27,6 +27,14 @@ function PaperComponent(props) {
 
 export default function DraggableDialog({ open, onClose, file }) {
 
+  const copyURL= () => {
+    alert("URL copied! (Not really)")
+  };
+
+  const downloadFile= () => {
+    alert(`Downloading ${file}! (Not really)`)
+  };
+
   return (
     <Dialog
       open={open}
@@ -44,6 +52,8 @@ export default function DraggableDialog({ open, onClose, file }) {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Close</Button>
+        <Button onClick={copyURL}>Copy URL</Button>
+        <Button onClick={downloadFile}>Download</Button>
       </DialogActions>
     </Dialog>
   );
