@@ -8,7 +8,7 @@ body{
 
 .files-container{
     border-radius: 12px;
-    margin: 80px;
+    margin: 0px 80px 80px 80px;
     padding: 40px;
     height: 50%;
     width: 70%;
@@ -23,4 +23,9 @@ body{
     margin-bottom: 20px;
     height: 120px;
     background-color: black;
+}
+
+h2{
+    margin-bottom: 0px;
+    padding-bottom: 0px;
 }
