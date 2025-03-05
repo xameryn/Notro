@@ -1,16 +1,12 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Paper from '@mui/material/Paper';
+import React from 'react';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Button } from '@mui/material';
 import Draggable from 'react-draggable';
+import './DraggableDialog.css'
 
 // The majority of this code is pasted directly from the MUI website
 // I used the "Draggable Dialog" component from this page: https://mui.com/material-ui/react-dialog/
-// I did make some modifications to the original code so that the Dialog accepts parameters
+// I added onto the original code to add additional features (e.g. "Copy URL" and "Download" buttons)
+// I also changed the DraggableDialog function to accept a file as a parameter and to display relevant info about it (just the file name for now)
 
 function PaperComponent(props) {
   const nodeRef = React.useRef(null);
@@ -25,36 +21,50 @@ function PaperComponent(props) {
   );
 }
 
-export default function DraggableDialog({ open, onClose, file }) {
+function DraggableDialog({ file }) {
+  const [open, setOpen] = React.useState(false);
 
-  const copyURL= () => {
-    alert("URL copied! (Not really)")
+  const handleClickOpen = () => {
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
+  const copyURL = () => {
+    alert("URL copied! (Not really)");
   };
 
-  const downloadFile= () => {
-    alert(`Downloading ${file}! (Not really)`)
+  const downloadFile = () => {
+    alert(`Downloading ${file}! (Not really)`);
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      PaperComponent={PaperComponent}
-      aria-labelledby="draggable-dialog-title"
-    >
-      <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+    <React.Fragment>
+      <div className='file' onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
         {file}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          (Display {file} media here!)
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Close</Button>
-        <Button onClick={copyURL}>Copy URL</Button>
-        <Button onClick={downloadFile}>Download</Button>
-      </DialogActions>
-    </Dialog>
+      </div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        PaperComponent={PaperComponent}
+        aria-labelledby="draggable-dialog-title"
+      >
+        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">{file}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            (Display {file} media here!)
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={copyURL}>Copy URL</Button>
+          <Button onClick={downloadFile}>Download</Button>
+        </DialogActions>
+      </Dialog>
+    </React.Fragment>
   );
 }
+
+export default DraggableDialog;
