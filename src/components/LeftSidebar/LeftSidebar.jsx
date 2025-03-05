@@ -6,7 +6,7 @@ import { useServer } from '../../contexts/ServerContext';
 const LeftSidebar = () => {
   const randomServerNames = ["My Uploads", "Server 1", "Server 2", "Server 3", "Server 4"];
 
-  const { setSelectedServer } = useServer();
+  const { selectedServer, setSelectedServer } = useServer();
 
   const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ const LeftSidebar = () => {
         <h1>Your Servers</h1>
         <div className='servers-div'>
           {randomServerNames.map(serverName => (
-            <a key={serverName} onClick={() => setSelectedServer(serverName)}>
+            <a key={serverName} onClick={() => setSelectedServer(serverName)} className={selectedServer === serverName ? 'selected-server' : 'unselected-server'}>
               {serverName}
             </a>
           ))}

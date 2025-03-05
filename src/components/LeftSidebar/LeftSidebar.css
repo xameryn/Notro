@@ -30,3 +30,7 @@ a {
 .temp-red-background{
     background-color: red;
 }
+
+.selected-server{
+    background-color: rgb(76, 76, 76);
+}
