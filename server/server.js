@@ -2,13 +2,17 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import fileRoutes from "./routes/fileRoutes.js";
 
- // Load environment variables from .env
+// Load environment variables from .env
 dotenv.config(); 
 
 const app = express();
 const port = process.env.PORT || 5000;
 const mongoURI = process.env.MONGO_URI;
+
+// Use the file handling
+app.use("/api", fileRoutes);
 
 app.use(cors());
 app.use(express.json());

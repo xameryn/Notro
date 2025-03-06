@@ -6,6 +6,16 @@ To install dependencies:
 bun install
 ```
 
+inside the server folder:
+
+```bash
+bun add express mongoose cors dotenv
+```
+
+```bash
+bun add express multer mongoose dotenv cors
+```
+
 To run:
 
 ```bash
