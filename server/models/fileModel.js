@@ -7,7 +7,8 @@ const fileSchema = new mongoose.Schema({
   mimetype: { type: String, required: false }, // MIME type (image/png, application/pdf, etc.)
   uploadDate: { type: Date, default: Date.now }, // Auto-generated upload date
   uploadedBy: { type: String, required: false }, // Username of uploader
-  visibility: { type: String, enum: ["personal", "server"], required: false }, // File access type
+  accessLevel: { type: String, enum: ["private", "shared"], required: true, default: "private" }, // File access type
+  sharedWith: [{ type: String, ref: "User" }], // List of Discord user IDs allowed to access
   tags: [{ type: String }], // List of tags/keywords
   thumbnail: { type: String }, // Path or URL to thumbnail image
   filePath: { type: String, required: false }, // Path or URL to the actual file location
