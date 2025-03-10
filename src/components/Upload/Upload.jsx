@@ -1,6 +1,20 @@
 import React, { useRef, useState } from 'react';
 import './Upload.css';
 
+// Dummy test file metadata
+// const testFileMetadata = {
+//   filename: "deez.txt",
+//   size: 2048, // Size in bytes (2KB)
+//   mimetype: "text/plain",
+//   uploadDate: new Date(),
+//   uploadedBy: "TestUser",
+//   accessLevel: "public",
+//   sharedWith: [],
+//   tags: ["test", "example"],
+//   thumbnail: null,
+//   filePath: "/filepath/deez.txt", // Example file path
+// };
+
 const Upload = () => {
   const fileInputRef = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -21,13 +35,12 @@ const Upload = () => {
       name: file.name,
       size: file.size,
       type: file.type,
-      lastModified: file.lastModified,
     };
 
     setLoading(true); // Start loading
 
     try {
-      const response = await fetch("http://localhost:5137/api/metadata", {
+      const response = await fetch(`http://localhost:5137/api/metadata`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
