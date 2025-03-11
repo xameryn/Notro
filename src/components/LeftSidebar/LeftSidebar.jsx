@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useServer } from '../../contexts/ServerContext';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const LeftSidebar = () => {
   const randomServerNames = ["My Uploads", "Server 1", "Server 2", "Server 3", "Server 4"];
@@ -29,7 +30,10 @@ const LeftSidebar = () => {
         </div>
 
         <div className='my-account'>
-            <a>My Account</a>
+            <a>
+            <AccountCircleIcon style={{ fontSize: 40 }} />
+              <p>My Account</p>
+              </a>
             <button className="temp-red-background" onClick={() => navigate('/connect')}>LOG OUT</button>
         </div>
     </div>

@@ -30,7 +30,7 @@ a {
   }
 
 .current-server{
-    padding: 0px;
+    justify-content: flex-end;
 }
 .temp-red-background{
     background-color: red;
