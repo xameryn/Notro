@@ -47,6 +47,16 @@ app.use(cors({
 }));
 app.use(express.json());
 
+app.use(
+  session({
+  secret: sessionSecret,
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Configure passport with Discord strategy
 passport.use(
   new DiscordStrategy(
@@ -62,18 +72,16 @@ passport.use(
   )
 );
 
-// Session management
-app.use(
-  session({
-    secret: sessionSecret,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
 
-// Initialize passport and session
-app.use(passport.initialize());
-app.use(passport.session());
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
+
+
+
 
 // Serve files from the files/
 app.use('/files', express.static(path.join(__dirname, 'files')));
