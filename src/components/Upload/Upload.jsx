@@ -15,6 +15,10 @@ import './Upload.css';
 //   filePath: "/filepath/deez.txt", // Example file path
 // };
 
+// Metadata should be handled in the server backend and sent to db from there in my opinion
+
+const API_URL = 'http://localhost:4000';
+
 const Upload = () => {
   const fileInputRef = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -27,40 +31,32 @@ const Upload = () => {
   };
 
   const handleFileChange = async (e) => {
-    const file = e.target.files[0]; // Get the selected file
+    const file = e.target.files[0];
     if (!file) return;
 
-    // Extract metadata
-    const fileMetadata = {
-      name: file.name,
-      size: file.size,
-      type: file.type,
-    };
-
-    setLoading(true); // Start loading
+    setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:5137/api/metadata`, {
+      const formData = new FormData();
+      formData.append('file', file); // Changed from fileName to 'file'
+
+      const response = await fetch(`${API_URL}/api/upload`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(fileMetadata),
+        body: formData,
       });
 
       if (!response.ok) {
-        // Throw an error if the response status is not 2xx
-        throw new Error(`Failed to share metadata: ${response.statusText}`);
+        throw new Error(`Upload failed: ${response.statusText}`);
       }
 
       const result = await response.json();
-      alert("File metadata shared successfully!");
-      console.log(result); // Optionally handle the response
+      alert("File uploaded successfully!");
+      console.log(result);
     } catch (error) {
-      console.error("Error sharing metadata:", error);
-      alert(`Error sharing metadata: ${error.message}`);
+      console.error("Error uploading file:", error);
+      alert(`Error uploading file: ${error.message}`);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 

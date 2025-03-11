@@ -2,19 +2,48 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import process from 'process';
 import fileRoutes from "./routes/fileRoutes.js";
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 // Load environment variables
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Create files/ if it doesn't exist
+const filesDir = path.join(__dirname, 'files');
+if (!fs.existsSync(filesDir)){
+    fs.mkdirSync(filesDir, { recursive: true });
+}
+
 const app = express();
-const port = process.env.PORT || 5000;
 const mongoURI = process.env.MONGO_URI;
-const originPort = process.env.ORIGIN_PORT
+const port = process.env.PORT || 4000;
+const originPorts = process.env.ORIGIN_PORT_RANGE || '5173,5174,5175';
 
 // Middleware
-app.use(cors({ origin: `http://localhost:${originPort}` }));
+const allowedOrigins = originPorts.split(',').map(port => 
+  `http://localhost:${port.trim()}`
+);
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(express.json());
+
+// Serve files from the files/
+app.use('/files', express.static(path.join(__dirname, 'files')));
 
 // Routes
 app.use("/api", fileRoutes);
@@ -25,13 +54,18 @@ app.get("/", (req, res) => {
 
 // Global error handler
 app.use((err, req, res, next) => {
-  console.error("❌ Error:", err.message);
-  res.status(500).json({ error: "Internal Server Error" });
+  console.error("❌ Error:", err);
+  console.error("Stack:", err.stack);
+  res.status(500).json({ 
+    error: "Internal Server Error",
+    message: err.message
+  });
 });
 
 // Connect to MongoDB with improved error handling
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  // .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }) // Deprecated
+  .connect(mongoURI)
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
