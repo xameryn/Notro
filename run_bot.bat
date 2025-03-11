@@ -1,0 +1,1 @@
+bun run server/bot/discordBot.js

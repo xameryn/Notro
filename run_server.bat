@@ -1,2 +1,1 @@
-cd server
-bun run server.js
+bun run server/server.js
