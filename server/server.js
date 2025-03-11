@@ -7,6 +7,10 @@ import fileRoutes from "./routes/fileRoutes.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import passport from "passport";
+import session from "express-session";
+import { Strategy as DiscordStrategy } from "passport-discord";
+import authRoutes from "../src/discord-auth/auth-routes.js";
 
 // Load environment variables
 dotenv.config();
@@ -24,6 +28,7 @@ const app = express();
 const mongoURI = process.env.MONGO_URI;
 const port = process.env.PORT || 4000;
 const originPorts = process.env.ORIGIN_PORT_RANGE || '5173,5174,5175';
+const sessionSecret = process.env.SESSION_SECRET || "default_secret";
 
 // Middleware
 const allowedOrigins = originPorts.split(',').map(port => 
@@ -42,8 +47,39 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Configure passport with Discord strategy
+passport.use(
+  new DiscordStrategy(
+    {
+      clientID: process.env.DISCORD_CLIENT_ID,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET,
+      callbackURL: process.env.DISCORD_REDIRECT_URI,
+      scope: ["identify", "email"],
+    },
+    (accessToken, refreshToken, profile, done) => {
+      return done(null, { profile, accessToken });
+    }
+  )
+);
+
+// Session management
+app.use(
+  session({
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+// Initialize passport and session
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Serve files from the files/
 app.use('/files', express.static(path.join(__dirname, 'files')));
+
+// Use imported auth routes
+app.use("/auth", authRoutes);
 
 // Routes
 app.use("/api", fileRoutes);
@@ -64,7 +100,6 @@ app.use((err, req, res, next) => {
 
 // Connect to MongoDB with improved error handling
 mongoose
-  // .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }) // Deprecated
   .connect(mongoURI)
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
