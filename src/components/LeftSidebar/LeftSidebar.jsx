@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './LeftSidebar.css';
 import { useNavigate } from 'react-router-dom';
 import { useServer } from '../../contexts/ServerContext';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 
 const LeftSidebar = () => {
   const randomServerNames = ["My Uploads", "Server 1", "Server 2", "Server 3", "Server 4"];
@@ -12,11 +14,16 @@ const LeftSidebar = () => {
 
   return (
     <div className='container'>
-        <h1>Your Servers</h1>
+        <a className='current-server'>
+          <p>          {selectedServer}</p>
+          <KeyboardArrowDownIcon />
+          </a>
+        <hr />
         <div className='servers-div'>
           {randomServerNames.map(serverName => (
             <a key={serverName} onClick={() => setSelectedServer(serverName)} className={selectedServer === serverName ? 'selected-server' : 'unselected-server'}>
-              {serverName}
+              <SentimentSatisfiedAltIcon style={{ fontSize: 40 }} />
+              <p>{serverName}</p>
             </a>
           ))}
         </div>

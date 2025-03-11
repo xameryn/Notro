@@ -81,8 +81,6 @@ passport.deserializeUser((obj, done) => {
 });
 
 
-
-
 // Serve files from the files/
 app.use('/files', express.static(path.join(__dirname, 'files')));
 

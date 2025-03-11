@@ -17,16 +17,21 @@
 }
 
 a {
-    background-color: black;
-    padding: 15px;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 30px;
+    align-items: center;
     border-radius: 12px;
     margin: 5px;
   }
+
   a:hover {
     background-color: #323232;
   }
 
-
+.current-server{
+    padding: 0px;
+}
 .temp-red-background{
     background-color: red;
 }
