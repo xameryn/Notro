@@ -22,7 +22,7 @@ a {
     padding-left: 30px;
     align-items: center;
     border-radius: 12px;
-    margin: 5px;
+    margin: 4px;
   }
 
   a:hover {
@@ -31,6 +31,7 @@ a {
 
 .current-server{
     justify-content: flex-end;
+    margin: 0px;
 }
 .temp-red-background{
     background-color: red;

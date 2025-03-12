@@ -1,18 +1,18 @@
-body{
+.files-section{
     display: flex;
+    padding: 0px;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    height: 100vh;
+    background-color: rgb(35, 35, 35);
 }
 
 .files-container{
-    border-radius: 12px;
-    margin: 0px 80px 80px 80px;
+    background-color: rgb(48, 48, 48);
+    width: 80%;
+    height: 100%;
+    margin: 0px 80px 40px 80px;
     padding: 40px;
-    height: 50%;
-    width: 70%;
-    background-color: rgb(22, 22, 22);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     overflow-y: auto;
