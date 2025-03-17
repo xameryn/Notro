@@ -129,11 +129,20 @@ const Upload = () => {
           <h1 className="upload-h1">Upload File</h1>
           <div className="metadata-form">
             <h1>Details</h1>
+
             <label>Selected file:</label>
-            <div className='selected-file-div'>
-              <p>{selectedFile.name}</p>
-              <button onClick={openFileBrowser}>Change</button> {/* This doesn't work lol - I'll try to fix*/}
-            </div>
+              <div className="selected-file-div">
+                <p>{selectedFile.name}</p>
+
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  style={{ display: "none" }} 
+                />
+
+                <button onClick={openFileBrowser}>Change</button>
+              </div>
     
             <label>Display Name:</label>
             <input
