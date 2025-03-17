@@ -4,7 +4,7 @@
 .file-upload-div{
     background-color: antiquewhite;
     border-radius: 12px;
-    margin: 50px;
+    margin: 30px;
     height: 40%;
     display: flex;
     flex-direction: column;
@@ -20,15 +20,40 @@
 }
 
 .metadata-form {
+    background-color: antiquewhite;
+    color: black;
+    text-align: left;
+    border-radius: 12px;
+    margin: 30px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    height: 70%;
+}
+
+.metadata-form input {
+    margin-bottom: 15px;
 }
 
 .selected-file-div{
     display: flex;
-    justify-content: center;
     align-items: center;
+    margin: 0px 0px 15px 0px;
+    padding: 0px;
+}
+
+.selected-file-div p{
+    padding: 3px;
+    margin: 0px;
+}
+
+.selected-file-div button{
+    margin: 0px;
+    padding: 3px;
+}
+
+
+.buttons-div {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-evenly;
 }
