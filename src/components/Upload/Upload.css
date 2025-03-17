@@ -18,3 +18,17 @@
     cursor: pointer;
     background-color: rgb(195, 180, 159);
 }
+
+.metadata-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 70%;
+}
+
+.selected-file-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
