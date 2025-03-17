@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { ToastContainer, toast } from "react-toastify";
 import './Upload.css';
 
 // Dummy test file metadata
@@ -50,11 +51,23 @@ const Upload = () => {
       }
 
       const result = await response.json();
-      alert("File uploaded successfully!");
+      toast.success("File successfully uploaded!", {
+        position: "bottom-right", 
+        autoClose: 2000,
+        closeOnClick: true,
+        hideProgressBar: false,
+        pauseOnHover: false,
+      });
       console.log(result);
     } catch (error) {
       console.error("Error uploading file:", error);
-      alert(`Error uploading file: ${error.message}`);
+      toast.error(`Error: ${error.message}`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
     } finally {
       setLoading(false);
     }
@@ -75,6 +88,7 @@ const Upload = () => {
       />
 
       {loading && <div className="loading-spinner">Uploading...</div>}
+      <ToastContainer />
     </div>
   );
 };
