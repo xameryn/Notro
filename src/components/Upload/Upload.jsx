@@ -30,7 +30,9 @@ const Upload = () => {
   // const [thumbnail, setThumbnail] = useState(null)
 
   const openFileBrowser = () => {
+    if (fileInputRef.current) {
       fileInputRef.current.click();
+    }
   };
 
 
@@ -54,11 +56,11 @@ const Upload = () => {
     // Other fields (size, mimetype, path) can be added here 
     const fileMetadata = {
       filename: selectedFile.name,
-      displayName,
-      tags
+      displayName: displayName,
+      tags: tags
     };
 
-    console.log("File metadata", fileMetadata);
+    console.log("metadata", fileMetadata);
 
     try {
       const formData = new FormData();
@@ -74,16 +76,25 @@ const Upload = () => {
 
       toast.success("File successfully uploaded!", {
         position: "bottom-right",
-        autoClose: 2000,
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
       });
+
+      const result = await response.json();
+      console.log('result', result)
 
       setSelectedFile(null);
       setDisplayName("");
       setTags("");
     } catch (error) {
       toast.error(`Error: ${error.message}`, {
-        position: "top-right",
-        autoClose: 3000,
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
       });
     } finally {
       setLoading(false);
@@ -115,7 +126,7 @@ const Upload = () => {
           </>
         ) : (
           <>
-                      <h1 className="upload-h1">Upload File</h1>
+          <h1 className="upload-h1">Upload File</h1>
           <div className="metadata-form">
             <h1>Details</h1>
             <label>Selected file:</label>
@@ -140,9 +151,9 @@ const Upload = () => {
               onChange={(e) => setTags(e.target.value)}
             />
     
-    <div className='buttons-div'>
-            <button onClick={uploadFile}>Upload</button>
-            <button onClick={cancelUpload}>Cancel</button>
+            <div className='buttons-div'>
+              <button onClick={uploadFile}>Upload</button>
+              <button onClick={cancelUpload}>Cancel</button>
             </div>
 
           </div>
