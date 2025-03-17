@@ -128,7 +128,6 @@ const Upload = () => {
           <>
           <h1 className="upload-h1">Upload File</h1>
           <div className="metadata-form">
-            <h1>Details</h1>
 
             <label>Selected file:</label>
               <div className="selected-file-div">

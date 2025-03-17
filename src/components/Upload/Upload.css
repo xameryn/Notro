@@ -37,12 +37,18 @@
 .selected-file-div{
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    border-radius: 3px;
     margin: 0px 0px 15px 0px;
     padding: 0px;
+    border: 1px solid rgb(110, 110, 110);
+    background-color: white;
 }
 
 .selected-file-div p{
     padding: 3px;
+    font-size: 0.8em;
+    color: rgb(29, 29, 29);
     margin: 0px;
 }
 
