@@ -20,30 +20,26 @@ function PaperComponent(props) {
     </Draggable>
   );
 }
-
 function DraggableDialog({ file }) {
   const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  }
+  const fileName = file.displayName || file.filename;
 
-  const handleClose = () => {
-    setOpen(false);
-  }
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const copyURL = () => {
-    alert("URL copied! (Not really)");
+      alert("URL copied! (Not really)");
   };
 
   const downloadFile = () => {
-    alert(`Downloading ${file}! (Not really)`);
+    alert("File downloading... (not really)");
   };
 
   return (
     <React.Fragment>
       <div className='file' onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
-        {file}
+        {fileName} 
       </div>
       <Dialog
         open={open}
@@ -51,10 +47,20 @@ function DraggableDialog({ file }) {
         PaperComponent={PaperComponent}
         aria-labelledby="draggable-dialog-title"
       >
-        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">{file}</DialogTitle>
+        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+          {fileName}
+        </DialogTitle>
         <DialogContent>
+            <img 
+            src={file.filePath}  
+              alt={fileName} 
+              style={{ maxWidth: "100%", maxHeight: "300px" }} 
+            />
+
           <DialogContentText>
-            (Display {file} media here!)
+            <strong>Filename:</strong> {file.filename} <br />
+            <strong>Size:</strong> {(file.size / 1024).toFixed(2)} KB <br />
+            <strong>MIME Type:</strong> {file.mimetype} <br />
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -66,5 +72,6 @@ function DraggableDialog({ file }) {
     </React.Fragment>
   );
 }
+
 
 export default DraggableDialog;

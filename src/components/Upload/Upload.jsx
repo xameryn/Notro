@@ -54,20 +54,25 @@ const Upload = () => {
 
     setLoading(true);
 
-    // Simplified metadata object (for now just focusing on filename + user inputs for display name and tags)
-    // Other fields (size, mimetype, path) can be added here 
+    // Travis if you could take a look here to make it consistent with your existing metadata code 
+    // Especially for creating the filePath with the correct numbers at the start
     const fileMetadata = {
       filename: selectedFile.name,
+      size: selectedFile.size,
+      mimetype: selectedFile.type, 
       displayName: displayName,
-      tags: tags
-    };
+      tags: tags,
+      uploadDate: new Date().toISOString(), 
+      uploadedBy: "~~~Current User~~~~", 
+      filePath: `/files/${selectedFile.name}` // Needs to be fixed so it starts with numbers
+  };
 
     console.log("metadata", fileMetadata);
 
     try {
       const formData = new FormData();
       formData.append("file", selectedFile);
-      formData.append("metadata", fileMetadata);
+      formData.append("metadata", JSON.stringify(fileMetadata)); 
 
       const response = await fetch(`${API_URL}/api/upload`, {
         method: "POST",
@@ -75,7 +80,6 @@ const Upload = () => {
       });
 
       if (!response.ok) throw new Error(`Upload failed: ${response.statusText}`);
-
 
       toast.success("File successfully uploaded!", {
         position: "bottom-right",
@@ -88,16 +92,17 @@ const Upload = () => {
       const result = await response.json();
 
       console.log('path:', result.path)
-      // here I want to add this path to the fileRefs array
 
-      setFileRefs((prevRefs) => [...prevRefs, result.path]);
+      const fileMetadataJSON = JSON.stringify(fileMetadata)
 
+      setFileRefs((prevRefs) => [...prevRefs, fileMetadataJSON]); 
 
       console.log('result', result)
 
       setSelectedFile(null);
       setDisplayName("");
       setTags("");
+
     } catch (error) {
       toast.error(`Error: ${error.message}`, {
         position: "bottom-right",
