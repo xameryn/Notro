@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import './Upload.css';
+import { useFileRefs } from '../../contexts/FileRefsContext';
 
 // Dummy test file metadata
 // const testFileMetadata = {
@@ -21,6 +22,7 @@ import './Upload.css';
 const API_URL = 'http://localhost:4000';
 
 const Upload = () => {
+  const { setFileRefs } = useFileRefs();
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null)
   const [loading, setLoading] = useState(false);
@@ -74,6 +76,7 @@ const Upload = () => {
 
       if (!response.ok) throw new Error(`Upload failed: ${response.statusText}`);
 
+
       toast.success("File successfully uploaded!", {
         position: "bottom-right",
         autoClose: 1000,
@@ -83,6 +86,13 @@ const Upload = () => {
       });
 
       const result = await response.json();
+
+      console.log('path:', result.path)
+      // here I want to add this path to the fileRefs array
+
+      setFileRefs((prevRefs) => [...prevRefs, result.path]);
+
+
       console.log('result', result)
 
       setSelectedFile(null);
@@ -123,6 +133,7 @@ const Upload = () => {
               ref={fileInputRef}
               onChange={handleFileChange}
             />
+
           </>
         ) : (
           <>
