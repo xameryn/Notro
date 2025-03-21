@@ -3,15 +3,13 @@ import mongoose from "mongoose";
 // set to false for basic testing
 const fileSchema = new mongoose.Schema({
   filename: { type: String, required: false }, // Original file name
-  size: { type: Number, required: false }, // File size in bytes
-  mimetype: { type: String, required: false }, // MIME type (image/png, application/pdf, etc.)
-  uploadDate: { type: Date, default: Date.now }, // Auto-generated upload date
-  uploadedBy: { type: String, required: false }, // Username of uploader
-  accessLevel: { type: String, enum: ["private", "shared"], required: true, default: "private" }, // File access type
-  sharedWith: [{ type: String, ref: "User" }], // List of Discord user IDs allowed to access
-  tags: [{ type: String }], // List of tags/keywords
-  thumbnail: { type: String }, // Path or URL to thumbnail image
   filePath: { type: String, required: false }, // Path or URL to the actual file location
+  filetype: { type: String, required: false }, // MIME type (image/png, application/pdf, etc.)
+  uploadDate: { type: Date, default: Date.now }, // Auto-generated upload date
+  serverFile: { type: Boolean, default: false }, // anyone in the serverList can use it
+  tagList: [{ type: String }], // List of tags/keywords
+  thumbnail: { type: String }, // Path or URL to thumbnail image
+  size: { type: Number, required: false }, // File size in bytes  
 });
 
 export default mongoose.model("File", fileSchema);
