@@ -12,14 +12,14 @@ const ServerSchema = new mongoose.Schema({
   adminList: [{ type: String, required: true }], // List of user IDs (admin role)
   memberList: [{ type: String, required: true }], // List of user IDs (members)
   fileList: [{ type: mongoose.Schema.Types.ObjectId, ref: "File" }], // List of file IDs (references File model)
-  createdAt: { type: Date, default: Date.now }, // Timestamp when the server entry is created
-  updatedAt: { type: Date, default: Date.now }, // Timestamp for the last update
+//   createdAt: { type: Date, default: Date.now }, // Timestamp when the server entry is created
+//   updatedAt: { type: Date, default: Date.now }, // Timestamp for the last update
 });
 
 // Update the `updatedAt` field every time the document is saved
-ServerSchema.pre('save', function(next) {
-  this.updatedAt = Date.now();
-  next();
-});
+// ServerSchema.pre('save', function(next) {
+//   this.updatedAt = Date.now();
+//   next();
+// });
 
 export default mongoose.model("Server", ServerSchema);
