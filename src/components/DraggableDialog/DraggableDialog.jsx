@@ -2,6 +2,7 @@ import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Button } from '@mui/material';
 import Draggable from 'react-draggable';
 import './DraggableDialog.css'
+import { toast } from 'react-toastify';
 
 // The majority of this code is pasted directly from the MUI website
 // I used the "Draggable Dialog" component from this page: https://mui.com/material-ui/react-dialog/
@@ -29,11 +30,23 @@ function DraggableDialog({ file }) {
   const handleClose = () => setOpen(false);
 
   const copyURL = () => {
-      alert("URL copied! (Not really)");
+      toast.success("File copied! (Not really)", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
   };
 
   const downloadFile = () => {
-    alert("File downloading... (not really)");
+    toast.success("File downloading! (Not really)", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+    });
   };
 
   return (
@@ -53,17 +66,12 @@ function DraggableDialog({ file }) {
           {fileName}
         </DialogTitle>
         <DialogContent>
-          <p>{file.filePath}</p>
-            <img 
+            <img className='display-img'
             src={`http://localhost:4000${file.filePath}`}
               alt={fileName} 
-              style={{ maxWidth: "100%", maxHeight: "300px" }} 
             />
-
           <DialogContentText>
-            <strong>Filename:</strong> {file.filename} <br />
-            <strong>Size:</strong> {(file.size / 1024).toFixed(2)} KB <br />
-            <strong>MIME Type:</strong> {file.mimetype} <br />
+            <p>{file.tags}</p>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

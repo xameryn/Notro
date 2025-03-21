@@ -1,29 +1,14 @@
-.files-section{
-    display: flex;
-    padding: 0px;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    background-color: rgb(35, 35, 35);
-}
-
-.files-container{
-    background-color: rgb(48, 48, 48);
-    width: 80%;
-    height: 100%;
-    margin: 0px 80px 40px 80px;
-    padding: 40px;
+.files-container {
+    padding: 20px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    overflow-y: auto;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 30px;
+    overflow-y: hidden;
 }
 
 .file {
-    max-width: 100%;
-    margin-bottom: 20px;
-    height: 10%;
-    background-color: black;
-    margin: 30px;
+    background-color: rgb(92, 92, 92);
+    border-radius: 12px;
 }
 
 h2{

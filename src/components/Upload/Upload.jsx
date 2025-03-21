@@ -54,8 +54,6 @@ const Upload = () => {
 
     setLoading(true);
 
-    // Travis if you could take a look here to make it consistent with your existing metadata code 
-    // Especially for creating the filePath with the correct numbers at the start
     const fileMetadata = {
       filename: selectedFile.name,
       size: selectedFile.size,
@@ -64,7 +62,6 @@ const Upload = () => {
       tags: tags,
       uploadDate: new Date().toISOString(), 
       uploadedBy: "~~~Current User~~~~", 
-      filePath: `/files/${selectedFile.name}` // Needs to be fixed so it starts with numbers
   };
 
     console.log("metadata", fileMetadata);
@@ -93,7 +90,7 @@ const Upload = () => {
 
       console.log('path:', result.path)
 
-      fileMetadata.filePath = result.path
+      fileMetadata.filePath = result.path  // add the correct filepath with the actual saved file name
 
       const fileMetadataJSON = JSON.stringify(fileMetadata)
 
