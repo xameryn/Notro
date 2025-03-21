@@ -1,6 +1,10 @@
-.file {
-    width: 75px;
+/* .file {
+    width: auto;
     margin-bottom: 20px;
-    height: 120px;
     background-color: black;
+} */
+
+.file img {
+    width: 100%;
+    height: auto;
 }

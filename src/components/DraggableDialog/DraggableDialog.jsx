@@ -40,6 +40,8 @@ function DraggableDialog({ file }) {
     <React.Fragment>
       <div className='file' onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
         {fileName} 
+        <img src={`http://localhost:4000${file.filePath}`}></img>
+        <p>{file.tags}</p>
       </div>
       <Dialog
         open={open}
@@ -51,8 +53,9 @@ function DraggableDialog({ file }) {
           {fileName}
         </DialogTitle>
         <DialogContent>
+          <p>{file.filePath}</p>
             <img 
-            src={file.filePath}  
+            src={`http://localhost:4000${file.filePath}`}
               alt={fileName} 
               style={{ maxWidth: "100%", maxHeight: "300px" }} 
             />

@@ -93,6 +93,8 @@ const Upload = () => {
 
       console.log('path:', result.path)
 
+      fileMetadata.filePath = result.path
+
       const fileMetadataJSON = JSON.stringify(fileMetadata)
 
       setFileRefs((prevRefs) => [...prevRefs, fileMetadataJSON]); 
