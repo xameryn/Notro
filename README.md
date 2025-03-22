@@ -13,11 +13,11 @@ Notro offers a self-hosted solution to Discord's file upload size limitations. I
 - Discord bot for posting / uploading via command
 
 ## Group Members
-- [xameryn](https://github.com/xameryn)
 - [artemgood477](https://github.com/artemgood477)
 - [benjaminjamesweb](https://github.com/benjaminjamesweb)
 - [ThatBox1](https://github.com/ThatBox1)
 - [Travis975](https://github.com/Travis975)
+- [xameryn](https://github.com/xameryn)
 
 ## Setup
 
