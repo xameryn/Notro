@@ -17,7 +17,7 @@ Notro offers a self-hosted solution to Discord's file upload size limitations. I
 - [artemgood477](https://github.com/artemgood477)
 - [benjaminjamesweb](https://github.com/benjaminjamesweb)
 - [ThatBox1](https://github.com/ThatBox1)
-- [deafea](https://github.com/Travis975)
+- [Travis975](https://github.com/Travis975)
 
 ## Setup
 
