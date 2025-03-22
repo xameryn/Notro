@@ -3,74 +3,32 @@
 No Nitro? No Problem.
 
 ## Description
-[Description]
+Notro offers a self-hosted solution to Discord's file upload size limitations. It is a configurable file-sharing server designed for seamless integration with Discord, enabling native embedding of large files and videos. Ideal for small groups, Notro allows friends to host and share content effortlessly within their friend groups.
 
 ## Features
-- 
+- Local file saving
+- Configurable upload limits
+- Discord embed support
+- Video streaming for large files
+- User-friendly web portal for media upload/managment
+- Discord bot for posting / uploading via command
 
 ## Group Members
-- 
+- [xameryn](https://github.com/xameryn)
+- [artemgood477](https://github.com/artemgood477)
+- [benjaminjamesweb](https://github.com/benjaminjamesweb)
+- [ThatBox1](https://github.com/ThatBox1)
+- [deafea](https://github.com/Travis975)
 
 ## Setup
 
 1.  **Install dependencies:**
 
-    ```sh
-    bun install
-    ```
-    or
-    ```sh
-    npm install
-    ```
-2.  **Configure Environment Variables:**
-    *   If you have environment variables, create a `.env` file in the root directory and define your variables there.
+    run `update_all.bat`
+   
 
 ## Run
 
 1.  **Start the development server:**
 
-    ```sh
-    bun dev
-    ```
-    or
-    ```sh
-    npm run dev
-    ```
-
-    This will start the Vite development server, and you can access the application in your browser at the address provided in the console (usually `http://localhost:5173`).
-
-## Other Commands
-
-*   **Build the project:**
-
-    ```sh
-    bun build
-    ```
-    or
-    ```sh
-    npm run build
-    ```
-
-    This will create an optimized production build of your application in the `dist` directory.
-*   **Lint the project:**
-
-    ```sh
-    bun lint
-    ```
-    or
-    ```sh
-    npm run lint
-    ```
-
-    This will run ESLint to check your code for potential errors and style issues.
-*   **Preview the production build:**
-
-    ```sh
-    bun preview
-    ```
-    or
-    ```sh
-    npm run preview
-    ```
-
-    This will start a local server to preview the production build of your application.
+    `run_client.bat` and `run_server.bat`
