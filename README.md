@@ -1,5 +1,4 @@
-# Notro - CSTP 2204 IT Project
-
+# Notro
 No Nitro? No Problem.
 
 ## Description
