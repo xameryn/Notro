@@ -10,7 +10,7 @@ import fs from 'fs';
 import passport from "passport";
 import session from "express-session";
 import { Strategy as DiscordStrategy } from "passport-discord";
-import authRoutes from "../src/discord-auth/auth-routes.js";
+import authRoutes from "./discord-auth/auth-routes.js";
 
 // Load environment variables
 dotenv.config();
@@ -27,7 +27,7 @@ if (!fs.existsSync(filesDir)){
 const app = express();
 const mongoURI = process.env.MONGO_URI;
 const port = process.env.PORT || 4000;
-const originPorts = process.env.ORIGIN_PORT_RANGE || '5173,5174,5175';
+const originPorts = process.env.ORIGIN_PORT_RANGE || '5173';
 const sessionSecret = process.env.SESSION_SECRET || "default_secret";
 
 // Middleware

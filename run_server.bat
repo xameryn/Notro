@@ -1,1 +1,1 @@
-bun run server/server.js
+bun server/server.js

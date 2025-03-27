@@ -1,1 +1,1 @@
-bun run server/bot/discordBot.js
+bun run bot/discordBot.js

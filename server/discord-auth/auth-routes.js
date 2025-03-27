@@ -13,6 +13,5 @@ router.get('/discord/callback',
       res.redirect('http://localhost:5173'); 
     }
   );
-  
 
 export default router;
