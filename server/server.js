@@ -3,14 +3,14 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import process from 'process';
-import fileRoutes from "./routes/fileRoutes.js";
+import fileRoutes from "./fileManagment/fileRoutes.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import passport from "passport";
 import session from "express-session";
 import { Strategy as DiscordStrategy } from "passport-discord";
-import authRoutes from "./discord-auth/auth-routes.js";
+import authRoutes from "./discordAuth/auth-routes.js";
 
 // Load environment variables
 dotenv.config();

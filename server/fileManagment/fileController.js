@@ -1,12 +1,26 @@
 import File from "../models/fileModel.js";
 
-// Upload Handler (Metadata Only)
-export const uploadFileMetadata = async (req, res) => {
-  const { filename, size, mimetype, uploadDate, uploadedBy, accessLevel, sharedWith, tags, thumbnail, filePath } = req.body;
-
-  if (!filename) {
-    return res.status(400).json({ error: "Filename required" });
+// File Upload Handler
+export const uploadFile = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+    
+    res.json({
+      message: 'File uploaded successfully',
+      filename: req.file.filename,
+      path: `/files/${req.file.filename}`
+    });
+  } catch (error) {
+    console.error('File upload error:', error);
+    res.status(500).json({ error: 'Error uploading file' });
   }
+};
+
+// Metadata Upload Handler
+export const uploadMetadata = async (req, res) => {
+  const { filename, size, mimetype, uploadDate, uploadedBy, accessLevel, sharedWith, tags, thumbnail, filePath } = req.body;
 
   try {
     // Save metadata in MongoDB

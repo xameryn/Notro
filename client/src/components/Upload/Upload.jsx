@@ -62,7 +62,7 @@ const Upload = () => {
       tags: tags,
       uploadDate: new Date().toISOString(), 
       uploadedBy: "~~~Current User~~~~", 
-  };
+    };
 
     console.log("metadata", fileMetadata);
 
