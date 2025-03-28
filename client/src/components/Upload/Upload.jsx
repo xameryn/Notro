@@ -27,7 +27,7 @@ const Upload = () => {
   const [selectedFile, setSelectedFile] = useState(null)
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState("")
-  const [serverFile, setServerFile] = useState(true)
+  // const [serverFile, setServerFile] = useState(true)
   const [displayName, setDisplayName] = useState("")
   // thumbnails to be added once we start dealing with video/audio files
   // const [thumbnail, setThumbnail] = useState(null)
