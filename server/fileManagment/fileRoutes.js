@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
 import { uploadFile, uploadMetadata, getFiles } from "./fileController.js";
+import { generateThumbnails } from './fileHelper.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,6 +40,8 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 
     const { displayName, fileName, type, uploadDate, serverFile, tagList, size } = JSON.parse(req.body.metadata);
 
+    const thumbnails = await generateThumbnails(req.file.path, type, req.fileId);
+
     const metadataReq = {
       body: {
         _id: req.fileId,
@@ -48,7 +51,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
         uploadDate: new Date().toISOString(),
         serverFile: serverFile,
         tagList: tagList ? tagList.split(",") : [],
-        thumbnail: '',
+        thumbnails: thumbnails,
         size: size
       }
     };
