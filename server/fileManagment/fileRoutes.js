@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
-import { uploadFile, uploadMetadata, getFiles } from "./fileController.js";
+import { uploadFile, uploadMetadata, getFilesByUser, getFilesByServer } from "./fileController.js";
 import { generateThumbnails } from './fileHelper.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -74,7 +74,8 @@ router.post('/upload', upload.single('file'), async (req, res) => {
   }
 });
 
-// Route to fetch all files (or files based on certain criteria like visibility)
-router.get("/files", getFiles);
+router.get("/files/user/:userID", getFilesByUser);
+
+router.get("/files/server/:serverID", getFilesByServer);
 
 export default router;

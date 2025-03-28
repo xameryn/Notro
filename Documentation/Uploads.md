@@ -115,18 +115,12 @@ Files are stored in MongoDB with the following structure:
    ```
    - Accepts: `multipart/form-data` with `file` and `metadata` fields
 
-2. **Get all files**:
-   ```
-   GET /api/files
-   ```
-   - Returns: Array of file metadata objects
-
-3. **Get files by user** (not implemented in routes but controller exists):
+2. **Get files by user**:
    ```
    GET /api/files/user/{userID}
    ```
 
-4. **Get files by server** (not implemented in routes but controller exists):
+3. **Get files by server**:
    ```
    GET /api/files/server/{serverID}
    ```
