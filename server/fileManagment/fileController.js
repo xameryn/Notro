@@ -1,4 +1,6 @@
 import File from "../models/fileModel.js";
+import User from "../models/userModel.js";
+import Server from "../models/serverModel.js";
 
 // File Upload Handler
 export const uploadFile = async (req, res) => {
@@ -38,5 +40,33 @@ export const getFiles = async (req, res) => {
   } catch (error) {
     console.error("Error fetching files:", error);
     res.status(500).json({ error: "Error fetching files" });
+  }
+};
+
+// Fetch Files by User
+export const getFilesByUser = async (req, res) => {
+  try {
+    const userID = req.params.userID;
+    const userFiles = await User.findOne({ userID: userID }).populate('fileList');
+    if (!userFiles) return res.status(404).json({ error: "User not found" });
+    if (userFiles.fileList.length === 0) return res.status(404).json({ error: "No files found for this user" });
+    res.json(userFiles.fileList);
+  } catch (error) {
+    console.error("Error fetching user files:", error);
+    res.status(500).json({ error: "Error fetching user files" });
+  }
+};
+
+// Fetch Files by Server
+export const getFilesByServer = async (req, res) => {
+  try {
+    const serverID = req.params.serverID;
+    const serverFiles = await Server.findOne({ serverID: serverID }).populate('fileList');
+    if (!serverFiles) return res.status(404).json({ error: "Server not found" });
+    if (serverFiles.fileList.length === 0) return res.status(404).json({ error: "No files found for this server" });
+    res.json(serverFiles.fileList);
+  } catch (error) {
+    console.error("Error fetching server files:", error);
+    res.status(500).json({ error: "Error fetching server files" });
   }
 };
