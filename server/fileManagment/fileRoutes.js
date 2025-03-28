@@ -74,18 +74,6 @@ router.post('/upload', upload.single('file'), async (req, res) => {
   }
 });
 
-router.post("/connect/:instanceID/:serverID", async (req, res) => {
-  const { instanceID, serverID, userList } = req.params;
-
-  try {
-    // add function to connect server to the instance
-    res.status(200).json({ message: "Server successfully added to Instance", fileId, instanceID, serverID });
-  } catch (error) {
-    console.error("Error connecting to Instance:", error);
-    res.status(500).json({ error: "Error connecting to Instance" });
-  }
-});
-
 router.get("/files/user/:userID", getFilesByUser);
 
 router.get("/files/server/:serverID", getFilesByServer);
