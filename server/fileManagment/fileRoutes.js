@@ -22,39 +22,52 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 1024 // 1GB in bytes
+  }
+});
 
 // Route for uploading files to files/ directory and saving metadata to MongoDB
 router.post('/upload', upload.single('file'), async (req, res) => {
   try {
-      await uploadFile(req, res); // Upload the file
+    const fileResult = await uploadFile(req, res);
+    if (!fileResult.success) {
+      return res.status(400).json({ error: fileResult.error });
+    }
 
-      const { filename, size, fileType, uploadDate, uploadedBy, accessLevel, sharedWith, tags, thumbnail } = JSON.parse(req.body.metadata);
-      
-      const fileExtension = path.extname(req.file.originalname);
-      const filePath = `/files/${req.fileId}${fileExtension}`;
+    const { displayName, fileName, type, uploadDate, serverFile, tagList, size } = JSON.parse(req.body.metadata);
 
-      const metadataReq = {
-        body: {
-          filename: filename,
-          size: size,
-          filetype: fileType,
-          uploadDate: uploadDate,
-          uploadedBy: uploadedBy,
-          accessLevel: accessLevel,
-          sharedWith: sharedWith,
-          tags: tags,
-          thumbnail: thumbnail,
-          filePath: filePath
-        }
-      };
+    const metadataReq = {
+      body: {
+        _id: req.fileId,
+        name: displayName || fileName.split(".")[0],
+        type: type.split("/")[0],
+        extension: path.extname(fileName),
+        uploadDate: new Date().toISOString(),
+        serverFile: serverFile,
+        tagList: tagList ? tagList.split(",") : [],
+        thumbnail: '',
+        size: size
+      }
+    };
 
-      // Call uploadFileMetadata to save metadata to MongoDB
-      await uploadMetadata(metadataReq, res);
+    const metadataResult = await uploadMetadata(metadataReq);
+    if (!metadataResult.success) {
+      return res.status(500).json({ error: metadataResult.error });
+    }
+
+    res.json({
+      message: 'File and metadata uploaded successfully',
+      filename: req.file.filename,
+      path: fileResult.path,
+      metadata: metadataResult.file
+    });
 
   } catch (error) {
-      console.error("Error during file upload and metadata saving:", error);
-      res.status(500).json({ error: "Error uploading file and saving metadata" });
+    console.error("Error during file upload and metadata saving:", error);
+    res.status(500).json({ error: "Error uploading file and saving metadata" });
   }
 });
 

@@ -27,6 +27,7 @@ const Upload = () => {
   const [selectedFile, setSelectedFile] = useState(null)
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState("")
+  const [serverFile, setServerFile] = useState(true)
   const [displayName, setDisplayName] = useState("")
   // thumbnails to be added once we start dealing with video/audio files
   // const [thumbnail, setThumbnail] = useState(null)
@@ -55,13 +56,13 @@ const Upload = () => {
     setLoading(true);
 
     const fileMetadata = {
-      filename: selectedFile.name,
-      size: selectedFile.size,
-      mimetype: selectedFile.type, 
-      displayName: displayName,
-      tags: tags,
-      uploadDate: new Date().toISOString(), 
-      uploadedBy: "~~~Current User~~~~", 
+      displayName: displayName,              // user-defined display name
+      fileName: selectedFile.name,           // original file name
+      type: selectedFile.type,               // mime type
+      tagList: tags,                         // user-defined tags
+      serverFile: true,                      // anyone in the serverList can use it
+      size: selectedFile.size,               // file size in bytes
+      uploadedBy: "",                        // user who uploaded the file
     };
 
     console.log("metadata", fileMetadata);

@@ -4,44 +4,29 @@ import File from "../models/fileModel.js";
 export const uploadFile = async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ error: 'No file uploaded' });
+      return { success: false, error: 'No file uploaded' };
     }
     
-    res.json({
-      message: 'File uploaded successfully',
+    return {
+      success: true,
       filename: req.file.filename,
       path: `/files/${req.file.filename}`
-    });
+    };
   } catch (error) {
-    console.error('File upload error:', error);
-    res.status(500).json({ error: 'Error uploading file' });
+    console.error('Error saving file:', error);
+    return { success: false, error: 'Error uploading file' };
   }
 };
 
 // Metadata Upload Handler
-export const uploadMetadata = async (req, res) => {
-  const { filename, size, mimetype, uploadDate, uploadedBy, accessLevel, sharedWith, tags, thumbnail, filePath } = req.body;
-
+export const uploadMetadata = async (req) => {
   try {
-    // Save metadata in MongoDB
-    const newFile = new File({
-      filename,
-      size,
-      mimetype,
-      uploadDate,
-      uploadedBy,
-      accessLevel,
-      sharedWith,
-      tags: tags ? tags.split(",") : [], // Convert comma-separated tags into an array
-      thumbnail, // path or url of thumbnail
-      filePath, // Store file path instead of the actual file
-    });
-
-    await newFile.save();
-    res.json({ message: "File metadata saved successfully!", file: newFile });
+    const newFile = new File(req.body);
+    const savedMetadata = await newFile.save();
+    return { success: true, file: savedMetadata };
   } catch (error) {
     console.error("Error saving file metadata:", error);
-    res.status(500).json({ error: "Error saving file metadata" });
+    return { success: false, error: "Error saving file metadata" };
   }
 };
 
