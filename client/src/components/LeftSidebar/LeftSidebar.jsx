@@ -1,7 +1,7 @@
 import React, { } from 'react';
 import './LeftSidebar.css';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useUser } from '../../contexts/UserContext';
 import { useServer } from '../../contexts/ServerContext';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
@@ -9,7 +9,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const LeftSidebar = () => {
   const randomServerNames = ["My Uploads", "Server 1", "Server 2", "Server 3", "Server 4"];
-  const { user, setUser } = useAuth();
+  const { user, setUser } = useUser();
+  // const [userServers, setUserServers] = useUser()     we'll replace randomServerNames with "userServers" once it works
   const { selectedServer, setSelectedServer } = useServer();
   const navigate = useNavigate();
 

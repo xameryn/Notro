@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 
-// This context is badly named but it basically stores an array of JSON metadata objects
+// Soon this entire context can be deleted (everything will be handled by ServerContext + UserContext)
 
 const FileRefsContext = createContext(null);
 
