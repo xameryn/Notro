@@ -1,5 +1,5 @@
-const passport = require('passport');
-const DiscordStrategy = require('passport-discord').Strategy;
+import passport from "passport";
+import { Strategy as DiscordStrategy } from "passport-discord";
 const { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_REDIRECT_URI } = process.env;
 
 passport.serializeUser((user, done) => {
@@ -37,3 +37,4 @@ passport.use(
     )
   );
   
+export default passport;

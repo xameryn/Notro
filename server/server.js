@@ -10,7 +10,8 @@ import fs from 'fs';
 import passport from "passport";
 import session from "express-session";
 import { Strategy as DiscordStrategy } from "passport-discord";
-import authRoutes from "./discordAuth/auth-routes.js";
+import authRoutes from "../discordAuth/auth-routes.js";
+import "../discordAuth/passport-setup.js";
 
 // Load environment variables
 dotenv.config();
@@ -54,32 +55,9 @@ app.use(
   saveUninitialized: false
 }));
 
+// ✅ Initialize Passport **after** importing setup
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Configure passport with Discord strategy
-passport.use(
-  new DiscordStrategy(
-    {
-      clientID: process.env.DISCORD_CLIENT_ID,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      callbackURL: process.env.DISCORD_REDIRECT_URI,
-      scope: ["identify", "email"],
-    },
-    (accessToken, refreshToken, profile, done) => {
-      return done(null, { profile, accessToken });
-    }
-  )
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
-});
-
 
 // Serve files from the files/
 app.use('/files', express.static(path.join(__dirname, 'files')));
