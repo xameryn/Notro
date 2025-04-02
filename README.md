@@ -19,15 +19,57 @@ Notro offers a self-hosted solution to Discord's file upload size limitations. I
 - [Travis975](https://github.com/Travis975)
 - [xameryn](https://github.com/xameryn)
 
-## Setup
+## User Guide
 
-1.  **Install dependencies:**
+### 1. Setup
 
-    run `update_all.bat`
-   
+- Clone the repository from GitHub using HTTPS:
 
-## Run
+```sh
+git clone https://github.com/xameryn/Notro.git
+cd notro
+```
 
-1.  **Start the development server:**
+### Install dependencies:
 
-    `run_client.bat` and `run_server.bat`
+- run `update_all.bat`
+
+### Run:
+
+- Start the development server:
+
+  `run_client.bat` and `run_server.bat`
+
+<br>
+
+### 2. Accessing Notro
+
+1. Open a browser and navigate to http://localhost:3000.
+
+2. Sign in using your Discord account.
+
+3. Start uploading and sharing files with your whitelisted friends.
+
+4. Fetching Files via Discord Bot
+
+5. Ensure the Notro bot is added to your Discord server.
+
+6. Use the command /fetch filename to retrieve a file.
+
+7. The bot will provide a link to the requested file for download or preview.
+
+<br>
+
+### 3. Troubleshooting
+
+- Issue: Server does not start.
+
+    - Solution: Ensure Bun and MongoDB are installed and running.
+
+- Issue: Discord OAuth is not working.
+
+    - Solution: Check Discord developer settings and make sure the redirect URI matches your local setup.
+
+- Issue: Files are not accessible.
+
+    - Solution: Verify that MongoDB is running and the correct permissions are set.
