@@ -29,7 +29,19 @@ const commands = [
                 required: false
             }
         ]
-    }
+    },
+    {
+        name: 'fetch',
+        description: 'Get file by ID',
+        options: [
+            {
+                name: 'file-id',
+                description: 'The ID of the file to fetch',
+                type: ApplicationCommandOptionType.String,
+                required: true
+            }
+        ]
+    },
 ]
 
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
