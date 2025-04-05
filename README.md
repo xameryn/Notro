@@ -32,7 +32,7 @@ cd notro
 
 ### Install dependencies:
 
-- run `update_all.bat`
+- run `bun i`
 
 ### Run:
 
