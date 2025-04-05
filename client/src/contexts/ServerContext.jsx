@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 const ServerContext = createContext(null);
 
@@ -9,28 +9,28 @@ export const ServerProvider = ({ userID, children }) => {
     const [serverFiles, setServerFiles] = useState(null)
     const [serverError, setServerError] = useState(null);
 
-    useEffect(() => {
-        const fetchServerFiles = async () => {
-          if (!selectedServer?._id) return;
-    
-          try {
-            const res = await axios.get(`/files/server/${selectedServer._id}`);
-            setServerFiles(res.data);
-            setServerError(null);
-          } catch (error) {
-            console.error("Error fetching server files:", error);
-            setServerFiles(null);
-            setServerError("Failed to fetch files for this server");
-          }
-        };
-    
-        fetchServerFiles();
-      }, [selectedServer]);
+    const fetchServerFiles = useCallback(async () => {
+      if (!selectedServer?._id) return;
+  
+      try {
+        const res = await axios.get(`/files/server/${selectedServer._id}`);
+        setServerFiles(res.data.files);
+        setServerError(null);
+      } catch (error) {
+        console.error("Error fetching server files:", error);
+        setServerFiles(null);
+        setServerError("Failed to fetch files for this server");
+      }
+    }, [selectedServer]);
+  
+    React.useEffect(() => {
+      fetchServerFiles();
+    }, [fetchServerFiles]);
   
    
 
     return (
-        <ServerContext.Provider value={{ selectedServer, setSelectedServer, serverFiles, setServerFiles, serverError,}}>
+        <ServerContext.Provider value={{ selectedServer, setSelectedServer, serverFiles, setServerFiles, serverError, fetchServerFiles}}>
             {children}
         </ServerContext.Provider>
     );
