@@ -25,3 +25,16 @@ export const getFileById = async (req, res) => {
   }
 };
 
+// Get metadata for all files
+export const getAllFilesMetadata = async (req, res) => {
+  try {
+    // Fetch all files, exclude large fields like file data if present
+    const files = await File.find({}, '-__v'); // Exclude __v field
+
+    res.json({ success: true, files });
+  } catch (error) {
+    console.error("Error fetching files metadata:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
