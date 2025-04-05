@@ -1,38 +1,44 @@
+import express from "express";
 import Instance from "../models/instanceModel.js";
 import Server from "../models/serverModel.js";
 
+const router = express.Router();
+
+// Route: Connect a server to an instance and optionally add users to the server
 router.post("/connect/:instanceID/:serverID", async (req, res) => {
   const { instanceID, serverID } = req.params;
-  const { userList } = req.body; // if you want to include memberlist
+  const { userList } = req.body; // Optional array of user IDs to add to the server
 
   try {
-    // Validate the instance and server
+    // Fetch instance by ID
     const instance = await Instance.findById(instanceID);
     if (!instance) {
       return res.status(404).json({ success: false, error: "Instance not found" });
     }
 
+    // Fetch server by ID
     const server = await Server.findById(serverID);
     if (!server) {
       return res.status(404).json({ success: false, error: "Server not found" });
     }
 
-    // Ensure the server is connected to the instance
+    // Add server to the instance's server list if it's not already connected
     if (!instance.serverList.includes(serverID)) {
       instance.serverList.push(serverID);
-      await instance.save();
+      await instance.save(); // Save updated instance
     }
 
-    // Optionally add users to the server's member list
+    // If a userList is provided, add each user to the server's member list (if not already added)
     if (Array.isArray(userList)) {
       userList.forEach(userID => {
         if (!server.memberList.includes(userID)) {
           server.memberList.push(userID);
         }
       });
-      await server.save();
+      await server.save(); // Save updated server
     }
 
+    // Respond with success and the updated member list
     res.status(200).json({
       success: true,
       message: "Server successfully added to Instance",
@@ -46,15 +52,4 @@ router.post("/connect/:instanceID/:serverID", async (req, res) => {
   }
 });
 
-// left here for reference
-// router.post("/connect/:instanceID/:serverID", async (req, res) => {
-//     const { instanceID, serverID, userList } = req.params;
-  
-//     try {
-//       // add function to connect server to the instance
-//       res.status(200).json({ message: "Server successfully added to Instance", fileId, instanceID, serverID });
-//     } catch (error) {
-//       console.error("Error connecting to Instance:", error);
-//       res.status(500).json({ error: "Error connecting to Instance" });
-//     }
-// });
+export default router;
