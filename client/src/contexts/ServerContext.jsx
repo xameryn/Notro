@@ -10,10 +10,14 @@ export const ServerProvider = ({ userID, children }) => {
     const [serverError, setServerError] = useState(null);
 
     const fetchServerFiles = useCallback(async () => {
-      if (!selectedServer?._id) return;
+      
+      if (!selectedServer?.serverID) {
+        console.log("No ID found for selected server.")
+        return;
+      }
   
       try {
-        const res = await axios.get(`/files/server/${selectedServer._id}`);
+        const res = await axios.get(`/files/server/${selectedServer.serverID}`);
         setServerFiles(res.data.files);
         setServerError(null);
       } catch (error) {
@@ -27,8 +31,6 @@ export const ServerProvider = ({ userID, children }) => {
       fetchServerFiles();
     }, [fetchServerFiles]);
   
-   
-
     return (
         <ServerContext.Provider value={{ selectedServer, setSelectedServer, serverFiles, setServerFiles, serverError, fetchServerFiles}}>
             {children}

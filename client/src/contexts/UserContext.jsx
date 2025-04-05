@@ -32,10 +32,10 @@ export const UserProvider = ({ children }) => {
       useEffect(() => {
         const fetchServers = async () => {
           try {
-            const response = await axios.get(`/servers/user/${userID}`); // This endpoint doesn't exist yet! I guess we'll need to add it? 
+            const response = await axios.get(`/servers/user/${userID}`); 
             if (response.data.success) {
               setUserServers(response.data.servers);
-              setSelectedServer(response.data.servers[0]?.name || null); // Always set initial server to first server?
+              setSelectedServer(response.data.servers[0]?.name || null); 
             }
           } catch (error) {
             console.error("Failed to fetch servers:", error);

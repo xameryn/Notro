@@ -51,6 +51,7 @@ const LeftSidebar = () => {
               <p>{user?.profile?.global_name || 'My Account'}</p>
             </a>
             <button className="temp-red-background" onClick={handleLogout}>LOG OUT</button>
+            <button className="temp-red-background" onClick={() => navigate("/connect")}>GO TO CONNECT PAGE</button>
         </div>
     </div>
   );

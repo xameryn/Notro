@@ -52,7 +52,11 @@ app.use(
   session({
   secret: sessionSecret,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {  // added this on 04/05 (Testing something)
+    secure: false, 
+    maxAge: 86400000, 
+  }
 }));
 
 // ✅ Initialize Passport **after** importing setup

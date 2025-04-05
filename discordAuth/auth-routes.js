@@ -14,4 +14,17 @@ router.get('/discord/callback',
     }
   );
 
+  // new endpoint added 04/05 by Ben for fetching info for current user
+  router.get('/me', (req, res) => {
+    console.log('Is Authenticated?', req.isAuthenticated());
+    console.log('Session ID:', req.sessionID);
+    console.log('User object:', req.user);
+  
+    if (req.isAuthenticated()) {
+      return res.json(req.user);
+    } else {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+  });
+
 export default router;
