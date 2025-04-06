@@ -7,11 +7,6 @@ import fileRoutes from "./fileManagment/fileRoutes.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
-import passport from "passport";
-import session from "express-session";
-import { Strategy as DiscordStrategy } from "passport-discord";
-import authRoutes from "../discordAuth/auth-routes.js";
-import "../discordAuth/passport-setup.js";
 
 // Load environment variables
 dotenv.config();
@@ -28,8 +23,8 @@ if (!fs.existsSync(filesDir)){
 const app = express();
 const mongoURI = process.env.MONGO_URI;
 const port = process.env.PORT || 4000;
+const authServerUrl = process.env.AUTH_SERVER_URL || 'http://localhost:4001';
 const originPorts = process.env.ORIGIN_PORT_RANGE || '5173';
-const sessionSecret = process.env.SESSION_SECRET || "default_secret";
 
 // Middleware
 const allowedOrigins = originPorts.split(',').map(port => 
@@ -48,32 +43,19 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.use(
-  session({
-  secret: sessionSecret,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {  // added this on 04/05 (Testing something)
-    secure: false, 
-    maxAge: 86400000, 
-  }
-}));
-
-// ✅ Initialize Passport **after** importing setup
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Serve files from the files/
 app.use('/files', express.static(path.join(__dirname, 'files')));
-
-// Use imported auth routes
-app.use("/auth", authRoutes);
 
 // Routes
 app.use("/api", fileRoutes);
 
+// Authentication requests to the auth server
+app.get("/auth/*", (req, res) => {
+  res.redirect(`${authServerUrl}${req.originalUrl}`);
+});
+
 app.get("/", (req, res) => {
-  res.send("Server is running!");
+  res.send("File Server is running!");
 });
 
 // Global error handler
@@ -97,4 +79,4 @@ mongoose.connection.on("error", (err) => {
   console.error("❌ MongoDB Connection Error:", err);
 });
 
-app.listen(port, () => console.log(`🚀 Server running on http://localhost:${port}`));
+app.listen(port, () => console.log(`🚀 File Server running on http://localhost:${port}`));

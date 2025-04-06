@@ -1,0 +1,49 @@
+.servers-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #2b2d31 #1e1f22;
+}
+
+.servers-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.servers-container::-webkit-scrollbar-track {
+  background: #1e1f22;
+}
+
+.servers-container::-webkit-scrollbar-thumb {
+  background-color: #2b2d31;
+  border-radius: 4px;
+}
+
+.server-icon-container {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.server-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.icon-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.server-name {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

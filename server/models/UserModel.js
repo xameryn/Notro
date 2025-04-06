@@ -1,22 +1,10 @@
-// make a schema for users ID and fileList (list of file IDS)
-// ### Users:
-// - id: (pulled from discord)
-// - fileList: [list of file IDs]
+import mongoose from 'mongoose';
 
-import mongoose from "mongoose";
+const userSchema = new mongoose.Schema({
+  _id: { type: String, required: true },
+  fileList: [{ type: String, ref: 'File' }]
+}, { versionKey: false, _id: false });
 
-// User Schema
-const UserSchema = new mongoose.Schema({
-  userID: { type: String, required: true, unique: true }, // Discord user ID
-  fileList: [{ type: mongoose.Schema.Types.ObjectId, ref: "File" }], // List of file IDs (references File model)
-//   createdAt: { type: Date, default: Date.now }, // Timestamp when the user was created
-//   updatedAt: { type: Date, default: Date.now }, // Timestamp for the last update
-}, { versionKey: false });
+const User = mongoose.model('User', userSchema);
 
-// Update the `updatedAt` field every time the document is saved
-// UserSchema.pre('save', function(next) {
-//   this.updatedAt = Date.now();
-//   next();
-// });
-
-export default mongoose.model("User", UserSchema);
+export default User;

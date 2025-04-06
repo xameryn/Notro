@@ -3,7 +3,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 30px;
-    overflow-y: hidden;
+    overflow-y: auto;
+    height: calc(100vh - 150px);
 }
 
 .file {
@@ -11,7 +12,42 @@
     border-radius: 12px;
 }
 
-h2{
+h2 {
     margin-bottom: 0px;
     padding-bottom: 0px;
+}
+
+.error-message {
+    color: #ff6b6b;
+    text-align: center;
+    margin-top: 100px;
+    font-size: 1.2em;
+}
+
+.loading-message {
+    text-align: center;
+    margin-top: 100px;
+    font-size: 1.2em;
+    color: #7289da;
+}
+
+.server-name-display {
+    font-size: 1.4em;
+    margin-left: 20px;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+.no-files-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px;
+    color: #95a5a6;
+}
+
+.upload-hint {
+    font-style: italic;
+    font-size: 0.9em;
+    opacity: 0.8;
+    margin-top: 10px;
 }

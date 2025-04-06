@@ -1,8 +1,10 @@
 import React from 'react';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper, Button } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Paper, Button, Typography, Box } from '@mui/material';
 import Draggable from 'react-draggable';
 import './DraggableDialog.css'
 import { toast } from 'react-toastify';
+
+const apiUrl = import.meta.env.SERVER_URL || "http://localhost:4000";
 
 // The majority of this code is pasted directly from the MUI website
 // I used the "Draggable Dialog" component from this page: https://mui.com/material-ui/react-dialog/
@@ -24,7 +26,10 @@ function PaperComponent(props) {
 function DraggableDialog({ file }) {
   const [open, setOpen] = React.useState(false);
 
-  const fileName = file.displayName || file.filename;
+  const filePath = `${apiUrl}/files/${file._id}${file.extension}`
+  // const smallThumbnailPath = `${apiUrl}${file.thumbnails.small}`
+  // const mediumThumbnailPath = `${apiUrl}${file.thumbnails.medium}`
+  // const largeThumbnailPath = `${apiUrl}${file.thumbnails.large}`
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -52,8 +57,8 @@ function DraggableDialog({ file }) {
   return (
     <React.Fragment>
       <div className='file' onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
-        {fileName} 
-        <img src={`http://localhost:4000${file.filePath}`}></img>
+        {file.name} 
+        <img src={filePath}></img>
         <p>{file.tags}</p>
       </div>
       <Dialog
@@ -63,16 +68,18 @@ function DraggableDialog({ file }) {
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          {fileName}
+          {file.name}
         </DialogTitle>
         <DialogContent>
             <img className='display-img'
-            src={`http://localhost:4000${file.filePath}`}
-              alt={fileName} 
+            src={filePath}
+              alt={file.name} 
             />
-          <DialogContentText>
-            <p>{file.tags}</p>
-          </DialogContentText>
+          <Box mt={2}>
+            <Typography variant="body1">
+              {file.tags}
+            </Typography>
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>

@@ -1,0 +1,3 @@
+@echo off
+echo Starting Discord Authentication Server...
+bun discordAuth/authServer.js

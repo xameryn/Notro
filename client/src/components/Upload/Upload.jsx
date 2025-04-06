@@ -1,15 +1,21 @@
 import React, { useRef, useState } from 'react';
 import { ToastContainer, toast } from "react-toastify";
+import { useUser } from '../../contexts/UserContext';
+import { useServer } from '../../contexts/ServerContext';
 import './Upload.css';
+import { Checkbox, FormControlLabel } from '@mui/material';
 
-const API_URL = 'http://localhost:4000';
+const apiUrl = import.meta.env.SERVER_URL || "http://localhost:4000";
 
 const Upload = () => {
   const fileInputRef = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null)
+  const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [tags, setTags] = useState("")
-  const [displayName, setDisplayName] = useState("")
+  const [serverFile, setServerFile] = useState(false);
+  const [tags, setTags] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const { user, fetchUserFiles } = useUser();
+  const { selectedServer, fetchServerFiles } = useServer();
 
   const openFileBrowser = () => {
     if (fileInputRef.current) {
@@ -23,7 +29,6 @@ const Upload = () => {
 
     setSelectedFile(file);
   };
-  
 
   const uploadFile = async () => {
     if (!selectedFile) {
@@ -34,40 +39,51 @@ const Upload = () => {
     setLoading(true);
   
     const fileMetadata = {
-      displayName: displayName,
+      displayName: displayName || selectedFile.name.split('.')[0],
       fileName: selectedFile.name,
       type: selectedFile.type,
       tagList: tags,
-      serverFile: true,
-      size: selectedFile.size,
-      uploadedBy: "", 
+      serverFile: serverFile,
+      size: selectedFile.size, 
+      userID: user.id,
+      serverID: selectedServer.id
     };
   
     try {
+      console.log("Starting upload with metadata:", fileMetadata);
       const formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("metadata", JSON.stringify(fileMetadata));
   
-      const response = await fetch(`${API_URL}/api/upload`, {
+      const response = await fetch(`${apiUrl}/api/upload`, {
         method: "POST",
         body: formData,
       });
   
-      if (!response.ok) throw new Error("Upload failed");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Upload failed");
+      }
   
       const result = await response.json();
+      console.log("Upload success result:", result);
+  
+      if (user?.id) {
+        fetchUserFiles(true);
+      }
+      
+      fetchServerFiles(true);
   
       toast.success("File successfully uploaded!", {
         position: "bottom-right",
         autoClose: 1000,
       });
   
-      console.log("Upload result:", result);
-  
       setSelectedFile(null);
       setDisplayName("");
       setTags("");
     } catch (error) {
+      console.error("Upload error:", error);
       toast.error(`Error: ${error.message}`, {
         position: "bottom-right",
         autoClose: 1000,
@@ -76,12 +92,12 @@ const Upload = () => {
       setLoading(false);
     }
   };
-  
+
   const cancelUpload = () => {
-    setSelectedFile(null)
-    setDisplayName("")
-    setTags("")
-  }
+    setSelectedFile(null);
+    setDisplayName("");
+    setTags("");
+  };
 
   return (
       <div>
@@ -133,6 +149,16 @@ const Upload = () => {
               placeholder='#tag'
               value={tags}
               onChange={(e) => setTags(e.target.value)}
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={serverFile}
+                  onChange={(e) => setServerFile(e.target.checked)}
+                />
+              }
+              label="Server File"
             />
     
             <div className='buttons-div'>

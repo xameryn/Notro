@@ -1,0 +1,21 @@
+{
+  "name": "discordauth",
+  "module": "authServer.js",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "connect-mongo": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "mongoose": "^8.13.2",
+    "passport": "^0.7.0",
+    "passport-discord": "^0.1.4",
+    "session": "^0.1.0"
+  }
+}

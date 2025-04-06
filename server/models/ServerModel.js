@@ -8,18 +8,12 @@ import mongoose from "mongoose";
 
 // Server Schema
 const ServerSchema = new mongoose.Schema({
-  serverID: { type: String, required: true, unique: true }, // Discord server ID
-  adminList: [{ type: String, required: true }], // List of user IDs (admin role)
-  memberList: [{ type: String, required: true }], // List of user IDs (members)
-  fileList: [{ type: mongoose.Schema.Types.ObjectId, ref: "File" }], // List of file IDs (references File model)
-//   createdAt: { type: Date, default: Date.now }, // Timestamp when the server entry is created
-//   updatedAt: { type: Date, default: Date.now }, // Timestamp for the last update
-}, { versionKey: false });
-
-// Update the `updatedAt` field every time the document is saved
-// ServerSchema.pre('save', function(next) {
-//   this.updatedAt = Date.now();
-//   next();
-// });
+  _id: { type: String, required: true }, // Discord server ID
+  name: { type: String, required: true }, // Server name
+  icon: { type: String }, // Server icon URL/hash
+  adminList: [{ type: String, required: true, ref: "User" }], // List of user IDs (admin role)
+  memberList: [{ type: String, required: true, ref: "User" }], // List of user IDs (members)
+  fileList: [{ type: String, ref: "File" }], // List of file IDs (references File model)
+}, { versionKey: false, _id: false });
 
 export default mongoose.model("Server", ServerSchema);

@@ -1,28 +1,82 @@
-import React, { } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LeftSidebar.css';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../contexts/UserContext';
 import { useServer } from '../../contexts/ServerContext';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import MyAccount from '../MyAccount/MyAccount';
+import ServerList from '../ServerList/ServerList';
 
 const LeftSidebar = () => {
-  const randomServerNames = ["My Uploads", "Server 1", "Server 2", "Server 3", "Server 4"];
   const { user, setUser } = useUser();
-  // const [userServers, setUserServers] = useUser()     we'll replace randomServerNames with "userServers" once it works
-  const { selectedServer, setSelectedServer } = useServer();
+  const { selectedServer, setSelectedServer, getUserServers } = useServer();
   const navigate = useNavigate();
+  const apiServerUrl = import.meta.env.FILE_SERVER_URL || 'http://localhost:4000';
+  const authServerUrl = import.meta.env.AUTH_SERVER_URL || 'http://localhost:4001';
+  const [connectionError, setConnectionError] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [serverChecked, setServerChecked] = useState(false);
 
-  console.log('user:', user);
+  useEffect(() => {
+    if (getUserServers !== null) {
+      setLoading(false);
+    }
+  }, [getUserServers]);
+
+  useEffect(() => {
+    if (!serverChecked) {
+      const checkConnection = async () => {
+        try {
+          setLoading(true);
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+          if (!user) {
+            handleLogout();
+            return;
+          }
+          
+          const response = await fetch(`${apiServerUrl}/api/files/user/${user.id}`, { 
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal,
+            credentials: 'include'
+          });
+          
+          clearTimeout(timeoutId);
+          
+          if (response.ok) {
+            setConnectionError(false);
+            console.log("API server connection successful");
+          } else {
+            setConnectionError(true);
+            console.error("API server returned error:", response.status);
+          }
+        } catch (error) {
+          console.error('API server connection check failed:', error);
+          setConnectionError(true);
+        } finally {
+          setLoading(false);
+          setServerChecked(true);
+        }
+      };
+
+      if (user) {
+        checkConnection();
+      }
+    }
+  }, [user, serverChecked]);
+
+  const discordServers = getUserServers();
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:4000/auth/logout', {
+      await fetch(`${authServerUrl}/auth/logout`, {
         method: 'POST',
         credentials: 'include'
       });
       setUser(null);
+      setServerChecked(false); // Reset check on logout
       navigate('/connect');
     } catch (error) {
       console.error('Logout failed:', error);
@@ -31,28 +85,28 @@ const LeftSidebar = () => {
 
   return (
     <div className='container'>
-        <a className='current-server'>
-          <p>          {selectedServer}</p>
-          <KeyboardArrowDownIcon />
-          </a>
-        <hr />
-        <div className='servers-div'>
-          {randomServerNames.map(serverName => (
-            <a key={serverName} onClick={() => setSelectedServer(serverName)} className={selectedServer === serverName ? 'selected-server' : 'unselected-server'}>
-              <SentimentSatisfiedAltIcon style={{ fontSize: 40 }} />
-              <p>{serverName}</p>
-            </a>
-          ))}
+      {connectionError && (
+        <div className="connection-error">
+          <ErrorOutlineIcon style={{ color: 'red' }} />
+          <p>Connection to API server failed</p>
         </div>
+      )}
+      
+      <div className="servers-list-wrapper">
+        {loading ? (
+          <div className="loading-servers">Loading servers...</div>
+        ) : (
+          <ServerList 
+            selectedServer={selectedServer}
+            setSelectedServer={setSelectedServer}
+            displayedServers={discordServers}
+          />
+        )}
+      </div>
 
-        <div className='my-account'>
-            <a>
-              {user?.profile?.avatar ? (<img src={`https://cdn.discordapp.com/avatars/${user.profile.id}/${user.profile.avatar}.png`} alt="Profile" style={{ width: 40, height: 40, borderRadius: '50%' }}/>) : (<AccountCircleIcon style={{ fontSize: 40 }} />)}
-              <p>{user?.profile?.global_name || 'My Account'}</p>
-            </a>
-            <button className="temp-red-background" onClick={handleLogout}>LOG OUT</button>
-            <button className="temp-red-background" onClick={() => navigate("/connect")}>GO TO CONNECT PAGE</button>
-        </div>
+      <div className="my-account">
+        <MyAccount user={user} handleLogout={handleLogout} />
+      </div>
     </div>
   );
 };

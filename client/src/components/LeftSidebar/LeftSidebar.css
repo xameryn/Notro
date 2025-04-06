@@ -1,42 +1,114 @@
-.container{
-    background-color: rgb(23, 23, 23);
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #1E1F22;
+  width: 300px;
+  color: white;
+  padding: 10px;
+  position: relative;
 }
 
-.servers-div{
-    display: flex;
-    flex-direction: column;
+.servers-list-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  margin-top: 10px;
+  padding-bottom: 65px; /* Add space for MyAccount */
 }
 
-.my-account{
-    display: flex;
-    flex-direction: column;
-    margin-top: auto;
+.my-account {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 10;
+  background-color: #2b2d31;
+  border-radius: 8px;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
 }
 
 a {
-    display: flex;
-    justify-content: flex-start;
-    padding-left: 30px;
-    align-items: center;
-    border-radius: 12px;
-    margin: 4px;
-  }
-
-  a:hover {
-    background-color: #323232;
-  }
-
-.current-server{
-    justify-content: flex-end;
-    margin: 0px;
-}
-.temp-red-background{
-    background-color: red;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 30px;
+  align-items: center;
+  border-radius: 12px;
+  margin: 4px;
 }
 
-.selected-server{
-    background-color: rgb(76, 76, 76);
+a:hover {
+  background-color: #323232;
+}
+
+.current-server {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.current-server:hover {
+  background-color: #2b2d31;
+}
+
+.selected-server, .unselected-server {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.selected-server {
+  background-color: #404249;
+}
+
+.unselected-server:hover {
+  background-color: #2b2d31;
+}
+
+.connection-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  background-color: rgba(255, 0, 0, 0.1);
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.connection-error p {
+  margin: 5px 0;
+  color: #ff6b6b;
+}
+
+.connection-error button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.loading-servers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  color: #95a5a6;
+}
+
+.temp-red-background {
+  background-color: red;
 }

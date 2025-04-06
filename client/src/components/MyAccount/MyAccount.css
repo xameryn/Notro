@@ -1,0 +1,56 @@
+.my-account-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-avatar-fallback {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50%;
+  margin-right: 10px;
+  color: #7289da;
+}
+
+.username {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-actions {
+  display: flex;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: #95a5a6;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.logout-button:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+}

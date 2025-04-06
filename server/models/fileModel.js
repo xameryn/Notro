@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-// set to false for basic testing
+// File schema
 const fileSchema = new mongoose.Schema({
   _id: { type: String, required: true }, // File UUID
   name: { type: String, required: true }, // Chosen file name
@@ -15,6 +15,6 @@ const fileSchema = new mongoose.Schema({
     large: { type: String, default: '' },
   }, // Thumbnail Paths
   size: { type: Number, required: true }, // File size in bytes  
-}, { versionKey: false });
+}, { versionKey: false, _id: false });
 
 export default mongoose.model("File", fileSchema);

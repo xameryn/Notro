@@ -4,6 +4,15 @@ import Server from "../models/serverModel.js";
 
 const router = express.Router();
 
+// Health check endpoint
+router.get("/health", (req, res) => {
+  res.status(200).json({ 
+    status: "ok", 
+    message: "Server is up and running",
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Route: Connect a server to an instance and optionally add users to the server
 router.post("/connect/:instanceID/:serverID", async (req, res) => {
   const { instanceID, serverID } = req.params;
