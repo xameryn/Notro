@@ -57,9 +57,15 @@ function DraggableDialog({ file }) {
   return (
     <React.Fragment>
       <div className='file' onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
-        {file.name} 
+      <span className="file-name">{file.name}</span>
         <img src={filePath}></img>
-        <p>{file.tags}</p>
+        <div className="tag-container">
+          {file.tagList.map((tag, index) => (
+            <div key={index} className="tag-bubble">
+              {tag}
+            </div>
+          ))}
+        </div>
       </div>
       <Dialog
         open={open}

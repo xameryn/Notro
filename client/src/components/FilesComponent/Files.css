@@ -5,11 +5,14 @@
     gap: 30px;
     overflow-y: auto;
     height: calc(100vh - 150px);
+    align-items: start;
+    align-content: start;
 }
 
 .file {
-    background-color: rgb(92, 92, 92);
+    /* background-color: rgb(255, 20, 20); */
     border-radius: 12px;
+    height: 140px;
 }
 
 h2 {
