@@ -17,6 +17,7 @@ const Upload = () => {
   const [displayName, setDisplayName] = useState("");
   const { user, fetchUserFiles } = useUser();
   const { selectedServer, fetchServerFiles } = useServer();
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   const openFileBrowser = () => {
     if (fileInputRef.current) {
@@ -29,6 +30,7 @@ const Upload = () => {
     if (!file) return;
 
     setSelectedFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
   };
 
   const uploadFile = async () => {
@@ -140,7 +142,7 @@ const Upload = () => {
         ) : (
           <>
           <div className='upload-container'>
-          <h3>Enter the file data</h3>
+          <h3 className='enter-file-data-title'>Enter your file info:</h3>
           <div className="metadata-form">
 
           <div className='form-item'>
@@ -179,15 +181,26 @@ const Upload = () => {
             />
             </div>
 
+          <div className='server-file-div'>
             <FormControlLabel
+              className="upload-checkbox-label"
               control={
                 <Checkbox
                   checked={serverFile}
                   onChange={(e) => setServerFile(e.target.checked)}
+                  className="upload-checkbox"
                 />
               }
               label="Server File"
             />
+            </div>
+
+
+            {previewUrl && selectedFile.type.startsWith('image/') && (
+              <div className="image-preview-div">
+                <img src={previewUrl} alt="Preview" className="image-preview" />
+              </div>
+            )}
     
             <div className='buttons-div'>
               <button onClick={uploadFile}>Upload</button>
