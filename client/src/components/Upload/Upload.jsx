@@ -13,7 +13,8 @@ const Upload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [serverFile, setServerFile] = useState(false);
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState("");
   const [displayName, setDisplayName] = useState("");
   const { user, fetchUserFiles } = useUser();
   const { selectedServer, fetchServerFiles } = useServer();
@@ -45,7 +46,7 @@ const Upload = () => {
       displayName: displayName || selectedFile.name.split('.')[0],
       fileName: selectedFile.name,
       type: selectedFile.type,
-      tagList: tags,
+      tagList: tags.join(","),
       serverFile: serverFile,
       size: selectedFile.size, 
       userID: user.id,
@@ -172,14 +173,33 @@ const Upload = () => {
             </div>
     
             <div className='form-item'>
-            <label>Tags:</label>
-            <input
-              type="text"
-              placeholder='#tag'
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
-            />
-            </div>
+              <label>Tags:</label>
+              <input
+                type="text"
+                placeholder="Add a tag and press Enter"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    const newTag = tagInput.trim();
+                    if (newTag && !tags.includes(newTag)) {
+                      setTags([...tags, newTag]);
+                    }
+                    setTagInput("");
+                  }
+                }}
+              />
+              {Array.isArray(tags) && tags.length > 0 && (
+                <div className="tag-container-large">
+                  {tags.map((tag, index) => (
+                    <div key={index} className="tag-bubble-medium">
+                      #{tag}
+                    </div>
+                  ))}
+                </div>
+              )}
+          </div>
 
           <div className='server-file-div'>
             <FormControlLabel

@@ -55,7 +55,7 @@
 
 .metadata-form {
     width: 60%;
-    height: 55%;
+    height: auto;
     background-color: #313131;
     border: 1px solid rgb(78, 78, 78);
     border-radius: 12px;
@@ -76,7 +76,7 @@
     background-color: rgb(37, 37, 37);
     border: none;
     padding: 6px;
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
     font-size: 1em;
     height: 25px;
     color: rgb(216, 216, 216);
@@ -85,6 +85,7 @@
 .form-item {
     display: flex;
     flex-direction: column;
+    padding: 5% 0%;
 }
 
 .form-item label {
@@ -151,4 +152,16 @@
     width: 100%;
     height: 180px;
     object-fit: cover;
+    padding: 5% 0%;
   }
+
+
+  .tag-bubble-medium {
+    background-color: #494949;
+    margin: 2px;
+    color: #cecdcd;
+    padding: 3px 7px;
+    border-radius: 12px;
+    font-size: 0.9em;
+    white-space: nowrap;
+}

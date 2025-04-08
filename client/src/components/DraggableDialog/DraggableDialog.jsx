@@ -64,7 +64,7 @@ function DraggableDialog({ file }) {
         <div className="tag-container">
           {file.tagList.map((tag, index) => (
             <div key={index} className="tag-bubble">
-              {tag}
+              #{tag}
             </div>
           ))}
         </div>
@@ -76,10 +76,11 @@ function DraggableDialog({ file }) {
         aria-labelledby="draggable-dialog-title"
         PaperProps={{
           sx: {
-            minWidth: '50vw', 
-            // maxWidth: '60vw',
-            // minHeight: '30vh',
-            // maxHeight: '80vh' 
+            minWidth: '50vw',
+            bgcolor: 'rgb(58, 58, 58)',     
+            color: 'rgb(230, 230, 230)',  
+            borderRadius: '12px',           
+            overflow: 'hidden'        
           }
         }}
       >
@@ -97,7 +98,13 @@ function DraggableDialog({ file }) {
             />
           <Box mt={2}>
             <Typography variant="body1">
-              {file.tags}
+            <div className="tag-container-large">
+          {file.tagList.map((tag, index) => (
+            <div key={index} className="tag-bubble-large">
+              #{tag}
+            </div>
+          ))}
+          </div>
             </Typography>
           </Box>
         </DialogContent>
