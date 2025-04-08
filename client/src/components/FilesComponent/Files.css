@@ -9,6 +9,19 @@
     align-content: start;
 }
 
+.files-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.files-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.files-container::-webkit-scrollbar-thumb {
+    background-color: #666666;
+    border-radius: 4px;
+}
+
 .file {
     /* background-color: rgb(255, 20, 20); */
     border-radius: 12px;

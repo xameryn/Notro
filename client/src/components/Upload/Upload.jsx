@@ -99,12 +99,20 @@ const Upload = () => {
     setTags("");
   };
 
+  const handleDrop = (e) => {
+    e.preventDefault();
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFileChange({ target: { files: e.dataTransfer.files } });
+      e.dataTransfer.clearData();
+    }
+  };
+
   return (
       <div>
         {!selectedFile ? (
           <>
             <h1 className="upload-h1">Upload File</h1>
-            <div className="file-upload-div" onClick={openFileBrowser}>
+            <div className="file-upload-div" onClick={openFileBrowser} onDragOver={(e) => e.preventDefault()} onDragEnter={(e) => e.preventDefault()} onDrop={handleDrop}>
               <p>Click here to upload a file</p>
             </div>
     

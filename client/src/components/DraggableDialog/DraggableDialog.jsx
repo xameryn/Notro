@@ -27,7 +27,7 @@ function DraggableDialog({ file }) {
   const [open, setOpen] = React.useState(false);
 
   const filePath = `${apiUrl}/files/${file._id}${file.extension}`
-  // const smallThumbnailPath = `${apiUrl}${file.thumbnails.small}`
+  const smallThumbnailPath = `${apiUrl}${file.thumbnails.small}`
   // const mediumThumbnailPath = `${apiUrl}${file.thumbnails.medium}`
   // const largeThumbnailPath = `${apiUrl}${file.thumbnails.large}`
 
@@ -58,7 +58,7 @@ function DraggableDialog({ file }) {
     <React.Fragment>
       <div className='file' onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
       <span className="file-name">{file.name}</span>
-        <img src={filePath}></img>
+        <img className="img-thumbnail" src={smallThumbnailPath}></img>
         <div className="tag-container">
           {file.tagList.map((tag, index) => (
             <div key={index} className="tag-bubble">
