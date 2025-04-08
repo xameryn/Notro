@@ -24,12 +24,19 @@ h1 {
 
 button {
   border-radius: 8px;
+  font-family: "Outfit", sans-serif;
   padding: 0.6em 1.2em;
   background-color: #8f8f8f;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 button:hover {
-  background-color: green;
+  background-color: rgb(104, 104, 104);
+}
+
+input {
+  font-family: "Outfit", sans-serif;
+  border-radius: 12px;
 }
 
 hr{

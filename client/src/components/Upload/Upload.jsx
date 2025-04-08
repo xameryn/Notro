@@ -4,6 +4,7 @@ import { useUser } from '../../contexts/UserContext';
 import { useServer } from '../../contexts/ServerContext';
 import './Upload.css';
 import { Checkbox, FormControlLabel } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const apiUrl = import.meta.env.SERVER_URL || "http://localhost:4000";
 
@@ -111,24 +112,38 @@ const Upload = () => {
       <div>
         {!selectedFile ? (
           <>
-            <h1 className="upload-h1">Upload File</h1>
-            <div className="file-upload-div" onClick={openFileBrowser} onDragOver={(e) => e.preventDefault()} onDragEnter={(e) => e.preventDefault()} onDrop={handleDrop}>
-              <p>Click here to upload a file</p>
-            </div>
-    
-            <input
-              type="file"
-              style={{ display: "none" }}
-              ref={fileInputRef}
-              onChange={handleFileChange}
-            />
+              <div className="upload-container">
+
+                <div
+                  className="file-upload-div"
+                  onClick={openFileBrowser}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDragEnter={(e) => e.preventDefault()}
+                  onDrop={handleDrop}
+                >
+                <div className="upload-header">
+                  <AddCircleIcon className='upload-icon' />
+                  <h3>Upload File</h3>
+                </div>
+                  <p>Click or drag-and-drop files here</p>
+                </div>
+
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                />
+              </div>
 
           </>
         ) : (
           <>
-          <h1 className="upload-h1">Upload File</h1>
+          <div className='upload-container'>
+          <h3>Enter the file data</h3>
           <div className="metadata-form">
 
+          <div className='form-item'>
             <label>Selected file:</label>
               <div className="selected-file-div">
                 <p>{selectedFile.name}</p>
@@ -140,9 +155,11 @@ const Upload = () => {
                   style={{ display: "none" }} 
                 />
 
-                <button onClick={openFileBrowser}>Change</button>
+                <AddCircleIcon className='upload-icon' onClick={openFileBrowser}/>
+              </div>
               </div>
     
+              <div className='form-item'>
             <label>Display Name:</label>
             <input
               type="text"
@@ -150,7 +167,9 @@ const Upload = () => {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
             />
+            </div>
     
+            <div className='form-item'>
             <label>Tags:</label>
             <input
               type="text"
@@ -158,6 +177,7 @@ const Upload = () => {
               value={tags}
               onChange={(e) => setTags(e.target.value)}
             />
+            </div>
 
             <FormControlLabel
               control={
@@ -174,6 +194,7 @@ const Upload = () => {
               <button onClick={cancelUpload}>Cancel</button>
             </div>
 
+          </div>
           </div>
           </>
         )}
