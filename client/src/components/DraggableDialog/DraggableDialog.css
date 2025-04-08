@@ -37,7 +37,7 @@
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
-    gap: 0px;
+    gap: 1px;
     margin-top: 3px;
 }
 
@@ -60,7 +60,7 @@
     color: #cecdcd;
     padding: 3px 7px;
     border-radius: 12px;
-    font-size: 10px;
+    font-size: 0.8em;
     white-space: nowrap;
 }
 
@@ -68,6 +68,7 @@
 .tag-container-large {
     display: flex;
     flex-wrap: wrap;
+    gap: 5px;
 }
 
 .tag-bubble-large {
