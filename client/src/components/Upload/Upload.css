@@ -24,7 +24,7 @@
 
   .file-upload-div:hover{
     cursor: pointer;
-    background-color: rgb(61, 61, 61);
+    background-color: rgb(32, 32, 32);
 }
   
   
@@ -69,7 +69,7 @@
 }
 
 .metadata-form:hover {
-    background-color: rgb(24, 24, 24)
+    background-color: #2e2e2e;
 }
 
 .metadata-form input {

@@ -3,6 +3,8 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Paper, Button, Typog
 import Draggable from 'react-draggable';
 import './DraggableDialog.css'
 import { toast } from 'react-toastify';
+import CancelIcon from '@mui/icons-material/Cancel';
+import IconButton from '@mui/material/IconButton';
 
 const apiUrl = import.meta.env.SERVER_URL || "http://localhost:4000";
 
@@ -72,11 +74,23 @@ function DraggableDialog({ file }) {
         onClose={handleClose}
         PaperComponent={PaperComponent}
         aria-labelledby="draggable-dialog-title"
+        PaperProps={{
+          sx: {
+            minWidth: '50vw', 
+            // maxWidth: '60vw',
+            // minHeight: '30vh',
+            // maxHeight: '80vh' 
+          }
+        }}
       >
-        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          {file.name}
-        </DialogTitle>
-        <DialogContent>
+        <div id='draggable-container'>
+        <DialogTitle style={{ cursor: 'move', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} id="draggable-dialog-title">
+  {file.name}
+  <IconButton onClick={handleClose} sx={{ color: '#ccc' }}>
+    <CancelIcon />
+  </IconButton>
+</DialogTitle>
+<DialogContent>
             <img className='display-img'
             src={filePath}
               alt={file.name} 
@@ -87,11 +101,12 @@ function DraggableDialog({ file }) {
             </Typography>
           </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-          <Button onClick={copyURL}>Copy URL</Button>
-          <Button onClick={downloadFile}>Download</Button>
+        <DialogActions sx={{ justifyContent: 'center' }}>
+
+          <Button onClick={copyURL} id="draggable-button">Copy URL</Button>
+          <Button onClick={downloadFile} id="draggable-button">Download</Button>
         </DialogActions>
+        </div>
       </Dialog>
     </React.Fragment>
   );
