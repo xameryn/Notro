@@ -2,18 +2,33 @@ import { Router } from "express";
 import passport from "passport";
 
 const router = Router();
-const clientURL = process.env.CLIENT_URL || "http://localhost:5173";
+const originMap = new Map(); // In-memory map of IP -> origin
 
-// Route to start the Discord OAuth process
-router.get('/discord', passport.authenticate('discord'));
+// Step 1: Capture origin before OAuth
+router.get("/discord", (req, res, next) => {
+  const origin = req.query.origin;
+  const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
-router.get('/discord/callback',
-    passport.authenticate('discord', { failureRedirect: '/' }),
-    (req, res) => {
-      console.log("Authenticated User:", "\nUsername:", req.user.username, "\nID:", req.user.id); 
-      res.redirect(clientURL); 
-    }
-  );
+  if (origin) {
+    originMap.set(ip, origin);
+    console.log("🧭 Captured origin for", ip, "->", origin);
+  }
+
+  next(); // continue to passport flow
+}, passport.authenticate("discord"));
+
+// Step 2: Handle callback + redirect dynamically
+router.get("/discord/callback",
+  passport.authenticate("discord", { failureRedirect: "/" }),
+  (req, res) => {
+    const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+    const redirectTo = originMap.get(ip) || "http://localhost:5173";
+    originMap.delete(ip); // cleanup
+
+    console.log("✅ Authenticated User:", req.user.username, "| IP:", ip);
+    res.redirect(redirectTo); // go back to where they came from
+  }
+);
 
 // Endpoint for fetching current user info
 router.get('/me', (req, res) => {

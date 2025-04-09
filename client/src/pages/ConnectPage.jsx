@@ -7,8 +7,10 @@ const ConnectPage = () => {
   const authServerUrl = import.meta.env.VITE_AUTH_SERVER_URL || 'http://localhost:4001';
 
   const handleDiscordLogin = () => {
-    window.location.href = `${authServerUrl}/auth/discord`;
-  }
+    const origin = window.location.origin;
+    window.location.href = `${authServerUrl}/auth/discord?origin=${encodeURIComponent(origin)}`;
+  };
+  
 
   return (
     <div className='connect-div'>
