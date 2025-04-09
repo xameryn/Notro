@@ -19,16 +19,35 @@ img{
     margin-top: 15%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 20px;
 }
 
-.discord-button{
+.discord-button, .discord-skip-button{
     display: flex;
     justify-content: center;
     gap: 12px;
     align-items: center;
-    background-color: blue;
-    padding: 8px;
+    color: white;
+    background-color: #7289da;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.discord-skip-button{
+    background-color: #6b2b2b;
+    width: 60%;
+}
+
+.discord-skip-button:hover{
+    background-color: #571515;
+    cursor: pointer;
+}
+
+.discord-button:hover{
+    background-color: #4654c0;
+    cursor: pointer;
 }
 
 .discord-button p{
@@ -40,6 +59,5 @@ img{
 }
 
 .discord-button img{
-    height: 22px;
     width: 30px;
 }

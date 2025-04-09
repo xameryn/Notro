@@ -21,9 +21,9 @@ const ConnectPage = () => {
         <div className='buttons'>
           <button className='discord-button' onClick={handleDiscordLogin}>
             <p>Connect using Discord</p>
-            <img src="/notroicon.png" alt="Discord connect icon" />
+            <img src="/discord_icon.png" alt="Discord Icon" />
           </button>
-          <button className="temp-red-background" onClick={() => navigate('/')}>SKIP AND GO STRAIGHT TO HOMEPAGE</button>
+          {/* <button className="discord-skip-button" onClick={() => navigate('/')}>[ DEV - SKIP LOGIN ]</button> */}
         </div>
     </div>
   )
