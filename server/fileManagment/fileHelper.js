@@ -73,14 +73,6 @@ export const generateThumbnails = async (filePath, fileType, fileId) => {
                 thumbnailPaths[sizeName] = getThumbnailPath(fileId, sizeName);
             }
         }
-        else {
-            thumbnailPaths.small = '';
-            thumbnailPaths.medium = '';
-            thumbnailPaths.large = '';
-        }
-        
-        return thumbnailPaths;
-
     } catch (error) {
         console.error('Error generating thumbnails:', error);
         return { small: '', medium: '' };

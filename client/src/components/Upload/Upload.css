@@ -11,7 +11,7 @@
 .file-upload-div {
     width: 70%;
     height: 80%;
-    background-color: #2f3136;
+    background-color: #27272b;
     border: 2px dashed #4f545c;
     border-radius: 12px;
     cursor: pointer;
@@ -24,7 +24,7 @@
 
   .file-upload-div:hover{
     cursor: pointer;
-    background-color: rgb(32, 32, 32);
+    background-color: #1d1d1e;
 }
   
   

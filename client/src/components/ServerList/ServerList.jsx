@@ -30,13 +30,8 @@ const ServerList = ({
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.style.display = 'none';
-                  const iconFallback = e.target.parentNode.querySelector('.icon-fallback');
-                  if (iconFallback) iconFallback.style.display = 'block';
                 }}
               />
-              <div className="icon-fallback" style={{ display: 'none' }}>
-                <SentimentSatisfiedAltIcon style={{ fontSize: 40 }} />
-              </div>
             </div>
           ) : (
             <SentimentSatisfiedAltIcon style={{ fontSize: 40 }} />

@@ -1,8 +1,8 @@
-.container {
+.left-sidebar-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #1E1F22;
+  background-color: #121214;
   width: 300px;
   color: white;
   padding: 10px;
@@ -15,32 +15,22 @@
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  margin-top: 10px;
-  padding-bottom: 65px; /* Add space for MyAccount */
 }
 
 .my-account {
   position: absolute;
-  bottom: 10px;
+  bottom: 30px;
   left: 10px;
   right: 10px;
+  display: flex;
   z-index: 10;
   background-color: #2b2d31;
   border-radius: 8px;
   box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
 }
 
-a {
-  display: flex;
-  justify-content: flex-start;
-  padding-left: 30px;
-  align-items: center;
-  border-radius: 12px;
-  margin: 4px;
-}
-
 a:hover {
-  background-color: #323232;
+  background-color: #1d1d1e;
 }
 
 .current-server {
@@ -62,18 +52,18 @@ a:hover {
   display: flex;
   align-items: center;
   padding: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .selected-server {
-  background-color: #404249;
+  background-color: #27272b;
 }
 
 .unselected-server:hover {
-  background-color: #2b2d31;
+  background-color: #1d1d1e;
 }
 
 .connection-error {

@@ -13,6 +13,19 @@ const apiUrl = import.meta.env.SERVER_URL || "http://localhost:4000";
 // I added onto the original code to add additional features (e.g. "Copy URL" and "Download" buttons)
 // I also changed the DraggableDialog function to accept a file as a parameter and to display relevant info about it (just the file name for now)
 
+function getFilePath(file) {
+  return `${apiUrl}/files/${file._id}${file.extension}`;
+}
+
+function getThumbnail(file) {
+  if (file.type === 'image' || file.type ==='video')
+    return `${apiUrl}/files/thumbnails/${file._id}_thumb_medium.jpg`;
+  else if (file.type === 'application')
+    return `${apiUrl}/files/assets/document.png`;
+  else
+    return `${apiUrl}/files/assets/unknown.png`;
+}
+
 function PaperComponent(props) {
   const nodeRef = React.useRef(null);
   return (
@@ -28,13 +41,36 @@ function PaperComponent(props) {
 function DraggableDialog({ file }) {
   const [open, setOpen] = React.useState(false);
 
-  const filePath = `${apiUrl}/files/${file._id}${file.extension}`
-  const smallThumbnailPath = `${apiUrl}${file.thumbnails.small}`
-  // const mediumThumbnailPath = `${apiUrl}${file.thumbnails.medium}`
-  // const largeThumbnailPath = `${apiUrl}${file.thumbnails.large}`
+  const filePath = getFilePath(file)
+  const mediumThumbnailPath = getThumbnail(file)
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleDelete = () => {
+    fetch(`${apiUrl}/files/${file._id}`, { method: 'DELETE' })
+    .then(response => {
+      if (response.ok) {
+        console.log('File deleted successfully');
+        toast.success("File deleted successfully!", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+        });
+        handleClose();
+      } else {
+        console.error('Error deleting file:', response.statusText);
+        toast.error("Error deleting file!", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+        });
+      }
+    })
+  };
 
   const copyURL = () => {
       toast.success("File copied! (Not really)", {
@@ -59,8 +95,8 @@ function DraggableDialog({ file }) {
   return (
     <React.Fragment>
       <div className='file' onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
-      <span className="file-name">{file.name}</span>
-        <img className="img-thumbnail" src={smallThumbnailPath}></img>
+        <span className="file-name">{file.name}</span>
+        <img className="img-thumbnail" src={mediumThumbnailPath} alt={file.name} />
         <div className="tag-container">
           {file.tagList.map((tag, index) => (
             <div key={index} className="tag-bubble">
@@ -85,34 +121,43 @@ function DraggableDialog({ file }) {
         }}
       >
         <div id='draggable-container'>
-        <DialogTitle style={{ cursor: 'move', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }} id="draggable-dialog-title">
-  {file.name}
-  <IconButton onClick={handleClose} sx={{ color: '#ccc' }}>
-    <CancelIcon />
-  </IconButton>
-</DialogTitle>
-<DialogContent>
-            <img className='display-img'
-            src={filePath}
-              alt={file.name} 
-            />
-          <Box mt={2}>
-            <Typography variant="body1">
-            <div className="tag-container-large">
-          {file.tagList.map((tag, index) => (
-            <div key={index} className="tag-bubble-large">
-              #{tag}
-            </div>
-          ))}
-          </div>
-            </Typography>
-          </Box>
-        </DialogContent>
-        <DialogActions sx={{ justifyContent: 'center' }}>
-
-          <Button onClick={copyURL} id="draggable-button">Copy URL</Button>
-          <Button onClick={downloadFile} id="draggable-button">Download</Button>
-        </DialogActions>
+          <DialogTitle 
+            style={{ 
+              cursor: 'move', 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center' 
+            }} 
+            id="draggable-dialog-title"
+          >
+            {file.name}
+            <IconButton onClick={handleClose} sx={{ color: '#ccc' }}>
+              <CancelIcon />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>
+            {file.type === 'image' && file.extension === '.gif' ? (
+              <video 
+                className='display-img'
+                src={filePath}
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+            ) : (
+              <img 
+                className='display-img'
+                src={filePath}
+                alt={file.name} 
+              />
+            )}
+          </DialogContent>
+          <DialogActions sx={{ justifyContent: 'center' }}>
+            <Button onClick={copyURL} id="draggable-button">Copy URL</Button>
+            <Button onClick={downloadFile} id="draggable-button">Download</Button>
+            <Button onClick={handleDelete} id="draggable-button">Delete</Button>
+          </DialogActions>
         </div>
       </Dialog>
     </React.Fragment>

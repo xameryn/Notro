@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
-import { uploadFile, uploadMetadata, addFileToUser, addFileToServer, getServersInDatabase, getFilesByUser, getFilesByServer } from "./fileController.js";
+import { uploadFile, uploadMetadata, addFileToUser, addFileToServer, getServersInDatabase, getFilesByUser, getFilesByServer, deleteFile } from "./fileController.js";
 import { generateThumbnails } from './fileHelper.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -55,7 +55,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     const { displayName, fileName, type, serverFile, tagList, size, userID, serverID } = metadata;
     
     try {
-      const thumbnails = await generateThumbnails(req.file.path, type, req.fileId);
+      await generateThumbnails(req.file.path, type, req.fileId);
       console.log("Thumbnails generated");
       
       const metadataReq = {
@@ -67,7 +67,6 @@ router.post('/upload', upload.single('file'), async (req, res) => {
           uploadDate: new Date().toISOString(),
           serverFile: serverFile || false,
           tagList: tagList ? tagList.split(",").map(tag => tag.trim()) : [],
-          thumbnails: thumbnails,
           size: size
         }
       };
@@ -148,5 +147,7 @@ router.get("/servers", getServersInDatabase)
 router.get("/files/user/:userID", getFilesByUser);
 
 router.get("/files/server/:serverID", getFilesByServer);
+
+router.delete("/files/:fileID", deleteFile);
 
 export default router;

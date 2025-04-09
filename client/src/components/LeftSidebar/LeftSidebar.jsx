@@ -84,7 +84,7 @@ const LeftSidebar = () => {
   };
 
   return (
-    <div className='container'>
+    <div className='left-sidebar-container'>
       {connectionError && (
         <div className="connection-error">
           <ErrorOutlineIcon style={{ color: 'red' }} />

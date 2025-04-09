@@ -9,11 +9,6 @@ const fileSchema = new mongoose.Schema({
   uploadDate: { type: Date, default: Date.now }, // Auto-generated upload date
   serverFile: { type: Boolean, default: false }, // anyone in the serverList can use it
   tagList: [{ type: String }], // List of tags/keywords
-  thumbnails: {
-    small: { type: String, default: '' },
-    medium: { type: String, default: '' },
-    large: { type: String, default: '' },
-  }, // Thumbnail Paths
   size: { type: Number, required: true }, // File size in bytes  
 }, { versionKey: false, _id: false });
 

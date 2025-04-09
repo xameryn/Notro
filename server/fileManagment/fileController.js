@@ -1,6 +1,8 @@
 import File from "../models/fileModel.js";
 import User from "../models/userModel.js";
 import Server from "../models/serverModel.js";
+const fs = require('fs').promises;
+const path = require('path');
 
 // Track recent requests to avoid duplicates
 const recentRequests = new Map();
@@ -185,5 +187,47 @@ export const getFilesByServer = async (req, res) => {
   } catch (error) {
     console.error("Error fetching server files:", error);
     res.status(500).json({ error: "Error fetching server files" });
+  }
+};
+
+// Delete File Handler
+export const deleteFile = async (req, res) => {
+  try {
+    const fileID = req.params.fileID;
+    console.log(`Deleting file: ${fileID}`);
+    
+    const file = await File.findByIdAndDelete(fileID);
+    
+    if (!file) {
+      console.error(`File not found: ${fileID}`);
+      return res.status(404).json({ error: "File not found" });
+    }
+
+    const filePath = path.join(__dirname, '../files/', file._id, file.extension);
+    console.log(`Deleting physical file at: ${filePath}`);
+
+    try {
+      await fs.unlink(filePath);
+    } catch (err) {
+      console.error(`Error deleting physical file: ${err}`);
+    }
+
+    const thumbnails = file.thumbnails;
+
+    for (const key in thumbnails) {
+      const thumbnailPath = path.join(__dirname, thumbnails[key]);
+      try {
+        await fs.unlink(thumbnailPath);
+      } catch (err) {
+        console.error(`Error deleting thumbnail (${key}) file: ${err}`);
+      }
+    }
+    
+    console.log(`File deleted: ${fileID}`);
+    return res.json({ message: "File deleted successfully" });
+    
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    res.status(500).json({ error: "Error deleting file" });
   }
 };
