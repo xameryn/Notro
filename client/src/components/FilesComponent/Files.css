@@ -67,3 +67,25 @@ h2 {
     opacity: 0.8;
     margin-top: 10px;
 }
+
+.custom-context-menu {
+    position: absolute;
+    background-color: rgb(10, 10, 10);
+    text-align: left;
+    color: rgb(238, 238, 238);
+    list-style: none;
+    padding: 0px;
+    margin: 0;
+    z-index: 9999;
+    border-radius: 4px;
+    min-width: 120px;
+}
+
+.custom-context-menu li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.custom-context-menu li:hover {
+    background-color: #181818;
+}

@@ -1,11 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Files.css';
 import DraggableDialog from '../DraggableDialog/DraggableDialog';
 import { useServer } from '../../contexts/ServerContext';
+import { toast } from 'react-toastify';
 
 const Files = () => {
     const { selectedServer, serverFiles, fetchServerFiles, serverError, loading } = useServer();
     const fetchRequestedRef = useRef(false);
+    const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, file: null });
+
     
     useEffect(() => {
         if (selectedServer) {
@@ -22,6 +25,45 @@ const Files = () => {
         }
     }, [selectedServer, fetchServerFiles, loading]);
 
+    const handleContextMenu = (e, file) => {
+        e.preventDefault();
+        setContextMenu({
+            visible: true,
+            x: e.pageX,
+            y: e.pageY,
+            file
+        });
+    };
+
+    const handleClick = () => {
+        if (contextMenu.visible) {
+            setContextMenu({ ...contextMenu, visible: false });
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleClick);
+        return () => document.removeEventListener('click', handleClick);
+    }, [contextMenu.visible]);
+
+    const copyLink = () => {
+              toast.success("File link copied! (Not really)", {
+                position: "top-right",
+                autoClose: 1500,
+              });
+        setContextMenu({ ...contextMenu, visible: false });
+    };
+
+    const downloadFile = () => {
+        toast.success("File downloading! (Not really)", {
+          position: "top-right",
+          autoClose: 1500,
+        });
+  setContextMenu({ ...contextMenu, visible: false });
+};
+
+
+
     if (!selectedServer) return <p>Please select a server.</p>;
     if (serverError) return <p className="error-message">{serverError}</p>;
     if (loading) return <p className="loading-message">Loading files...</p>;
@@ -36,10 +78,25 @@ const Files = () => {
                     </div>
                 ) : (
                     serverFiles.map(file => (
-                        <DraggableDialog key={file._id || file.id || Math.random()} file={file} />
+                        <div
+                        key={file._id || file.id || Math.random()}
+                        onContextMenu={(e) => handleContextMenu(e, file)}
+                        >
+                        <DraggableDialog file={file} />
+                        </div>                    
                     ))
                 )}
             </div>
+
+            {contextMenu.visible && (
+                <ul
+                    className="custom-context-menu"
+                    style={{ top: contextMenu.y, left: contextMenu.x }}
+                >
+                    <li onClick={() => copyLink()}>Copy Link</li>
+                    <li onClick={() => downloadFile()}>Download</li>
+                </ul>
+            )}
         </div>
     );
 }
