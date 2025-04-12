@@ -13,23 +13,35 @@ const Files = () => {
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, file: null });
     const [searchQuery, setSearchQuery] = useState('');
     const [fileTypeFilter, setFileTypeFilter] = useState('all');
+    const [sortOption, setSortOption] = useState('mostRecent');
 
 
-    const filteredFiles = (serverFiles || []).filter(file => {
-        const name = file.name?.toLowerCase() || '';
-        const tags = (file.tagList || []).map(tag => tag.toLowerCase());
-        const type = file.type?.toLowerCase() || '';
-        const query = searchQuery.toLowerCase();
-      
-        const matchesQuery = name.includes(query) || tags.some(tag => tag.includes(query));
-      
-        const matchesType =
-          fileTypeFilter === 'all' ||
-          (fileTypeFilter === 'other' && !['image', 'video', 'audio', 'text'].some(t => type.startsWith(t))) ||
-          type.startsWith(fileTypeFilter);
-      
-        return matchesQuery && matchesType;
-      });
+
+    const filteredFiles = (serverFiles || [])
+  .filter(file => {
+    const name = file.name?.toLowerCase() || '';
+    const tags = (file.tagList || []).map(tag => tag.toLowerCase());
+    const type = file.type?.toLowerCase() || '';
+    const query = searchQuery.toLowerCase();
+
+    const matchesQuery = name.includes(query) || tags.some(tag => tag.includes(query));
+    const matchesType =
+      fileTypeFilter === 'all' ||
+      (fileTypeFilter === 'other' && !['image', 'video', 'audio', 'text'].some(t => type.startsWith(t))) ||
+      type.startsWith(fileTypeFilter);
+
+    return matchesQuery && matchesType;
+  })
+  .sort((a, b) => {
+    if (sortOption === 'alphabetical') {
+      return (a.name || '').localeCompare(b.name || '');
+    }
+    if (sortOption === 'oldest') {
+      return new Date(a.uploadDate) - new Date(b.uploadDate);
+    }
+    return new Date(b.uploadDate) - new Date(a.uploadDate);
+  });
+
 
     
     useEffect(() => {
@@ -93,7 +105,7 @@ const Files = () => {
     return (
         <div className='files-section'>
             <div className='files-header'>
-            <p className="server-name-display"># {typeof selectedServer === 'object' ? selectedServer.name : selectedServer} files</p>
+            <p className="server-name-display"># {typeof selectedServer === 'object' ? selectedServer.name : selectedServer}</p>
             
             <div className="search-wrapper">
                 <input
@@ -123,16 +135,17 @@ const Files = () => {
                     MenuProps={{ classes: { paper: 'custom-select-menu' } }}
                     displayEmpty
                     sx={{
-                      color: 'rgb(179, 179, 179)',
+                      color: 'rgb(146, 146, 146)',
                       fontFamily: '"Outfit", sans-serif !important',
                       '*': {
                         fontFamily: '"Outfit", sans-serif !important',
                       },
+                      fontSize: '0.88em',
                       backgroundColor: '#111',
                       '.MuiOutlinedInput-notchedOutline': {
                         border: 'none',
                       },
-                      '.MuiSvgIcon-root': { color: 'rgb(179, 179, 179)' },
+                      '.MuiSvgIcon-root': { color: 'rgb(139, 139, 139)' },
                       borderRadius: '6px',
                       paddingRight: '32px', 
                     }}
@@ -147,20 +160,47 @@ const Files = () => {
             </Select>
                 </FormControl>
 
+                <FormControl size="small" className="custom-select-form"     sx={{
+                    minWidth: 100,
+                    fontFamily: '"Outfit", sans-serif !important',
+                    '*': {
+                    fontFamily: '"Outfit", sans-serif !important',
+                    },
+                }}>
+                <Select
+                    labelId="filetype-label"
+                    id="filetype-select"
+                    label="sort"
+                    value={sortOption}
+                    onChange={(e) => setSortOption(e.target.value)}
+                    className="custom-select"
+                    MenuProps={{ classes: { paper: 'custom-select-menu' } }}
+                    displayEmpty
+                    sx={{
+                      color: 'rgb(146, 146, 146)',
+                      fontFamily: '"Outfit", sans-serif !important',
+                      '*': {
+                        fontFamily: '"Outfit", sans-serif !important',
+                      },
+                      fontSize: '0.88em',
+                      backgroundColor: '#111',
+                      '.MuiOutlinedInput-notchedOutline': {
+                        border: 'none',
+                      },
+                      '.MuiSvgIcon-root': { color: 'rgb(139, 139, 139)' },
+                      borderRadius: '6px',
+                      paddingRight: '32px', 
+                    }}
+
+                            >
+<MenuItem value="mostRecent" className="custom-select-item">Most Recent</MenuItem>
+<MenuItem value="oldest" className="custom-select-item">Oldest</MenuItem>
+<MenuItem value="alphabetical" className="custom-select-item">Alphabetical</MenuItem>
+
+            </Select>
+                </FormControl>
 
 
-                {/* <select
-                    className="filetype-dropdown"
-                    value={fileTypeFilter}
-                    onChange={(e) => setFileTypeFilter(e.target.value)}
-                >
-                    <option value="all">All</option>
-                    <option value="image">Image</option>
-                    <option value="video">Video</option>
-                    <option value="audio">Audio</option>
-                    <option value="text">Text</option>
-                    <option value="other">Other</option>
-                </select> */}
             </div>
 
             <div className='files-container'>
