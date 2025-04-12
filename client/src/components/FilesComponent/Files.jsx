@@ -106,7 +106,13 @@ const Files = () => {
                 <SearchIcon className="search-icon" />
                 </div>
 
-                <FormControl size="small" className="custom-select-form" sx={{ minWidth: 100 }}>
+                <FormControl size="small" className="custom-select-form"     sx={{
+    minWidth: 100,
+    fontFamily: '"Outfit", sans-serif !important',
+    '*': {
+      fontFamily: '"Outfit", sans-serif !important',
+    },
+  }}>
                 <Select
                     labelId="filetype-label"
                     id="filetype-select"
@@ -118,6 +124,10 @@ const Files = () => {
                     displayEmpty
                     sx={{
                       color: 'rgb(179, 179, 179)',
+                      fontFamily: '"Outfit", sans-serif !important',
+                      '*': {
+                        fontFamily: '"Outfit", sans-serif !important',
+                      },
                       backgroundColor: '#111',
                       '.MuiOutlinedInput-notchedOutline': {
                         border: 'none',

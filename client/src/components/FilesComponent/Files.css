@@ -48,10 +48,18 @@
     color: #888;
   }
 
+
+  .custom-select-form {
+    font-family: "Outfit", sans-serif !important;
+  }
+
   .custom-select {
     margin-left: 10px;
     height: 2.1em;
+    font-size: 0.88em;
+    font-family: "Outfit", sans-serif !important;
   }
+
   .custom-select-menu {
     background-color: #111 !important;
   }
@@ -60,8 +68,9 @@
     width: 200px;
     height: 3em;
     font-size: 0.8em;
+    font-family: "Outfit", sans-serif !important;
     background-color: #111 !important;
-    color: white !important;
+    color: rgb(214, 214, 214) !important;
   }
   
   .custom-select-item:hover {
