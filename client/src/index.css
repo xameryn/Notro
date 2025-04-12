@@ -43,3 +43,7 @@ hr{
   width: 100%;
   padding: 0px;
 }
+
+select {
+  font-family: "Outfit", sans-serif;
+}
