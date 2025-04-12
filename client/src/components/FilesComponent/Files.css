@@ -76,8 +76,57 @@
   .custom-select-item:hover {
     background-color: #202020 !important;
   }
+
+  .view-options-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-left: 12px;
+  }
   
+  .view-button {
+    background-color: #111;
+    border: none;
+    font-family: "Outfit", sans-serif !important;
+    color: rgb(167, 167, 167);
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: "Outfit", sans-serif;
+    transition: background-color 0.3s ease;
+  }
+
+  .view-button:hover {
+    background-color: #343434;
+  }
   
+  .view-options-panel {
+    position: absolute;
+    top: 36px;
+    right: 0;
+    background-color: #0b0b0b;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    z-index: 10;
+    width: 250px;
+    color: rgb(215, 215, 215);
+    font-size: 1em;
+  }
+  
+  .view-option {
+    display: flex;
+    margin-bottom: 10px;
+    padding: 6px;
+  }
+
+  .view-option span{
+    flex: 1;
+    text-align: left;
+  }
+  
+  .view-option label {
+    margin-left: 10px;
+  }
   
 
 .files-container::-webkit-scrollbar {

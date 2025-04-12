@@ -4,7 +4,7 @@ import DraggableDialog from '../DraggableDialog/DraggableDialog';
 import { useServer } from '../../contexts/ServerContext';
 import { toast } from 'react-toastify';
 import SearchIcon from '@mui/icons-material/Search';
-import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Select, MenuItem, FormControl, InputLabel, Checkbox } from '@mui/material';
 
 
 const Files = () => {
@@ -14,6 +14,10 @@ const Files = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [fileTypeFilter, setFileTypeFilter] = useState('all');
     const [sortOption, setSortOption] = useState('mostRecent');
+    const [viewOptionsVisible, setViewOptionsVisible] = useState(false);
+const [showTags, setShowTags] = useState(true);
+const [showFileName, setShowFileName] = useState(true);
+
 
 
 
@@ -200,6 +204,88 @@ const Files = () => {
             </Select>
                 </FormControl>
 
+                <div className="view-options-wrapper">
+  <button className="view-button" onClick={() => setViewOptionsVisible(!viewOptionsVisible)}>
+    View
+  </button>
+
+  {viewOptionsVisible && (
+    <div className="view-options-panel">
+     <div className="view-option">
+  <span>Show tags:</span>
+  <div>
+    <label>
+      <Checkbox
+        checked={showTags}
+        onChange={() => setShowTags(true)}
+        sx={{
+          color: '#666',
+          '&.Mui-checked': {
+            color: '#7289da',
+          },
+          padding: '0 4px 0 0'
+        }}
+        size="small"
+      />
+      Yes
+    </label>
+    <label style={{ marginLeft: '12px' }}>
+      <Checkbox
+        checked={!showTags}
+        onChange={() => setShowTags(false)}
+        sx={{
+          color: '#666',
+          '&.Mui-checked': {
+            color: '#7289da',
+          },
+          padding: '0 4px 0 0'
+        }}
+        size="small"
+      />
+      No
+    </label>
+  </div>
+</div>
+
+<div className="view-option">
+  <span>Show file name:</span>
+  <div>
+    <label>
+      <Checkbox
+        checked={showFileName}
+        onChange={() => setShowFileName(true)}
+        sx={{
+          color: '#666',
+          '&.Mui-checked': {
+            color: '#7289da',
+          },
+          padding: '0 4px 0 0'
+        }}
+        size="small"
+      />
+      Yes
+    </label>
+    <label style={{ marginLeft: '12px' }}>
+      <Checkbox
+        checked={!showFileName}
+        onChange={() => setShowFileName(false)}
+        sx={{
+          color: '#666',
+          '&.Mui-checked': {
+            color: '#7289da',
+          },
+          padding: '0 4px 0 0'
+        }}
+        size="small"
+      />
+      No
+    </label>
+  </div>
+</div>
+
+    </div>
+  )}
+</div>
 
             </div>
 
@@ -215,7 +301,8 @@ const Files = () => {
                         key={file._id || file.id || Math.random()}
                         onContextMenu={(e) => handleContextMenu(e, file)}
                         >
-                        <DraggableDialog file={file} />
+                        <DraggableDialog file={file} showTags={showTags} showFileName={showFileName} />
+
                         </div>                    
                     ))
                 )}

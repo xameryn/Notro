@@ -38,7 +38,7 @@ function PaperComponent(props) {
     </Draggable>
   );
 }
-function DraggableDialog({ file }) {
+function DraggableDialog({ file, showTags = true, showFileName = true }) {
   const [open, setOpen] = React.useState(false);
 
   const filePath = getFilePath(file)
@@ -95,14 +95,18 @@ function DraggableDialog({ file }) {
   return (
     <React.Fragment>
       <div className='file' onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
-        <span className="file-name">{file.name}</span>
-        <img className="img-thumbnail" src={mediumThumbnailPath} alt={file.name} />
+      {showFileName && <span className="file-name">{file.name}</span>}
+      <img className="img-thumbnail" src={mediumThumbnailPath} alt={file.name} />
         <div className="tag-container">
-          {file.tagList.map((tag, index) => (
-            <div key={index} className="tag-bubble">
-              #{tag}
-            </div>
-          ))}
+        {showTags && (
+          <div className="tag-container">
+            {file.tagList.map((tag, index) => (
+              <div key={index} className="tag-bubble">
+                #{tag}
+              </div>
+            ))}
+          </div>
+        )}
         </div>
       </div>
       <Dialog
