@@ -3,11 +3,13 @@ import './Files.css';
 import DraggableDialog from '../DraggableDialog/DraggableDialog';
 import { useServer } from '../../contexts/ServerContext';
 import { toast } from 'react-toastify';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Files = () => {
     const { selectedServer, serverFiles, fetchServerFiles, serverError, loading } = useServer();
     const fetchRequestedRef = useRef(false);
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, file: null });
+    const [searchQuery, setSearchQuery] = useState('');
 
     
     useEffect(() => {
@@ -70,7 +72,20 @@ const Files = () => {
     
     return (
         <div className='files-section'>
+            <div className='files-header'>
             <p className="server-name-display"># {typeof selectedServer === 'object' ? selectedServer.name : selectedServer} files</p>
+            <div className="search-wrapper">
+                <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Search files..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <SearchIcon className="search-icon" />
+                </div>
+            </div>
+
             <div className='files-container'>
                 {!serverFiles || serverFiles.length === 0 ? (
                     <div className="no-files-message">
