@@ -92,7 +92,12 @@ const Files = () => {
                         <p>No files found in this server.</p>
                     </div>
                 ) : (
-                    serverFiles.map(file => (
+                    serverFiles
+                    .filter(file => {
+                        const name = file.name?.toLowerCase() || '';
+                        return name.includes(searchQuery.toLowerCase());
+                      })
+                    .map(file => (
                         <div
                         key={file._id || file.id || Math.random()}
                         onContextMenu={(e) => handleContextMenu(e, file)}
