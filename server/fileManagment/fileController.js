@@ -231,3 +231,24 @@ export const deleteFile = async (req, res) => {
     res.status(500).json({ error: "Error deleting file" });
   }
 };
+
+// Fetch File by Name
+export const getFileByName = async (req, res) => {
+  try {
+    const fileName = req.params.fileName;
+    console.log(`Fetching file with name: ${fileName}`);
+
+    const file = await File.findOne({ name: fileName });
+
+    if (!file) {
+      console.error(`File not found: ${fileName}`);
+      return res.status(404).json({ error: "File not found" });
+    }
+
+    console.log(`File found: ${file.name}`);
+    return res.json(file);
+  } catch (error) {
+    console.error("Error fetching file:", error);
+    res.status(500).json({ error: "Error fetching file" });
+  }
+};

@@ -32,11 +32,11 @@ const commands = [
     },
     {
         name: 'fetch',
-        description: 'Get file by ID',
+        description: 'Get file by Name',
         options: [
             {
-                name: 'file-id',
-                description: 'The ID of the file to fetch',
+                name: 'file-name',
+                description: 'The Name of the file to fetch',
                 type: ApplicationCommandOptionType.String,
                 required: true
             }

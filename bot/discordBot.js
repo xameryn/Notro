@@ -3,11 +3,6 @@ import {Client, IntentsBitField, EmbedBuilder} from "discord.js";
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
 
-import mongoose from "mongoose";
-import getFileById from '../server/serverManagment/serverBotFunctions.js';
-
-
-
 dotenv.config();
 
 const client = new Client({
@@ -19,17 +14,6 @@ const client = new Client({
     ],
 });
 
-// Fetch the file from the external getFileById function
-async function getFileByIdFromDb(fileID) {
-    try {
-      const file = await getFileById(fileID);
-      return file.success ? file.file : null;
-    } catch (error) {
-      console.error("Error fetching file:", error);
-      return null;
-    }
-  }
-  
 
 client.on('ready', (c) => {
     console.log(`✅${c.user.username} is booting up...`)
@@ -65,6 +49,33 @@ async function fetchGif(query) {
     }
 }
 
+// Function to fetch file by name from the server API
+async function fetchFileByName(fileName) {
+    try {
+        const response = await fetch(`http://localhost:4000/api/files/${fileName}`);
+        if (!response.ok) {
+            console.error(`Error: ${response.statusText}`);
+            return {
+                success: false,
+                error: `HTTP error! status: ${response.status}`
+            };
+        }
+
+        const fileData = await response.json();
+        console.log("API Response:", fileData);
+
+        return {
+            success: true,
+            file: fileData
+        };
+    } catch (error) {
+        console.error("Error fetching file:", error);
+        return {
+            success: false,
+            error: error.message
+        };
+    }
+}
 client.on('interactionCreate', async(interaction) => {
     if(!interaction.isChatInputCommand()) return;
 
@@ -96,30 +107,42 @@ client.on('interactionCreate', async(interaction) => {
     }
 
     if (interaction.commandName === 'fetch') {
-        const fileId = interaction.options.get('file-id')?.value;
-        console.log("File ID:", fileId);
-    
-        // Fetch the file from database using the existing getFileById function
-        const file = await getFileById(fileId);
-        console.log("✅✅FILE" , file)
-        if (!file) {
-          await interaction.reply("I couldn't find the file with that ID.");
-          return;
+        try {
+            const fileName = interaction.options.get('file-name')?.value;
+            if (!fileName) {
+                await interaction.reply("Please provide a file name.");
+                return;
+            }
+
+            console.log("File Name:", fileName);
+
+            const result = await fetchFileByName(fileName);
+
+            if (!result.success || !result.file) {
+                await interaction.reply(result.error || "I couldn't find the file with that name.");
+                return;
+            }
+
+            const file = result.file;
+            console.log("✅✅ FILE:", file);
+
+            // Make sure the file URL is correct and accessible
+            const fileUrl = `http://localhost:4000/files/${file._id}${file.extension}`;
+            console.log("Image URL:", fileUrl); // Log the URL for debugging
+
+            const embed = new EmbedBuilder()
+                .setColor(0x0099FF)
+                .setTitle(file.name || 'Fetched File')
+                .setImage(fileUrl) 
+                .setFooter({ text: `Requested by ${interaction.user.username}` })
+                .setTimestamp();
+
+            await interaction.reply({ embeds: [embed] });
+        } catch (error) {
+            console.error("Error in fetch command:", error);
+            await interaction.reply("An error occurred while processing your request.");
         }
-        
-        // Create an embed to display the file
-        const embed = new EmbedBuilder()
-          .setColor(0x0099FF)
-          .setTitle(file.name || 'Fetched File')  // Assuming file has a 'name' field
-          .setDescription(file.description || 'No description available')
-          .setImage(file.url) // Assuming 'file.url' contains the file URL. Adjust if it's different.
-          .setFooter({text: `Requested by ${interaction.user.username}`})
-          .setTimestamp();
-    
-        await interaction.reply({ embeds: [embed] });
-      }
-
-
-})
+    }
+});
 
 client.login(process.env.TOKEN);
