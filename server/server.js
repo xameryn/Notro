@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import process from 'process';
 import fileRoutes from "./fileManagment/fileRoutes.js";
+import serverRoutes from "./serverManagment/serverRoutes.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
@@ -48,6 +49,7 @@ app.use('/files', express.static(path.join(__dirname, 'files')));
 
 // Routes
 app.use("/api", fileRoutes);
+app.use("/api", serverRoutes);
 
 // Authentication requests to the auth server
 app.get("/auth/*", (req, res) => {
@@ -66,7 +68,9 @@ app.use((err, req, res, next) => {
     error: "Internal Server Error",
     message: err.message
   });
+
 });
+
 
 // Connect to MongoDB with improved error handling
 mongoose

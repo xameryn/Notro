@@ -45,17 +45,17 @@ export const connectServerToInstance = async (req, res) => {
   // Optional: list of user IDs to add to the server's member list
   const { userList } = req.body;
 
-  // Validate that both IDs are proper MongoDB ObjectIds
-  if (!mongoose.Types.ObjectId.isValid(instanceID) || !mongoose.Types.ObjectId.isValid(serverID)) {
-    return res.status(400).json({ success: false, error: "Invalid instance or server ID format" });
-  }
-
   try {
-    // Fetch the instance document from the database
-    const instance = await Instance.findById(instanceID);
+    // Check if the instance exists. If not, create it.
+    let instance = await Instance.findById(instanceID);
+
     if (!instance) {
-      // If not found, return 404
-      return res.status(404).json({ success: false, error: "Instance not found" });
+      // Create a new instance if it doesn't exist
+      instance = new Instance({
+        _id: instanceID, // Use discord user ID as instance _id
+        serverList: [],
+      });
+      await instance.save();
     }
 
     // Fetch the server document from the database

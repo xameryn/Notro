@@ -2,7 +2,7 @@
 import {Client, IntentsBitField, EmbedBuilder} from "discord.js";
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
-
+import mongoose from 'mongoose';
 dotenv.config();
 
 const client = new Client({
@@ -143,6 +143,44 @@ client.on('interactionCreate', async(interaction) => {
             await interaction.reply("An error occurred while processing your request.");
         }
     }
+
+    if (interaction.commandName === 'connect') {
+        try {
+            const serverId = interaction.guild.id;
+            const instanceId = interaction.user.id; // Using user ID as instance ID
+            
+            console.log("Instance ID:", instanceId);
+            console.log("Server ID:", serverId);
+            
+
+            // // Validate IDs
+            // if (!mongoose.Types.ObjectId.isValid(instanceId) || !mongoose.Types.ObjectId.isValid(serverId)) {
+            //     await interaction.reply("Invalid instance or server IDDD format.");
+            //     return;
+            // }
+
+            const response = await fetch(`http://localhost:4000/api/connect/${instanceId}/${serverId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userList: [interaction.user.id] }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                await interaction.reply(errorData.error || "Failed to connect server to instance.");
+                return;
+            }
+
+            const result = await response.json();
+            await interaction.reply(result.message);
+        } catch (error) {
+            console.error("Error connecting server to instance:", error);
+            await interaction.reply("An error occurred while connecting server to instance.");
+        }
+    }
+
 });
 
 client.login(process.env.TOKEN);

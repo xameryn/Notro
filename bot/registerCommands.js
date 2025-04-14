@@ -42,6 +42,11 @@ const commands = [
             }
         ]
     },
+    {
+        name: 'connect',
+        description: 'Connect server to instance',
+    
+    },
 ]
 
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
