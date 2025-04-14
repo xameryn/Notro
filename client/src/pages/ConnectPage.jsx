@@ -2,24 +2,30 @@ import React from 'react';
 import './styles/ConnectPage.css';
 
 const ConnectPage = () => {
-  const handleDiscordLogin = () => {
-    const origin = window.location.origin;
-    const clientId = "1348936068635820063";
-    const redirectUri = "http://localhost:4001/auth/discord/callback";
-    const scope = "identify guilds";
-    const responseType = "code";
-    const prompt = "consent";
-  
-    const relativeOauthPath = `/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=${responseType}&scope=${encodeURIComponent(scope)}&prompt=${prompt}&state=${encodeURIComponent(origin)}`;
-    const loginWrapper = `https://discord.com/login?redirect_to=${encodeURIComponent(relativeOauthPath)}`;
-  
-    window.location.href = loginWrapper;
-  };
-  
+  const origin = window.location.origin;
 
-  const handleSwitchUser = () => {
-    window.location.href = buildOAuthUrl();
+  const handleDiscordRedirect = async () => {
+    try {
+      const res = await fetch(`http://localhost:4001/auth/discord/url?origin=${encodeURIComponent(origin)}`);
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch (err) {
+      console.error("Failed to fetch Discord URL:", err);
+    }
   };
+
+  const handleSwitchUser = async () => {
+    const origin = window.location.origin;
+    try {
+      const res = await fetch(`http://localhost:4001/auth/discord/switch-user-url?origin=${encodeURIComponent(origin)}`);
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch (err) {
+      console.error("Failed to get switch-user URL:", err);
+    }
+  };
+  
+  
 
   return (
     <div className='connect-div'>
@@ -28,7 +34,7 @@ const ConnectPage = () => {
       <h5>No Nitro, No Problem</h5>
 
       <div className='buttons'>
-        <button className='discord-button' onClick={handleDiscordLogin}>
+        <button className='discord-button' onClick={handleDiscordRedirect}>
           <p>Connect using Discord</p>
           <img src="/discord_icon.png" alt="Discord Icon" />
         </button>

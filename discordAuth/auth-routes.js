@@ -5,25 +5,20 @@ const router = Router();
 const originMap = new Map();
 
 // Step 1: Capture origin + redirect to Discord
-router.get("/discord", (req, res, next) => {
-  const origin = req.query.origin;
-  const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+router.get("/discord", (req, res) => {
+  const origin = req.query.origin || "http://localhost:5173";
+  const clientId = process.env.DISCORD_CLIENT_ID;
+  const redirectUri = encodeURIComponent(process.env.DISCORD_REDIRECT_URI);
+  const scope = encodeURIComponent("identify guilds");
+  const responseType = "code";
+  const prompt = "consent";
+  const state = encodeURIComponent(origin);
 
-  console.log("🛬 [GET /auth/discord] Received request");
-  console.log("🌐 Origin param:", origin);
-  console.log("🌍 IP detected:", ip);
+  const discordURL = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}&prompt=${prompt}&state=${state}`;
+  console.log("➡️ Redirecting user to Discord OAuth:", discordURL);
+  res.redirect(discordURL);
+});
 
-  if (origin) {
-    originMap.set(ip, origin);
-    console.log("🧭 Captured origin for", ip, "->", origin);
-  } else {
-    console.warn("⚠️ No origin provided");
-  }
-
-  next(); // Continue to passport middleware
-}, passport.authenticate("discord", {
-  prompt: "consent"
-}));
 
 // Step 2: Handle callback from Discord
 router.get("/discord/callback",
@@ -68,5 +63,33 @@ router.post('/logout', (req, res) => {
     res.status(200).json({ message: 'Logged out successfully' });
   });
 });
+
+router.get('/discord/url', (req, res) => {
+  const origin = req.query.origin || process.env.CLIENT_URL;
+  const clientId = process.env.DISCORD_CLIENT_ID;
+  const redirectUri = process.env.DISCORD_REDIRECT_URI;
+  const scope = "identify guilds";
+  const prompt = "consent";
+  const responseType = "code";
+
+  const relativeOauthPath = `/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=${responseType}&scope=${encodeURIComponent(scope)}&prompt=${prompt}&state=${encodeURIComponent(origin)}`;
+  const loginWrapper = `https://discord.com/login?redirect_to=${encodeURIComponent(relativeOauthPath)}`;
+
+  res.json({ url: loginWrapper });
+});
+
+router.get('/discord/switch-user-url', (req, res) => {
+  const returnTo = req.query.origin || process.env.CLIENT_URL;
+
+  const loginWithRedirect = `https://discord.com/login?redirect_to=${encodeURIComponent(returnTo)}`;
+  const logoutThenLogin = `https://discord.com/logout?redirect_to=${encodeURIComponent(loginWithRedirect)}`;
+
+  res.json({ url: logoutThenLogin });
+});
+
+
+
+
+
 
 export default router;
