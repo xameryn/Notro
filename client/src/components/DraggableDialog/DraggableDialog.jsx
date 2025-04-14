@@ -140,22 +140,47 @@ function DraggableDialog({ file, showTags = true, showFileName = true }) {
             </IconButton>
           </DialogTitle>
           <DialogContent>
-            {file.type === 'image' && file.extension === '.gif' ? (
-              <video 
-                className='display-img'
-                src={filePath}
-                autoPlay
-                loop
-                muted
-                playsInline
-              />
-            ) : (
-              <img 
-                className='display-img'
-                src={filePath}
-                alt={file.name} 
-              />
-            )}
+            {(() => {
+              switch(file.type) {
+                case 'image':
+                  if (file.extension === '.gif') {
+                    return (
+                      <video 
+                        className='display-img'
+                        src={filePath}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                      />
+                    );
+                  }
+                  return (
+                    <img 
+                      className='display-img'
+                      src={filePath}
+                      alt={file.name} 
+                    />
+                  );
+                case 'video':
+                  return (
+                    <video 
+                      className='display-img'
+                      src={filePath}
+                      controls
+                      playsInline
+                    />
+                  );
+                default:
+                  return (
+                    <img 
+                      className='display-img'
+                      src={filePath}
+                      alt={file.name} 
+                    />
+                  );
+              }
+            })()}
           </DialogContent>
           <DialogActions sx={{ justifyContent: 'center' }}>
             <Button onClick={copyURL} id="draggable-button">Copy URL</Button>

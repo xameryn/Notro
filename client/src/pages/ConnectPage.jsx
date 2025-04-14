@@ -1,9 +1,9 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import './styles/ConnectPage.css'
 
 const ConnectPage = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const authServerUrl = import.meta.env.VITE_AUTH_SERVER_URL || 'http://localhost:4001';
 
   const handleDiscordLogin = () => {

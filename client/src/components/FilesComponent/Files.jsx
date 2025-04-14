@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import SearchIcon from '@mui/icons-material/Search';
 import { Select, MenuItem, FormControl, InputLabel, Checkbox } from '@mui/material';
 
+const apiUrl = import.meta.env.SERVER_URL || "http://localhost:4000";
 
 const Files = () => {
     const { selectedServer, serverFiles, fetchServerFiles, serverError, loading } = useServer();
@@ -15,12 +16,8 @@ const Files = () => {
     const [fileTypeFilter, setFileTypeFilter] = useState('all');
     const [sortOption, setSortOption] = useState('mostRecent');
     const [viewOptionsVisible, setViewOptionsVisible] = useState(false);
-const [showTags, setShowTags] = useState(true);
-const [showFileName, setShowFileName] = useState(true);
-
-
-
-
+    const [showTags, setShowTags] = useState(true);
+    const [showFileName, setShowFileName] = useState(true);
     const filteredFiles = (serverFiles || [])
   .filter(file => {
     const name = file.name?.toLowerCase() || '';
@@ -85,11 +82,17 @@ const [showFileName, setShowFileName] = useState(true);
     }, [contextMenu.visible]);
 
     const copyLink = () => {
-              toast.success("File link copied! (Not really)", {
-                position: "top-right",
-                autoClose: 1500,
-              });
-        setContextMenu({ ...contextMenu, visible: false });
+      const filePath = `${apiUrl}/files/${contextMenu.file._id}${contextMenu.file.extension}`;
+      navigator.clipboard.writeText(filePath).then(() => {
+        toast.success("File link copied!", {
+          position: "top-right",
+          autoClose: 1500,
+        });
+      }).catch(err => {
+        console.error("Failed to copy file link:", err);
+      });
+
+      setContextMenu({ ...contextMenu, visible: false });
     };
 
     const downloadFile = () => {
