@@ -1,32 +1,40 @@
-import React from 'react'
-// import { useNavigate } from 'react-router-dom'
-import './styles/ConnectPage.css'
+import React from 'react';
+import './styles/ConnectPage.css';
+
+const authServerUrl = import.meta.env.AUTH_SERVER_URL || 'http://localhost:4001';
 
 const ConnectPage = () => {
-  // const navigate = useNavigate()
-  const authServerUrl = import.meta.env.VITE_AUTH_SERVER_URL || 'http://localhost:4001';
-
   const handleDiscordLogin = () => {
     const origin = window.location.origin;
-    window.location.href = `${authServerUrl}/auth/discord?origin=${encodeURIComponent(origin)}`;
+    const clientId = "1348936068635820063";
+    const redirectUri = `${authServerUrl}/auth/discord/callback`;
+    const scope = "identify guilds";
+    const responseType = "code";
+    const prompt = "consent";
+  
+    const relativeOauthPath = `/oauth2/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=${responseType}&scope=${encodeURIComponent(scope)}&prompt=${prompt}&state=${encodeURIComponent(origin)}`;
+    const loginWrapper = `https://discord.com/login?redirect_to=${encodeURIComponent(relativeOauthPath)}`;
+  
+    window.location.href = loginWrapper;
   };
+  
+
   
 
   return (
     <div className='connect-div'>
-        <img src="/notroicon.png" alt="Discord connect icon" />
-        <h1>Notro</h1>
-        <h5>No Nitro, No Problem</h5>
+      <img src="/notroicon.png" alt="Discord connect icon" />
+      <h1>Notro</h1>
+      <h5>No Nitro, No Problem</h5>
 
-        <div className='buttons'>
-          <button className='discord-button' onClick={handleDiscordLogin}>
-            <p>Connect using Discord</p>
-            <img src="/discord_icon.png" alt="Discord Icon" />
-          </button>
-          {/* <button className="discord-skip-button" onClick={() => navigate('/')}>[ DEV - SKIP LOGIN ]</button> */}
-        </div>
+      <div className='buttons'>
+        <button className='discord-button' onClick={handleDiscordLogin}>
+          <p>Connect using Discord</p>
+          <img src="/discord_icon.png" alt="Discord Icon" />
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default ConnectPage
+export default ConnectPage;
