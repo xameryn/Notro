@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy as DiscordStrategy } from "passport-discord";
 
 const serverUrl = import.meta.env.SERVER_URL || "http://localhost:4000";
+const authServerUrl = import.meta.env.AUTH_SERVER_URL || 'http://localhost:4001';
 
 passport.serializeUser((user, done) => {
   console.log("Serializing user:", user.id); 
@@ -79,7 +80,7 @@ passport.use(
     {
       clientID: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      callbackURL: process.env.DISCORD_REDIRECT_URI,
+      callbackURL: `${authServerUrl}/auth/discord/callback`,
       scope: ["identify", "guilds"],
     },
     async (accessToken, refreshToken, profile, done) => {
