@@ -181,6 +181,10 @@ client.on('interactionCreate', async(interaction) => {
         }
     }
 
+    if(interaction.commandName === 'link'){
+        interaction.reply(`http://localhost:5173/`)
+    }
+
 });
 
 client.login(process.env.TOKEN);
