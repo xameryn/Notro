@@ -68,16 +68,22 @@ The user can choose how they want to view their files on the homepage. They can 
 -to view/hide file names
 -to view/hide file tags
 
-![Screenshot 2025-04-15 123140](https://github.com/user-attachments/assets/bb2c5ee3-cfba-490d-ae82-9a248c868e4d)
-
 If they choose to hide both of those features, the homepage will look like this: 
 
 ![Screenshot 2025-04-15 123157](https://github.com/user-attachments/assets/ac324028-7ce7-4524-9cbc-005a3e19a44b)
 
+## Sort Options
 
+The user can can choose how to sort their files:
+- recent (default)
+- oldest
+- alphabetical
+
+![Screenshot 2025-04-15 123157](https://github.com/user-attachments/assets/ac324028-7ce7-4524-9cbc-005a3e19a44b)
+
+![Screenshot 2025-04-15 123131](https://github.com/user-attachments/assets/c30c9b0a-fc21-4e5c-abbe-420c9f1f1dba)
 ![Screenshot 2025-04-15 123232](https://github.com/user-attachments/assets/1da4aa27-3fa8-4d79-9bc1-c947776e5895)
 ![Screenshot 2025-04-15 123221](https://github.com/user-attachments/assets/f1058a9e-86cd-4d9a-874d-b981c92ce705)
 ![Screenshot 2025-04-15 123210](https://github.com/user-attachments/assets/44bf39e6-dc2b-43eb-9793-9ff77461ab79)
 ![Screenshot 2025-04-15 123157](https://github.com/user-attachments/assets/ac324028-7ce7-4524-9cbc-005a3e19a44b)
 ![Screenshot 2025-04-15 123150](https://github.com/user-attachments/assets/1aaa4779-255b-45dc-93f6-d708915f4eb6)
-![Screenshot 2025-04-15 123131](https://github.com/user-attachments/assets/c30c9b0a-fc21-4e5c-abbe-420c9f1f1dba)
