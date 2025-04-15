@@ -25,6 +25,7 @@ module.exports = new ApplicationCommand({
 
             const user = interaction.user;
             const apiServerUrl = process.env.FILE_SERVER_URL;
+            const remoteUrl = process.env.REMOTE_ADDRESS;
 
             const response = await fetch(`${apiServerUrl}/api/files/user/${user.id}`);
 
@@ -34,11 +35,22 @@ module.exports = new ApplicationCommand({
 
             const data = await response.json();
 
-            console.log("Fetched user files:", data);
+            // console.log("Fetched user files:", data);
 
             const files = data || [];
-            const fileNames = files.map(file => file.name || 'Unknown File').join('\n');
-            const fileList = files.length ? fileNames : 'No files found.';
+            const imageFiles = files
+                .filter(file => file.type == 'image')
+                .map(file => `[${file.name}](${remoteUrl}/files/${file._id}${file.extension})`)
+                .join(', ');
+            const videoFiles = files
+                .filter(file => file.type == 'video')
+                .map(file => `[${file.name}](${remoteUrl}/files/${file._id}${file.extension})`)
+                .join(', ');
+            const otherFiles = files
+                .filter(file => file.type != 'image' && file.type != 'video')
+                .map(file => `[${file.name}](${remoteUrl}/files/${file._id}${file.extension})`)
+                .join(', ');
+            const fileList = `**Images:**\n${imageFiles || 'None'}\n\n**Videos:**\n${videoFiles || 'None'}\n\n**Other:**\n${otherFiles || 'None'}`;
 
             // embed message
             const embed = new EmbedBuilder()
@@ -48,7 +60,7 @@ module.exports = new ApplicationCommand({
                 .setFooter({ text: `Requested by ${interaction.user.username}` })
                 .setTimestamp();
 
-            await interaction.reply({ embeds: [embed] });
+            await interaction.reply({ embeds: [embed], ephemeral: true });
         } catch (error) {
             console.error('Failed to list files:', error);
 

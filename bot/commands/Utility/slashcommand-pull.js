@@ -51,7 +51,7 @@ module.exports = new ApplicationCommand({
             }
 
             if (file.type === 'video') {
-                await interaction.reply({ content: `[${fileName}](${fileUrl})` });
+                await interaction.reply({ content: `[${fileName}](${fileUrl}) - Requested by <@${userID}>` });
             } else {
                 await interaction.reply({ embeds: [embed] });
             }
