@@ -96,7 +96,14 @@ function DraggableDialog({ file, showTags = true, showFileName = true }) {
     <React.Fragment>
       <div className='file' onClick={handleClickOpen} style={{ cursor: 'pointer' }}>
       {showFileName && <span className="file-name">{file.name}</span>}
+      {file.type === 'image' || file.type === 'video' ? (
       <img className="img-thumbnail" src={mediumThumbnailPath} alt={file.name} />
+    ) : (
+      <div className="file-placeholder-thumb">
+        <span>{file.extension?.replace('.', '').toUpperCase() || 'FILE'}</span>
+      </div>
+    )}
+
         <div className="tag-container">
         {showTags && (
           <div className="tag-container">
@@ -140,48 +147,37 @@ function DraggableDialog({ file, showTags = true, showFileName = true }) {
             </IconButton>
           </DialogTitle>
           <DialogContent>
-            {(() => {
-              switch(file.type) {
-                case 'image':
-                  if (file.extension === '.gif') {
-                    return (
-                      <video 
-                        className='display-img'
-                        src={filePath}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                      />
-                    );
-                  }
-                  return (
-                    <img 
-                      className='display-img'
-                      src={filePath}
-                      alt={file.name} 
-                    />
-                  );
-                case 'video':
-                  return (
-                    <video 
-                      className='display-img'
-                      src={filePath}
-                      controls
-                      playsInline
-                    />
-                  );
-                default:
-                  return (
-                    <img 
-                      className='display-img'
-                      src={filePath}
-                      alt={file.name} 
-                    />
-                  );
-              }
-            })()}
+            {file.type === 'image' ? (
+              file.extension === '.gif' ? (
+                <video 
+                  className='display-img' 
+                  src={filePath} 
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline 
+                />
+              ) : (
+                <img 
+                  className='display-img' 
+                  src={filePath} 
+                  alt={file.name} 
+                />
+              )
+            ) : file.type === 'video' ? (
+              <video 
+                className='display-img' 
+                src={filePath} 
+                controls 
+                playsInline 
+              />
+            ) : (
+              <div className="file-placeholder-preview">
+                <span>{file.extension?.replace('.', '').toUpperCase() || 'FILE'}</span>
+              </div>
+            )}
           </DialogContent>
+
           <DialogActions sx={{ justifyContent: 'center' }}>
             <Button onClick={copyURL} id="draggable-button">Copy URL</Button>
             <Button onClick={downloadFile} id="draggable-button">Download</Button>
