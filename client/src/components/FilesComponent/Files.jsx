@@ -123,6 +123,7 @@ const Files = () => {
         toast.success("File link copied!", {
           position: "top-right",
           autoClose: 1500,
+          theme: "dark"
         });
       }).catch(err => {
         console.error("Failed to copy file link:", err);
@@ -153,7 +154,7 @@ const Files = () => {
     
       navigator.clipboard.writeText(fileName)
         .then(() => {
-          toast.success("File title copied!", { autoClose: 1500 });
+          toast.success("File title copied!", { autoClose: 1500, theme: "dark" });
         })
         .catch((err) => {
           console.error("Failed to copy file title:", err);
