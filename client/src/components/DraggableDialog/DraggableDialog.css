@@ -110,7 +110,8 @@
     background-color: rgb(0, 0, 0);
   }
 
-  .file-placeholder-thumb,
+  .file-placeholder-thumb
+
 .file-placeholder-preview {
   display: flex;
   align-items: center;

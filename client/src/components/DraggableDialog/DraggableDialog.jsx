@@ -216,9 +216,6 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
             )}
           </DialogContent>
 
-
-
-
           <DialogActions sx={{ justifyContent: 'center' }}>
             <Button onClick={copyURL} id="draggable-button">Copy URL</Button>
             <Button onClick={downloadFile} id="draggable-button">Download</Button>

@@ -47,8 +47,6 @@ const Files = () => {
     return new Date(b.uploadDate) - new Date(a.uploadDate);
   });
 
-
-    
     useEffect(() => {
         if (selectedServer) {
             console.log(`Server selection changed to: ${typeof selectedServer === 'object' ? selectedServer.name : selectedServer}`);
@@ -114,11 +112,6 @@ const Files = () => {
       setContextMenu({ ...contextMenu, visible: false });
     };
     
-    
-    
-    
-    
-
     useEffect(() => {
         document.addEventListener('click', handleClick);
         return () => document.removeEventListener('click', handleClick);
@@ -370,11 +363,9 @@ const Files = () => {
                     </label>
                   </div>
                 </div>
-
-                    </div>
+                </div>
                   )}
                 </div>
-
             </div>
 
             <div className='files-container'>
