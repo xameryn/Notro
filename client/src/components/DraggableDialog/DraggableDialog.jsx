@@ -57,11 +57,17 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
   
       if (!response.ok) throw new Error(text || "Unknown error");
   
-      toast.success("File deleted");
+      toast.success("File deleted", {
+        theme: "dark",
+      });
+
       fetchServerFiles();
       setOpen(false); 
     } catch {
-      toast.error("Failed to delete file");
+      toast.error("Failed to delete file", {
+        theme: "dark"
+      
+      });
     }
   
     setShowConfirm(false);
@@ -75,11 +81,14 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
         toast.success("File link copied!", {
           position: "top-right",
           autoClose: 1500,
+          theme: "dark"
         });
       })
       .catch(err => {
         console.error("Failed to copy file link:", err);
-        toast.error("Copy failed.");
+        toast.error("Copy failed.", {
+          theme: "dark"
+        });
       });
   };
   
@@ -216,8 +225,6 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
               >
                 {showConfirm ? "Confirm Delete" : "Delete"}
               </Button>
-
-
 
           </DialogActions>
         </div>

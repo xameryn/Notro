@@ -81,6 +81,7 @@ const Upload = () => {
       toast.success("File successfully uploaded!", {
         position: "bottom-right",
         autoClose: 1000,
+        theme: "dark"
       });
   
       setSelectedFile(null);
