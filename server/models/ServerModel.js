@@ -12,7 +12,6 @@ const ServerSchema = new mongoose.Schema({
   name: { type: String, required: true }, // Server name
   icon: { type: String }, // Server icon URL/hash
   adminList: [{ type: String, required: true, ref: "User" }], // List of user IDs (admin role)
-  memberList: [{ type: String, required: true, ref: "User" }], // List of user IDs (members)
   fileList: [{ type: String, ref: "File" }], // List of file IDs (references File model)
 }, { versionKey: false, _id: false });
 

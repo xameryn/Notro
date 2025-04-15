@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
-import { uploadFile, uploadMetadata, addFileToUser, addFileToServer, getServersInDatabase, getFilesByUser, getFilesByServer, getFileByName, deleteFile } from "./fileController.js";
+import { registerServer, uploadFile, uploadMetadata, addFileToUser, addFileToServer, getServersInDatabase, getFilesByUser, getFilesByServer, getFileByName, deleteFile } from "./fileController.js";
 import { generateThumbnails } from './fileHelper.js';
 
 
@@ -143,7 +143,13 @@ router.post('/upload', upload.single('file'), async (req, res) => {
   }
 });
 
-router.get("/servers", getServersInDatabase)
+router.get("/register/:instanceID/:serverID", (req, res) => {
+  const { instanceID, serverID } = req.params;
+  const { name, icon, address } = req.query;
+  return registerServer(req, res);
+});
+
+router.get("/servers", getServersInDatabase);
 
 router.get("/files/user/:userID", getFilesByUser);
 

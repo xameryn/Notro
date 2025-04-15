@@ -1,11 +1,62 @@
 import File from "../models/fileModel.js";
 import User from "../models/userModel.js";
 import Server from "../models/serverModel.js";
+import Instance from "../models/instanceModel.js";
 const fs = require('fs').promises;
 const path = require('path');
 
 // Track recent requests to avoid duplicates
 const recentRequests = new Map();
+
+// Register Server Handler
+export const registerServer = async (req, res) => {
+  try {
+    const { instanceID, serverID } = req.params;
+    const { name, icon, address } = req.query;
+
+    console.log('Register server request received:');
+    console.log('- instanceID:', instanceID);
+    console.log('- serverID:', serverID);
+    console.log('- name:', name);
+    console.log('- address:', address);
+
+    // Create or update server
+    let server = await Server.findById(serverID);
+    if (!server) {
+      server = new Server({
+        _id: serverID,
+        name: name || "Unknown Server",
+        icon: icon || "",
+        adminList: [instanceID],
+        fileList: []
+      });
+      await server.save();
+      console.log(`Created new server: ${serverID}`);
+    }
+
+    // Create or update instance / add new server to instance
+    const instance = await Instance.findById(instanceID);
+    if (!instance) {
+      const newInstance = new Instance({
+        _id: instanceID,
+        address: address || "",
+        serverList: [serverID]
+      });
+      await newInstance.save();
+      console.log(`Created new instance: ${instanceID}`);
+    } else if (!instance.serverList.includes(serverID)) {
+      instance.serverList.push(serverID);
+      instance.address = address || instance.address;
+      await instance.save();
+      console.log(`Added server ${serverID} to instance ${instanceID}`);
+    }
+
+    return res.json({ success: true, message: "Server registered successfully" });
+  } catch (error) {
+    console.error("Error registering server:", error);
+    return res.status(500).json({ success: false, error: "Error registering server" });
+  }
+};
 
 // File Upload Handler
 export const uploadFile = async (req, res) => {
