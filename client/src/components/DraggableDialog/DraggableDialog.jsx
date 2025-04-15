@@ -1,5 +1,6 @@
-import React from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Paper, Button, Typography, Box } from '@mui/material';
+import React, { useState } from 'react';
+
+import { Dialog, DialogActions, DialogContent, DialogTitle, Paper, Button, Typography, Box, Modal } from '@mui/material';
 import Draggable from 'react-draggable';
 import './DraggableDialog.css'
 import { toast } from 'react-toastify';
@@ -29,37 +30,40 @@ function getThumbnail(file) {
 
 function DraggableDialog({ file, showTags = true, showFileName = true, fetchServerFiles }) {
   const [open, setOpen] = React.useState(false);
-
+    const [showConfirm, setShowConfirm] = useState(false);
   const filePath = getFilePath(file)
   const mediumThumbnailPath = getThumbnail(file)
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleDelete = () => {
-    fetch(`${apiUrl}/files/${file._id}`, { method: 'DELETE' })
-    .then(response => {
-      if (response.ok) {
-        console.log('File deleted successfully');
-        toast.success("File deleted successfully!", {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-        });
-        handleClose();
-      } else {
-        console.error('Error deleting file:', response.statusText);
-        toast.error("Error deleting file!", {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-        });
-      }
-    })
+
+  const handleDeleteClick = async () => {
+    if (!showConfirm) {
+      setShowConfirm(true); 
+      return;
+    }
+  
+    const deleteUrl = `${apiUrl}/api/files/${file._id}`;
+  
+    try {
+      const response = await fetch(deleteUrl, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      const text = await response.text();
+  
+      if (!response.ok) throw new Error(text || "Unknown error");
+  
+      toast.success("File deleted");
+      fetchServerFiles();
+      setOpen(false); 
+    } catch {
+      toast.error("Failed to delete file");
+    }
+  
+    setShowConfirm(false);
   };
+  
 
   const copyURL = () => {
     const fileLink = `${apiUrl}/files/${file._id}${file.extension}`;
@@ -88,44 +92,6 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
     link.click();
     document.body.removeChild(link);
     };
-  
-
-  const deleteFile = async () => {
-    const fileId = file?._id;
-  
-    if (!fileId) {
-      toast.error("Invalid file ID");
-      return;
-    }
-  
-    const confirmDelete = window.confirm("Are you sure you want to delete this file?");
-    if (!confirmDelete) return;
-  
-    const deleteUrl = `${apiUrl}/api/files/${fileId}`;
-  
-    try {
-      const response = await fetch(deleteUrl, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
-  
-      const text = await response.text();
-  
-      if (!response.ok) {
-        throw new Error(text || "Unknown server error");
-      }
-  
-      toast.success("File deleted", { autoClose: 1500 });
-      handleClose();
-  
-      if (typeof fetchServerFiles === "function") {
-        fetchServerFiles(); // 🔁 Refresh the list
-      }
-    } catch (err) {
-      toast.error("Failed to delete file");
-    }
-  };
-  
   
   
 
@@ -163,7 +129,8 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
             bgcolor: 'rgb(58, 58, 58)',     
             color: 'rgb(230, 230, 230)',  
             borderRadius: '12px',           
-            overflow: 'hidden'        
+            overflow: 'hidden',
+            position: 'relative'        
           }
         }}
       >
@@ -215,6 +182,7 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
               </div>
             )}
 
+
             
           </DialogContent>
 
@@ -229,10 +197,33 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
           <DialogActions sx={{ justifyContent: 'center' }}>
             <Button onClick={copyURL} id="draggable-button">Copy URL</Button>
             <Button onClick={downloadFile} id="draggable-button">Download</Button>
-            <Button onClick={deleteFile} id="draggable-button">Delete</Button>
+            <Button
+                onClick={handleDeleteClick}
+                id="draggable-button"
+                style={{
+                  border: 'none',
+                  color: showConfirm ? '#d32f2f !important' : 'white'
+                }}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: showConfirm ? 'red !important' : 'rgba(0, 0, 0, 0.04)',
+                    color: showConfirm ? '#fff !important' : 'primary.dark',
+                  }
+                }}
+              >
+                {showConfirm ? "Confirm Delete" : "Delete"}
+              </Button>
+
+
+
           </DialogActions>
         </div>
+
+        
       </Dialog>
+
+  
+
     </React.Fragment>
   );
 }
