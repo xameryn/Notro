@@ -221,18 +221,20 @@ const Upload = () => {
                 <img src={previewUrl} alt="Preview" className="image-preview" />
               </div>
             )}
-    
+
+            {!loading ? 
             <div className='buttons-div'>
               <button onClick={uploadFile}>Upload</button>
               <button onClick={cancelUpload}>Cancel</button>
-            </div>
+            </div> : 
+            <div className='buttons-div-loading'>
+              <button>Uploading ...</button>
+            </div>}
 
           </div>
           </div>
           </>
         )}
-    
-        {loading && <div className="loading-spinner">Uploading...</div>}
     
         <ToastContainer />
       </div>

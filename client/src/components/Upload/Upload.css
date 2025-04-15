@@ -110,7 +110,7 @@
     margin: 0px;
 }
 
-.buttons-div {
+.buttons-div, .buttons-div-loading {
     margin-top: 15px;
     display: flex;
     justify-content: space-evenly;
@@ -123,6 +123,17 @@
     width: 48%;
     font-size: 1em;
     padding: 6px;
+}
+
+.buttons-div-loading button {
+  background-color: rgb(34, 34, 34);
+  border: none;
+  color: rgb(168, 168, 168);
+  width: 100%;
+  font-size: 1em;
+  padding: 6px;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 .server-file-div{
