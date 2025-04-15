@@ -14,17 +14,35 @@ Each individual file displays:
 - a thumbnail
 - the file's tags
 
-![Screenshot 2025-04-15 122956](https://github.com/user-attachments/assets/f3e1db19-9b67-42b3-9335-4cfcfe393ef1)
+![Screenshot 2025-04-15 122904](https://github.com/user-attachments/assets/1c6d2880-c6f4-463b-8813-bcfaac7a63a2)
+
 
 <br>
 
 ## Uploading UI
 
-When the user click or drags a file into the "Upload a file" component, the following screen is displayed: 
+When the user drags a file into the "Upload a file" component (or clicks on it, and selects a file from their directory), the following screen is displayed: 
+
+The user sees:
+- their selected file (with the option to change it)
+- the display name input field (which they can fill or leave blank - if left blank, the display name will be the original file name)
+- the tags field (where they can type a tag and hit the enter key to add it)
+- a preview of the file to be uploaded (only works for images, not for video/audio/text files)
+- options to "Upload" or "Cancel"
+
+After click "Upload," an "Uploading..." button replaces the two options. 
+
 ![Screenshot 2025-04-15 122947](https://github.com/user-attachments/assets/3c8d6228-329d-41e3-a061-40a0652eeb74)
 
+<br>
 
-![Screenshot 2025-04-15 122904](https://github.com/user-attachments/assets/1c6d2880-c6f4-463b-8813-bcfaac7a63a2)
+## Successful Upload UI
+
+After a successful upload, the new file displays on the homepage, and a toast notification displays to let the user know their upload was a success.
+
+![Screenshot 2025-04-15 122956](https://github.com/user-attachments/assets/f3e1db19-9b67-42b3-9335-4cfcfe393ef1)
+
+
 ![Screenshot 2025-04-15 123232](https://github.com/user-attachments/assets/1da4aa27-3fa8-4d79-9bc1-c947776e5895)
 ![Screenshot 2025-04-15 123221](https://github.com/user-attachments/assets/f1058a9e-86cd-4d9a-874d-b981c92ce705)
 ![Screenshot 2025-04-15 123210](https://github.com/user-attachments/assets/44bf39e6-dc2b-43eb-9793-9ff77461ab79)
