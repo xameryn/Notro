@@ -3,7 +3,9 @@ const DiscordBot = require("../../client/DiscordBot");
 const ApplicationCommand = require("../../structure/ApplicationCommand");
 const fs = require('fs');
 const path = require('path');
-
+const fetch = require('node-fetch'); // Ensure this is installed
+const { v4: uuidv4 } = require('uuid'); // For generating unique IDs
+const File = require('../../../server/models/fileModel'); // Adjust the path to your File model
 
 module.exports = new ApplicationCommand({
     command: {
@@ -65,6 +67,22 @@ module.exports = new ApplicationCommand({
 
             console.log('File saved to:', filePath);
 
+            // Extract metadata
+            const fileMetadata = {
+                _id: uuidv4(), // Generate a unique ID
+                name: fileAttachment.name,
+                type: fileAttachment.contentType || 'unknown', // MIME type
+                extension: path.extname(fileAttachment.name).substring(1), // File extension
+                size: fileAttachment.size,
+                serverFile: false, // Default value
+                tagList: [], // Default empty tag list
+            };
+
+            // Save metadata to MongoDB
+            const newFile = new File(fileMetadata);
+            await newFile.save();
+
+            console.log('File metadata saved to MongoDB:', fileMetadata);
 
             await interaction.reply({
                 content: `File uploaded successfully!\n**File Name:** ${fileAttachment.name}\n**Description:** ${description}`
