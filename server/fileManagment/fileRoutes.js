@@ -160,9 +160,5 @@ router.get("/files/:fileName", getFileByName);
 
 router.delete("/files/:fileID", deleteFile);
 
-
-
-
-
 export default router;
 

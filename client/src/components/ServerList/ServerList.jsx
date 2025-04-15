@@ -24,7 +24,8 @@ const ServerList = ({
           {server.icon ? (
             <div className="server-icon-container">
               <img 
-                src={`https://cdn.discordapp.com/icons/${server.id}/${server.icon}.png`} 
+                // src={`https://cdn.discordapp.com/icons/${server.id}/${server.icon}.png`}
+                src={server.icon} 
                 alt={server.name}
                 className="server-icon"
                 onError={(e) => {

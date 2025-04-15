@@ -43,26 +43,7 @@ module.exports = new ApplicationCommand({
                 return;
             }
             
-            console.log('Available guilds:', Array.from(client.guilds.cache.keys()));
-            
-            // Force fetch the guild if not in cache
-            let guild;
-            try {
-                if (client.guilds.cache.has(guildId)) {
-                    guild = client.guilds.cache.get(guildId);
-                } else {
-                    // Try to force fetch the guild
-                    guild = await client.guilds.fetch(guildId);
-                }
-                console.log('Guild after fetch:', guild?.name);
-            } catch (err) {
-                console.error('Error fetching guild:', err);
-                guild = {
-                    id: guildId,
-                    name: interaction.guild?.name || "Unknown Server",
-                    iconURL: () => null
-                };
-            }
+            const guild = interaction.guild;
             
             if (!guild) {
                 await interaction.reply({
