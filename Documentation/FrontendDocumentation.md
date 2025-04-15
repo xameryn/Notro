@@ -49,15 +49,30 @@ After a successful upload, the new file displays on the homepage, and a toast no
 After clicking on a file, a popup dialog opens. It displays:
 - the file display name
 - the media
+- the tags
 - three options to "Copy URL," "Download," and "Delete"
 
 ![Screenshot 2025-04-15 123056](https://github.com/user-attachments/assets/c1c7b9ab-4603-480f-abd8-3ff63a0df52f)
 
 ## Delete File UI
 
-When "Delete" is selected, it changes to "Confirm Delete." Once the user confirms, the file will be deleted. 
+When "Delete" is selected, it changes to "Confirm Delete." Once the user confirms, the file will be deleted, and a toast notification will appear to confirm it. 
 
 ![Screenshot 2025-04-15 123104](https://github.com/user-attachments/assets/98707b35-5354-463f-b5db-f89e403a32d7)
+
+![Screenshot 2025-04-15 123112](https://github.com/user-attachments/assets/3225e891-6a63-47ca-bc33-94d8b2d0c8c3)
+
+## View Options
+
+The user can choose how they want to view their files on the homepage. They can select:
+-to view/hide file names
+-to view/hide file tags
+
+![Screenshot 2025-04-15 123140](https://github.com/user-attachments/assets/bb2c5ee3-cfba-490d-ae82-9a248c868e4d)
+
+If they choose to hide both of those features, the homepage will look like this: 
+
+![Screenshot 2025-04-15 123157](https://github.com/user-attachments/assets/ac324028-7ce7-4524-9cbc-005a3e19a44b)
 
 
 ![Screenshot 2025-04-15 123232](https://github.com/user-attachments/assets/1da4aa27-3fa8-4d79-9bc1-c947776e5895)
@@ -65,6 +80,4 @@ When "Delete" is selected, it changes to "Confirm Delete." Once the user confirm
 ![Screenshot 2025-04-15 123210](https://github.com/user-attachments/assets/44bf39e6-dc2b-43eb-9793-9ff77461ab79)
 ![Screenshot 2025-04-15 123157](https://github.com/user-attachments/assets/ac324028-7ce7-4524-9cbc-005a3e19a44b)
 ![Screenshot 2025-04-15 123150](https://github.com/user-attachments/assets/1aaa4779-255b-45dc-93f6-d708915f4eb6)
-![Screenshot 2025-04-15 123140](https://github.com/user-attachments/assets/bb2c5ee3-cfba-490d-ae82-9a248c868e4d)
 ![Screenshot 2025-04-15 123131](https://github.com/user-attachments/assets/c30c9b0a-fc21-4e5c-abbe-420c9f1f1dba)
-![Screenshot 2025-04-15 123112](https://github.com/user-attachments/assets/3225e891-6a63-47ca-bc33-94d8b2d0c8c3)
