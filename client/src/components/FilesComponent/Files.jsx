@@ -5,6 +5,10 @@ import { useServer } from '../../contexts/ServerContext';
 import { toast } from 'react-toastify';
 import SearchIcon from '@mui/icons-material/Search';
 import { Select, MenuItem, FormControl, InputLabel, Checkbox } from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import DownloadIcon from '@mui/icons-material/Download';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const apiUrl = import.meta.env.SERVER_URL || "http://localhost:4000";
 
@@ -75,6 +79,45 @@ const Files = () => {
             setContextMenu({ ...contextMenu, visible: false });
         }
     };
+
+    const deleteFile = async () => {
+      const fileId = contextMenu.file?._id;
+    
+      if (!fileId) {
+        toast.error("Invalid file ID");
+        return;
+      }
+    
+      const confirmDelete = window.confirm("Are you sure you want to delete this file?");
+      if (!confirmDelete) return;
+    
+      const deleteUrl = `${apiUrl}/api/files/${fileId}`;
+    
+      try {
+        const response = await fetch(deleteUrl, {
+          method: 'DELETE',
+          credentials: 'include',
+        });
+    
+        const text = await response.text();
+    
+        if (!response.ok) {
+          throw new Error(text || "Unknown server error");
+        }
+    
+        toast.success("File deleted", { autoClose: 1500 });
+        fetchServerFiles(); //refresh UI
+      } catch (err) {
+        toast.error("Failed to delete file");
+      }
+    
+      setContextMenu({ ...contextMenu, visible: false });
+    };
+    
+    
+    
+    
+    
 
     useEffect(() => {
         document.addEventListener('click', handleClick);
@@ -312,14 +355,22 @@ const Files = () => {
             </div>
 
             {contextMenu.visible && (
-                <ul
-                    className="custom-context-menu"
-                    style={{ top: contextMenu.y, left: contextMenu.x }}
-                >
-                    <li onClick={() => copyLink()}>Copy Link</li>
-                    <li onClick={() => downloadFile()}>Download</li>
-                </ul>
+              <ul className="custom-context-menu" style={{ top: contextMenu.y, left: contextMenu.x }}>
+                <li onClick={copyLink}>
+                  <ContentCopyIcon fontSize="small" style={{ marginRight: '8px' }} />
+                  Copy Link
+                </li>
+                <li onClick={downloadFile}>
+                  <DownloadIcon fontSize="small" style={{ marginRight: '8px' }} />
+                  Download
+                </li>
+                <li onClick={deleteFile} style={{ color: '#d66' }}>
+                  <DeleteIcon fontSize="small" style={{ marginRight: '8px' }} />
+                  Delete
+                </li>
+              </ul>
             )}
+
         </div>
     );
 }
