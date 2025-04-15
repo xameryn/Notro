@@ -136,7 +136,7 @@ const Files = () => {
       if (!file) return;
     
       const fileName = `${file._id}${file.extension}`;
-      const downloadUrl = `${apiUrl}/api/download/${fileName}`;
+      const downloadUrl = `${apiUrl}/api/files/download/${fileName}`;
     
       const link = document.createElement('a');
       link.href = downloadUrl;

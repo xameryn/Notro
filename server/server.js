@@ -44,9 +44,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Serve files from the files/
-app.use('/files', express.static(path.join(__dirname, 'files')));
-
 app.get("/api/files/download/:fileName", (req, res) => {
   const fileName = req.params.fileName;
   const filePath = path.join(__dirname, "files", fileName);
@@ -58,6 +55,8 @@ app.get("/api/files/download/:fileName", (req, res) => {
   }
 });
 
+// Serve files from the files/
+app.use('/files', express.static(path.join(__dirname, 'files')));
 
 // Routes
 app.use("/api", fileRoutes);
