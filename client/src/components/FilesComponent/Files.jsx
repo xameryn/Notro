@@ -16,8 +16,11 @@ const Files = () => {
     const { selectedServer, serverFiles, fetchServerFiles, serverError, loading } = useServer();
     const fetchRequestedRef = useRef(false);
     const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0, file: null });
+    const [showConfirm, setShowConfirm] = useState(false);
+
     const [searchQuery, setSearchQuery] = useState('');
     const [fileTypeFilter, setFileTypeFilter] = useState('all');
+
     const [sortOption, setSortOption] = useState('mostRecent');
     const [viewOptionsVisible, setViewOptionsVisible] = useState(false);
     const [showTags, setShowTags] = useState(true);
@@ -77,18 +80,17 @@ const Files = () => {
             setContextMenu({ ...contextMenu, visible: false });
         }
     };
-
-    const deleteFile = async () => {
+    const deleteFile = () => {
       const fileId = contextMenu.file?._id;
-    
       if (!fileId) {
         toast.error("Invalid file ID");
         return;
       }
+      setShowConfirm(true); // show custom confirmation
+    };
     
-      const confirmDelete = window.confirm("Are you sure you want to delete this file?");
-      if (!confirmDelete) return;
-    
+    const handleDelete = async () => {
+      const fileId = contextMenu.file._id;
       const deleteUrl = `${apiUrl}/api/files/${fileId}`;
     
       try {
@@ -96,20 +98,18 @@ const Files = () => {
           method: 'DELETE',
           credentials: 'include',
         });
-    
         const text = await response.text();
     
-        if (!response.ok) {
-          throw new Error(text || "Unknown server error");
-        }
+        if (!response.ok) throw new Error(text || "Unknown error");
     
-        toast.success("File deleted", { autoClose: 1500 });
-        fetchServerFiles(); //refresh UI
-      } catch (err) {
+        toast.success("File deleted");
+        fetchServerFiles();
+      } catch {
         toast.error("Failed to delete file");
       }
     
       setContextMenu({ ...contextMenu, visible: false });
+      setShowConfirm(false);
     };
     
     useEffect(() => {
@@ -412,6 +412,17 @@ const Files = () => {
                 </li>
               </ul>
             )}
+            {showConfirm && (
+  <div className="confirm-overlay">
+    <div className="confirm-dialog">
+      <p>Are you sure you want to delete this file?</p>
+      <div className="confirm-buttons">
+        <button onClick={handleDelete}>Yes</button>
+        <button onClick={() => setShowConfirm(false)}>No</button>
+      </div>
+    </div>
+  </div>
+)}
         </div>
     );
 }
