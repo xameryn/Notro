@@ -1,11 +1,11 @@
 const { ChatInputCommandInteraction, PermissionFlagsBits } = require("discord.js");
 const DiscordBot = require("../../client/DiscordBot");
 const ApplicationCommand = require("../../structure/ApplicationCommand");
+const FormData = require('form-data');
 const fs = require('fs');
 const path = require('path');
-const fetch = require('node-fetch'); // Ensure this is installed
-const { v4: uuidv4 } = require('uuid'); // For generating unique IDs
-const File = require('../../../server/models/fileModel'); // Adjust the path to your File model
+const fetch = require('node-fetch');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = new ApplicationCommand({
     command: {
@@ -20,7 +20,7 @@ module.exports = new ApplicationCommand({
                 required: true
             },
             {
-                name: 'description',
+                name: 'file-name',
                 description: 'A description for the uploaded file',
                 type: 3, 
                 required: false
@@ -38,8 +38,8 @@ module.exports = new ApplicationCommand({
     run: async (client, interaction) => {
         try {
             const fileAttachment = interaction.options.getAttachment('file');
-            const description = interaction.options.getString('description') || 'No description provided';
-
+            const name = interaction.options.getString('name') || 'No description provided';
+    
             if (!fileAttachment) {
                 await interaction.reply({
                     content: 'No file was provided. Please attach a file to upload.',
@@ -47,49 +47,53 @@ module.exports = new ApplicationCommand({
                 });
                 return;
             }
-
-            console.log('Uploading file:', fileAttachment.name);
-
-            // Save file locally
-            const filePath = path.join(__dirname, '../../../server/files', fileAttachment.name);
-
-            // Fetch the file content
+    
+            // Download file from Discord
             const response = await fetch(fileAttachment.url);
             if (!response.ok) {
                 throw new Error(`Failed to fetch the file: ${response.statusText}`);
             }
-
-            // Use arrayBuffer to get the file content
             const arrayBuffer = await response.arrayBuffer();
             const fileBuffer = Buffer.from(arrayBuffer);
-
-            fs.writeFileSync(filePath, fileBuffer);
-
-            console.log('File saved to:', filePath);
-
-            // Extract metadata
+    
             const fileMetadata = {
-                _id: uuidv4(), // Generate a unique ID
-                name: fileAttachment.name,
-                type: fileAttachment.contentType || 'unknown', // MIME type
-                extension: path.extname(fileAttachment.name).substring(1), // File extension
+                displayName: fileAttachment.name.split('.')[0],
+                fileName: name || fileAttachment.name,
+                type: fileAttachment.contentType || "unknown",
+                tagList: '',
+                serverFile: true,
                 size: fileAttachment.size,
-                serverFile: false, // Default value
-                tagList: [], // Default empty tag list
+                userID: interaction.user.id,
+                serverID: interaction.guildId
             };
-
-            // Save metadata to MongoDB
-            const newFile = new File(fileMetadata);
-            await newFile.save();
-
-            console.log('File metadata saved to MongoDB:', fileMetadata);
-
+    
+            const form = new FormData();
+            form.append('file', fileBuffer, {
+                filename: fileAttachment.name,
+                contentType: fileAttachment.contentType || "application/octet-stream",
+                knownLength: fileBuffer.length
+            });
+            form.append('metadata', JSON.stringify(fileMetadata));
+    
+            const uploadResponse = await fetch(`${process.env.FILE_SERVER_URL}/api/upload`, {
+                method: 'POST',
+                body: form,
+                headers: form.getHeaders()
+            });
+    
+            if (!uploadResponse.ok) {
+                const errorData = await uploadResponse.json();
+                throw new Error(errorData.error || "Upload failed");
+            }
+    
+            const result = await uploadResponse.json();
+    
             await interaction.reply({
                 content: `File uploaded successfully!\n**File Name:** ${fileAttachment.name}\n**Description:** ${description}`
             });
         } catch (error) {
             console.error('Failed to upload file:', error);
-
+    
             if (interaction.replied || interaction.deferred) {
                 await interaction.followUp({
                     content: `Failed to upload file: ${error.message}`
