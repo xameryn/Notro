@@ -85,7 +85,7 @@ const Upload = () => {
   
       setSelectedFile(null);
       setDisplayName("");
-      setTags("");
+      setTags([]);
     } catch (error) {
       console.error("Upload error:", error);
       toast.error(`Error: ${error.message}`, {
@@ -100,7 +100,7 @@ const Upload = () => {
   const cancelUpload = () => {
     setSelectedFile(null);
     setDisplayName("");
-    setTags("");
+    setTags([]);
   };
 
   const handleDrop = (e) => {
