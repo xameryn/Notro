@@ -381,20 +381,19 @@ const Files = () => {
             {contextMenu.visible && (
               <ul className="custom-context-menu" style={{ top: contextMenu.y, left: contextMenu.x }}>
                 <li onClick={copyLink}>
-                  <ContentCopyIcon fontSize="small" style={{ marginRight: '8px' }} />
-                  Copy Link
+                  <ContentCopyIcon fontSize="small" />
+                  <span>Copy Link</span>
                 </li>
                 <li onClick={downloadFile}>
-                  <DownloadIcon fontSize="small" style={{ marginRight: '8px' }} />
-                  Download
+                  <DownloadIcon fontSize="small" />
+                  <span>Download</span>
                 </li>
-                <li onClick={deleteFile} style={{ color: '#d66' }}>
-                  <DeleteIcon fontSize="small" style={{ marginRight: '8px' }} />
-                  Delete
+                <li onClick={deleteFile} className="delete-option">
+                  <DeleteIcon fontSize="small" />
+                  <span>Delete</span>
                 </li>
               </ul>
             )}
-
         </div>
     );
 }
