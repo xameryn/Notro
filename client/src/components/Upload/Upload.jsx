@@ -45,7 +45,7 @@ const Upload = () => {
     const fileMetadata = {
       displayName: displayName || selectedFile.name.split('.')[0],
       fileName: selectedFile.name,
-      type: selectedFile.type,
+      type: selectedFile.type || "unknown",
       tagList: tags.join(","),
       serverFile: serverFile,
       size: selectedFile.size, 
