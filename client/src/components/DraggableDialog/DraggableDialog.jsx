@@ -89,14 +89,17 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
   
 
   const downloadFile = () => {
-    const fileLink = `${apiUrl}/files/${file._id}${file.extension}`;
-    const link = document.createElement("a");
-    link.href = fileLink;
-    link.setAttribute("download", file.name);
+    const fileName = `${file._id}${file.extension}`;
+    const downloadUrl = `${apiUrl}/api/download/${fileName}`;
+  
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.setAttribute('download', file.name);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
+    };
+  
 
   const deleteFile = async () => {
     const fileId = file?._id;

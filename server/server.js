@@ -47,6 +47,18 @@ app.use(express.json());
 // Serve files from the files/
 app.use('/files', express.static(path.join(__dirname, 'files')));
 
+app.get("/api/files/download/:fileName", (req, res) => {
+  const fileName = req.params.fileName;
+  const filePath = path.join(__dirname, "files", fileName);
+
+  if (fs.existsSync(filePath)) {
+    return res.download(filePath, fileName);
+  } else {
+    return res.status(404).send("File not found");
+  }
+});
+
+
 // Routes
 app.use("/api", fileRoutes);
 app.use("/api", serverRoutes);

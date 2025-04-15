@@ -139,12 +139,23 @@ const Files = () => {
     };
 
     const downloadFile = () => {
-        toast.success("File downloading! (Not really)", {
-          position: "top-right",
-          autoClose: 1500,
-        });
-    setContextMenu({ ...contextMenu, visible: false });
+      const file = contextMenu.file;
+      if (!file) return;
+    
+      const fileName = `${file._id}${file.extension}`;
+      const downloadUrl = `${apiUrl}/api/download/${fileName}`;
+    
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.setAttribute('download', file.name); // or use fileName to force extension
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    
+      setContextMenu({ ...contextMenu, visible: false });
     };
+    
+    
 
 
 
