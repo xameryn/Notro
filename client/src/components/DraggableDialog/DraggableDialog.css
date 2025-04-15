@@ -1,119 +1,117 @@
 .file {
-    transition: transform 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
 .file:hover{
-    transform: scale(1.1); 
+  transform: scale(1.1); 
 }
 
 
 .img-thumbnail {
-    width: 100%;
-    height: 90px;
-    object-fit: scale-down;
-    border-radius: 6px;
-    display: block;
+  width: 100%;
+  height: 90px;
+  object-fit: scale-down;
+  border-radius: 6px;
+  display: block;
 }
 
 
 .display-img {
-    width: 100%;
-    height: auto;
-    margin-bottom: 0px;
-    border-radius: 12px;
+  width: 100%;
+  height: auto;
+  margin-bottom: 0px;
+  border-radius: 12px;
 }
 
 .file-name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block; 
-    max-width: 100%; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block; 
+  max-width: 100%; 
 }
 
 .tag-container {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    gap: 1px;
-    margin-top: 3px;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  gap: 1px;
+  margin-top: 3px;
 }
 
 .tag-container::-webkit-scrollbar {
-    height: 6px;
-  }
-  
-  .tag-container::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  .tag-container::-webkit-scrollbar-thumb {
-    background-color: #666666;
-    border-radius: 4px;
-  }
+  height: 6px;
+}
+
+.tag-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tag-container::-webkit-scrollbar-thumb {
+  background-color: #666666;
+  border-radius: 4px;
+}
 
 
 .tag-bubble {
-    background-color: #474747;
-    color: #cecdcd;
-    padding: 3px 7px;
-    border-radius: 12px;
-    font-size: 0.8em;
-    white-space: nowrap;
+  background-color: #474747;
+  color: #cecdcd;
+  padding: 3px 7px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  white-space: nowrap;
 }
 
 
 .tag-container-large {
   margin-left: 7px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
 }
 
 .tag-bubble-large {
-    background-color: #303030;
-    color: #cecdcd;
-    padding: 6px 10px;
-    border-radius: 12px;
-    font-size: 1em;
-    white-space: nowrap;
+  background-color: #303030;
+  color: #cecdcd;
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 1em;
+  white-space: nowrap;
 }
 
 
 #draggable-container {
-    width: 100%;
-    font-family: 'Outfit', sans-serif !important;
-    background-color: rgb(58, 58, 58);
-    color: rgb(230, 230, 230);
-    overflow-y: scroll !important; 
-    overflow-y: hidden !important;
-    border-radius: 12px;
-  }
+  width: 100%;
+  font-family: 'Outfit', sans-serif !important;
+  background-color: rgb(58, 58, 58);
+  color: rgb(230, 230, 230);
+  overflow-y: scroll !important; 
+  overflow-y: hidden !important;
+  border-radius: 12px;
+}
 
 
-  #draggable-dialog-title {
-    font-family: 'Outfit', sans-serif !important;
-  }
+#draggable-dialog-title {
+  font-family: 'Outfit', sans-serif !important;
+}
 
-  #draggable-button {
-    font-family: 'Outfit', sans-serif !important;
-    color: white;
-    font-size: 1em;
-    width: 35%;
-    background-color: rgb(39, 39, 39);
-    border-radius: 12px;
-    transition: background-color 0.3s ease;
-  }
+#draggable-button {
+  font-family: 'Outfit', sans-serif !important;
+  color: white;
+  font-size: 1em;
+  width: 35%;
+  background-color: rgb(39, 39, 39);
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+}
 
-  #draggable-button:hover {
-    background-color: rgb(0, 0, 0);
-  }
+#draggable-button:hover {
+  background-color: rgb(0, 0, 0);
+}
 
-  .file-placeholder-thumb
-
-.file-placeholder-preview {
+.file-placeholder-thumb, .file-placeholder-preview {
   display: flex;
   align-items: center;
   justify-content: center;

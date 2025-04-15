@@ -13,8 +13,18 @@ const ServerList = ({
     <div className='servers-container'>
       <a onClick={() => setSelectedServer("My Uploads")} 
         className={selectedServer === "My Uploads" ? 'selected-server' : 'unselected-server'}>
-        <SentimentSatisfiedAltIcon style={{ fontSize: 40 }} />
-        <p>My Uploads</p>
+        <div className="server-icon-container">
+              <img
+                src="/notroicon.png"
+                alt="My Notro Icon"
+                className="server-icon"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.style.display = 'none';
+                }}
+              />
+            </div>
+        <p>My Notro</p>
       </a>
       
       {serversArray.map(server => (
@@ -23,8 +33,7 @@ const ServerList = ({
           className={selectedServer?.id === server.id ? 'selected-server' : 'unselected-server'}>
           {server.icon ? (
             <div className="server-icon-container">
-              <img 
-                // src={`https://cdn.discordapp.com/icons/${server.id}/${server.icon}.png`}
+              <img
                 src={server.icon} 
                 alt={server.name}
                 className="server-icon"
