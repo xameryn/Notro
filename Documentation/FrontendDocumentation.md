@@ -5,6 +5,7 @@
 On the Notro homepage, the following elements are displayed: 
 - the user's servers (in the left sidebar - in this screenshot, there is only one)
 - the user's selected server (highlighted in grey)
+- the user's discord account (at the bottom left)
 - the server's files (in the middle)
 - file searching/filtering/sorting/viewing options (in the middle, on top)
 - an upload file field (to the right)
@@ -103,3 +104,8 @@ Searching for files by name:
 Searching for files by tags:
 ![Screenshot 2025-04-15 123232](https://github.com/user-attachments/assets/1da4aa27-3fa8-4d79-9bc1-c947776e5895)
 
+## Logout UI
+
+To log out, the user clicks on their discord account (at the bottom left of the screen). After logging out, they are redirected to the "Connect" page: 
+
+![Screenshot 2025-04-15 130442](https://github.com/user-attachments/assets/014f92cd-0172-4b5a-8a7c-9322f77c1a5f)
