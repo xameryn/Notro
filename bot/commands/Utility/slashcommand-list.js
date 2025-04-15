@@ -22,36 +22,23 @@ module.exports = new ApplicationCommand({
      */
     run: async (client, interaction) => {
         try {
-           
-            const directoryPath = path.join(__dirname, '../../../server/files');
 
-            // Check if the directory exists
-            if (!fs.existsSync(directoryPath)) {
-                await interaction.reply({
-                    content: 'The directory does not exist.',
-                    ephemeral: true
-                });
-                return;
+            const user = interaction.user;
+            const apiServerUrl = process.env.FILE_SERVER_URL;
+
+            const response = await fetch(`${apiServerUrl}/api/files/user/${user.id}`);
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch files: ${response.statusText}`);
             }
 
-            // Read the files in the directory
-            const files = fs.readdirSync(directoryPath, { withFileTypes: true });
+            const data = await response.json();
 
-            // Filter out files in the "thumbnails" folder
-            const filteredFiles = files
-                .filter(file => file.name !== 'thumbnails' && !file.name.startsWith('thumbnails/'))
-                .map(file => file.name);
+            console.log("Fetched user files:", data);
 
-            if (filteredFiles.length === 0) {
-                await interaction.reply({
-                    content: 'No files found in the directory (excluding "thumbnails").',
-                    ephemeral: true
-                });
-                return;
-            }
-
-            // formatted list of file names
-            const fileList = filteredFiles.map((file, index) => `${index + 1}. ${file}`).join('\n');
+            const files = data || [];
+            const fileNames = files.map(file => file.name || 'Unknown File').join('\n');
+            const fileList = files.length ? fileNames : 'No files found.';
 
             // embed message
             const embed = new EmbedBuilder()
