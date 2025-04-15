@@ -46,13 +46,15 @@ module.exports = new ApplicationCommand({
 
             if (file.type === 'image') {
                 embed.setImage(fileUrl);
-            } else if (file.type === 'video') {
-                embed.setDescription(embed.data.description + '\n(Video file, click the title to view/download)');
             } else {
                 embed.setDescription(embed.data.description + '\n[Download file](' + fileUrl + ')');
             }
 
-            await interaction.reply({ embeds: [embed] });
+            if (file.type === 'video') {
+                await interaction.reply({ content: `[${fileName}](${fileUrl})` });
+            } else {
+                await interaction.reply({ embeds: [embed] });
+            }
         } catch (error) {
             console.error('Failed to register server:', error);
             
