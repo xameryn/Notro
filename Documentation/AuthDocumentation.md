@@ -192,7 +192,8 @@ MONGO_URI=mongodb://localhost:27017/notro_database
 ```
 
 ---
-
+ 
 ## Summary
 
 This authentication system allows users to securely log in with Discord and only see servers they're part of that are also stored in the Notro backend. Sessions are persisted via MongoDB, and all logic is split across a dedicated auth server (`port 4001`) and main app backend (`port 4000`).
+  
