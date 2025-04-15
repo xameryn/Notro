@@ -26,18 +26,7 @@ function getThumbnail(file) {
     return `${apiUrl}/files/assets/unknown.png`;
 }
 
-function PaperComponent(props) {
-  const nodeRef = React.useRef(null);
-  return (
-    <Draggable
-      nodeRef={nodeRef}
-      handle="#draggable-dialog-title"
-      cancel={'[class*="MuiDialogContent-root"]'}
-    >
-      <Paper {...props} ref={nodeRef} />
-    </Draggable>
-  );
-}
+
 function DraggableDialog({ file, showTags = true, showFileName = true, fetchServerFiles }) {
   const [open, setOpen] = React.useState(false);
 
@@ -90,7 +79,7 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
 
   const downloadFile = () => {
     const fileName = `${file._id}${file.extension}`;
-    const downloadUrl = `${apiUrl}/api/download/${fileName}`;
+    const downloadUrl = `${apiUrl}/api/files/download/${fileName}`;
   
     const link = document.createElement('a');
     link.href = downloadUrl;
@@ -167,7 +156,6 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
       <Dialog
         open={open}
         onClose={handleClose}
-        PaperComponent={PaperComponent}
         aria-labelledby="draggable-dialog-title"
         PaperProps={{
           sx: {
@@ -182,7 +170,6 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
         <div id='draggable-container'>
           <DialogTitle 
             style={{ 
-              cursor: 'move', 
               display: 'flex', 
               justifyContent: 'space-between', 
               alignItems: 'center' 
@@ -228,7 +215,6 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
               </div>
             )}
           </DialogContent>
-
 
           <DialogActions sx={{ justifyContent: 'center' }}>
             <Button onClick={copyURL} id="draggable-button">Copy URL</Button>

@@ -103,7 +103,7 @@
     position: absolute;
     top: 36px;
     right: 0;
-    background-color: #0b0b0b;
+    background-color: #111;
     border: none;
     border-radius: 6px;
     padding: 16px 16px 18px;
@@ -113,8 +113,6 @@
     font-size: 1em;
 }
 
-
-  
 .view-option {
   display: flex;
   align-items: center;
