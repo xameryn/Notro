@@ -347,7 +347,12 @@ const Files = () => {
                         key={file._id || file.id || Math.random()}
                         onContextMenu={(e) => handleContextMenu(e, file)}
                         >
-                        <DraggableDialog file={file} showTags={showTags} showFileName={showFileName} />
+                        <DraggableDialog
+                          file={file}
+                          showTags={showTags}
+                          showFileName={showFileName}
+                          fetchServerFiles={fetchServerFiles}
+                        />
 
                         </div>                    
                     ))

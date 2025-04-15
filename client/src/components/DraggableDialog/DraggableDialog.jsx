@@ -38,7 +38,7 @@ function PaperComponent(props) {
     </Draggable>
   );
 }
-function DraggableDialog({ file, showTags = true, showFileName = true }) {
+function DraggableDialog({ file, showTags = true, showFileName = true, fetchServerFiles }) {
   const [open, setOpen] = React.useState(false);
 
   const filePath = getFilePath(file)
@@ -73,24 +73,69 @@ function DraggableDialog({ file, showTags = true, showFileName = true }) {
   };
 
   const copyURL = () => {
-      toast.success("File copied! (Not really)", {
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
+    const fileLink = `${apiUrl}/files/${file._id}${file.extension}`;
+    navigator.clipboard.writeText(fileLink)
+      .then(() => {
+        toast.success("File link copied!", {
+          position: "top-right",
+          autoClose: 1500,
+        });
+      })
+      .catch(err => {
+        console.error("Failed to copy file link:", err);
+        toast.error("Copy failed.");
       });
   };
+  
 
   const downloadFile = () => {
-    toast.success("File downloading! (Not really)", {
-      position: "top-right",
-      autoClose: 1000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-    });
+    const fileLink = `${apiUrl}/files/${file._id}${file.extension}`;
+    const link = document.createElement("a");
+    link.href = fileLink;
+    link.setAttribute("download", file.name);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
+
+  const deleteFile = async () => {
+    const fileId = file?._id;
+  
+    if (!fileId) {
+      toast.error("Invalid file ID");
+      return;
+    }
+  
+    const confirmDelete = window.confirm("Are you sure you want to delete this file?");
+    if (!confirmDelete) return;
+  
+    const deleteUrl = `${apiUrl}/api/files/${fileId}`;
+  
+    try {
+      const response = await fetch(deleteUrl, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+  
+      const text = await response.text();
+  
+      if (!response.ok) {
+        throw new Error(text || "Unknown server error");
+      }
+  
+      toast.success("File deleted", { autoClose: 1500 });
+      handleClose();
+  
+      if (typeof fetchServerFiles === "function") {
+        fetchServerFiles(); // 🔁 Refresh the list
+      }
+    } catch (err) {
+      toast.error("Failed to delete file");
+    }
+  };
+  
+  
+  
 
   return (
     <React.Fragment>
@@ -181,7 +226,7 @@ function DraggableDialog({ file, showTags = true, showFileName = true }) {
           <DialogActions sx={{ justifyContent: 'center' }}>
             <Button onClick={copyURL} id="draggable-button">Copy URL</Button>
             <Button onClick={downloadFile} id="draggable-button">Download</Button>
-            <Button onClick={handleDelete} id="draggable-button">Delete</Button>
+            <Button onClick={deleteFile} id="draggable-button">Delete</Button>
           </DialogActions>
         </div>
       </Dialog>
