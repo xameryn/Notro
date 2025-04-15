@@ -106,18 +106,25 @@
     background-color: #0b0b0b;
     border: none;
     border-radius: 6px;
-    padding: 10px;
+    padding: 16px 16px 18px;
     z-index: 10;
     width: 250px;
     color: rgb(215, 215, 215);
     font-size: 1em;
-  }
+}
+
+
   
-  .view-option {
-    display: flex;
-    margin-bottom: 10px;
-    padding: 6px;
-  }
+.view-option {
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.view-option + .view-option {
+  margin-top: 12px;
+}
+
 
   .view-option span{
     flex: 1;
