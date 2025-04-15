@@ -155,10 +155,21 @@ const Files = () => {
       setContextMenu({ ...contextMenu, visible: false });
     };
     
+    const copyFileTitle = () => {
+      const fileName = contextMenu.file?.name || "Untitled";
     
-
-
-
+      navigator.clipboard.writeText(fileName)
+        .then(() => {
+          toast.success("File title copied!", { autoClose: 1500 });
+        })
+        .catch((err) => {
+          console.error("Failed to copy file title:", err);
+          toast.error("Failed to copy title");
+        });
+    
+      setContextMenu({ ...contextMenu, visible: false });
+    };
+    
     if (!selectedServer) return <p>Please select a server.</p>;
     if (serverError) return <p className="error-message">{serverError}</p>;
     if (loading) return <p className="loading-message">Loading files...</p>;
@@ -198,6 +209,7 @@ const Files = () => {
                       onChange={(e) => setFileTypeFilter(e.target.value)}
                       className="custom-select"
                       MenuProps={{ classes: { paper: 'custom-select-menu' } }}
+                      onOpen={() => setViewOptionsVisible(false)}
                       displayEmpty
                       sx={{
                         color: 'rgb(146, 146, 146)',
@@ -244,6 +256,7 @@ const Files = () => {
                     onChange={(e) => setSortOption(e.target.value)}
                     className="custom-select"
                     MenuProps={{ classes: { paper: 'custom-select-menu' } }}
+                    onOpen={() => setViewOptionsVisible(false)}
                     displayEmpty
                     sx={{
                       color: 'rgb(146, 146, 146)',
@@ -270,87 +283,97 @@ const Files = () => {
 
 
                 <div className="view-options-wrapper">
-  <button className="view-button" onClick={() => setViewOptionsVisible(!viewOptionsVisible)}>
-    View
-  </button>
+                  <button
+                    className="view-button"
+                    onClick={() => {
+                      setViewOptionsVisible(prev => {
+                        if (!prev) {
+                          document.activeElement?.blur(); 
+                        }
+                        return !prev;
+                      });
+                    }}
+                  >
+                    View
+                  </button>
 
-  {viewOptionsVisible && (
-    <div className="view-options-panel">
-     <div className="view-option">
-  <span>Show tags:</span>
-  <div>
-    <label>
-      <Checkbox
-        checked={showTags}
-        onChange={() => setShowTags(true)}
-        sx={{
-          color: '#666',
-          '&.Mui-checked': {
-            color: '#7289da',
-          },
-          padding: '0 4px 0 0'
-        }}
-        size="small"
-      />
-      Yes
-    </label>
-    <label style={{ marginLeft: '12px' }}>
-      <Checkbox
-        checked={!showTags}
-        onChange={() => setShowTags(false)}
-        sx={{
-          color: '#666',
-          '&.Mui-checked': {
-            color: '#7289da',
-          },
-          padding: '0 4px 0 0'
-        }}
-        size="small"
-      />
-      No
-    </label>
-  </div>
-</div>
+                  {viewOptionsVisible && (
+                    <div className="view-options-panel">
+                    <div className="view-option">
+                  <span>Show tags:</span>
+                  <div>
+                    <label>
+                      <Checkbox
+                        checked={showTags}
+                        onChange={() => setShowTags(true)}
+                        sx={{
+                          color: '#666',
+                          '&.Mui-checked': {
+                            color: '#7289da',
+                          },
+                          padding: '0 4px 0 0'
+                        }}
+                        size="small"
+                      />
+                      Yes
+                    </label>
+                    <label style={{ marginLeft: '12px' }}>
+                      <Checkbox
+                        checked={!showTags}
+                        onChange={() => setShowTags(false)}
+                        sx={{
+                          color: '#666',
+                          '&.Mui-checked': {
+                            color: '#7289da',
+                          },
+                          padding: '0 4px 0 0'
+                        }}
+                        size="small"
+                      />
+                      No
+                    </label>
+                  </div>
+                </div>
 
-<div className="view-option">
-  <span>Show file name:</span>
-  <div>
-    <label>
-      <Checkbox
-        checked={showFileName}
-        onChange={() => setShowFileName(true)}
-        sx={{
-          color: '#666',
-          '&.Mui-checked': {
-            color: '#7289da',
-          },
-          padding: '0 4px 0 0'
-        }}
-        size="small"
-      />
-      Yes
-    </label>
-    <label style={{ marginLeft: '12px' }}>
-      <Checkbox
-        checked={!showFileName}
-        onChange={() => setShowFileName(false)}
-        sx={{
-          color: '#666',
-          '&.Mui-checked': {
-            color: '#7289da',
-          },
-          padding: '0 4px 0 0'
-        }}
-        size="small"
-      />
-      No
-    </label>
-  </div>
-</div>
+                <div className="view-option">
+                  <span>Show file name:</span>
+                  <div>
+                    <label>
+                      <Checkbox
+                        checked={showFileName}
+                        onChange={() => setShowFileName(true)}
+                        sx={{
+                          color: '#666',
+                          '&.Mui-checked': {
+                            color: '#7289da',
+                          },
+                          padding: '0 4px 0 0'
+                        }}
+                        size="small"
+                      />
+                      Yes
+                    </label>
+                    <label style={{ marginLeft: '12px' }}>
+                      <Checkbox
+                        checked={!showFileName}
+                        onChange={() => setShowFileName(false)}
+                        sx={{
+                          color: '#666',
+                          '&.Mui-checked': {
+                            color: '#7289da',
+                          },
+                          padding: '0 4px 0 0'
+                        }}
+                        size="small"
+                      />
+                      No
+                    </label>
+                  </div>
+                </div>
 
-    </div>
-  )}
-</div>
+                    </div>
+                  )}
+                </div>
 
             </div>
 
@@ -380,6 +403,10 @@ const Files = () => {
 
             {contextMenu.visible && (
               <ul className="custom-context-menu" style={{ top: contextMenu.y, left: contextMenu.x }}>
+                <li onClick={copyFileTitle}>
+                  <ContentCopyIcon style={{ fontSize: '18px' }} />
+                  Copy Title
+                </li>
                 <li onClick={copyLink}>
                   <ContentCopyIcon fontSize="small" />
                   <span>Copy Link</span>
