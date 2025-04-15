@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './styles/ConnectPage.css';
 
 const ConnectPage = () => {
@@ -14,19 +14,6 @@ const ConnectPage = () => {
     }
   };
 
-  const handleSwitchUser = async () => {
-    const origin = window.location.origin;
-    try {
-      const res = await fetch(`http://localhost:4001/auth/discord/switch-user-url?origin=${encodeURIComponent(origin)}`);
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-    } catch (err) {
-      console.error("Failed to get switch-user URL:", err);
-    }
-  };
-  
-  
-
   return (
     <div className='connect-div'>
       <img src="/notroicon.png" alt="Discord connect icon" />
@@ -38,10 +25,6 @@ const ConnectPage = () => {
           <p>Connect using Discord</p>
           <img src="/discord_icon.png" alt="Discord Icon" />
         </button>
-
-        <p className="switch-account-note">
-          Not your account? <span onClick={handleSwitchUser}>Use a different one</span>
-        </p>
       </div>
     </div>
   );

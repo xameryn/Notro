@@ -78,18 +78,4 @@ router.get('/discord/url', (req, res) => {
   res.json({ url: loginWrapper });
 });
 
-router.get('/discord/switch-user-url', (req, res) => {
-  const returnTo = req.query.origin || process.env.CLIENT_URL;
-
-  const loginWithRedirect = `https://discord.com/login?redirect_to=${encodeURIComponent(returnTo)}`;
-  const logoutThenLogin = `https://discord.com/logout?redirect_to=${encodeURIComponent(loginWithRedirect)}`;
-
-  res.json({ url: logoutThenLogin });
-});
-
-
-
-
-
-
 export default router;
