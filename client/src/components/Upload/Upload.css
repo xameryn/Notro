@@ -118,6 +118,7 @@
 
 .buttons-div button {
     background-color: rgb(34, 34, 34);
+    border: none;
     color: white;
     width: 48%;
     font-size: 1em;

@@ -413,16 +413,16 @@ const Files = () => {
               </ul>
             )}
             {showConfirm && (
-  <div className="confirm-overlay">
-    <div className="confirm-dialog">
-      <p>Are you sure you want to delete this file?</p>
-      <div className="confirm-buttons">
-        <button onClick={handleDelete}>Yes</button>
-        <button onClick={() => setShowConfirm(false)}>No</button>
-      </div>
-    </div>
-  </div>
-)}
+              <div className="confirm-overlay">
+                <div className="confirm-dialog">
+                  <p>Are you sure you want to delete this file?</p>
+                  <div className="confirm-buttons">
+                    <button onClick={handleDelete}>Yes</button>
+                    <button onClick={() => setShowConfirm(false)}>No</button>
+                  </div>
+                </div>
+              </div>
+            )}
         </div>
     );
 }

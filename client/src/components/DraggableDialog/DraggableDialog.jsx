@@ -214,7 +214,17 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
                 <span>{file.extension?.replace('.', '').toUpperCase() || 'FILE'}</span>
               </div>
             )}
+
+            
           </DialogContent>
+
+             <div className="tag-container-large">
+           {file.tagList.map((tag, index) => (
+             <div key={index} className="tag-bubble-large">
+               #{tag}
+             </div>
+           ))}
+           </div>
 
           <DialogActions sx={{ justifyContent: 'center' }}>
             <Button onClick={copyURL} id="draggable-button">Copy URL</Button>
