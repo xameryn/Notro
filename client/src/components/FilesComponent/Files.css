@@ -239,8 +239,8 @@ h2 {
 .confirm-dialog {
   display: flex;
   flex-direction: column;
-  font-size: 1.4em;
-  background: rgb(0, 0, 0);
+  font-size: 1.2em;
+  background: rgb(5, 5, 5);
   padding: 12px;
   border-radius: 8px;
   text-align: center;
@@ -250,6 +250,7 @@ h2 {
 .confirm-dialog p{
   margin: 0px;
   padding: 0px;
+  color: #c7c7c7;
 }
 
 .confirm-buttons {
