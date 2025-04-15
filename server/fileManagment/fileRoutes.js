@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
-import { registerServerm, uploadFile, uploadMetadata, addFileToUser, addFileToServer, getServersInDatabase, getFilesByUser, getFilesByServer, getFileByName, deleteFile, getFileByBot } from "./fileController.js";
+import { registerServer, uploadFile, uploadMetadata, addFileToUser, addFileToServer, getServersInDatabase, getFilesByUser, getFilesByServer, getFileByName, deleteFile, getFileByBot } from "./fileController.js";
 import { generateThumbnails } from './fileHelper.js';
 
 
