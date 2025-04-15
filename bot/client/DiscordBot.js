@@ -22,11 +22,6 @@ class DiscordBot extends Client {
     rest_application_commands_array = [];
     login_attempts = 0;
     login_timestamp = 0;
-    statusMessages = [
-        { name: 'Status 1', type: 4 },
-        { name: 'Status 2', type: 4 },
-        { name: 'Status 3', type: 4 }
-    ];
 
     commands_handler = new CommandsHandler(this);
     components_handler = new ComponentsHandler(this);
@@ -44,9 +39,9 @@ class DiscordBot extends Client {
             ],
             presence: {
                 activities: [{
-                    name: 'keep this empty',
+                    name: '',
                     type: 4,
-                    state: 'DiscordJS-V14-Bot-Template v3'
+                    state: 'Bypassing Nitro'
                 }]
             }
         });
@@ -56,11 +51,11 @@ class DiscordBot extends Client {
     }
 
     startStatusRotation = () => {
-        let index = 0;
-        setInterval(() => {
-            this.user.setPresence({ activities: [this.statusMessages[index]] });
-            index = (index + 1) % this.statusMessages.length;
-        }, 4000);
+        this.user.setPresence({
+            name: '',
+            type: 4,
+            state: 'Bypassing Nitro'
+        })
     }
 
     connect = async () => {
