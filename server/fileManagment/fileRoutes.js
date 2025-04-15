@@ -3,7 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
-import { uploadFile, uploadMetadata, addFileToUser, addFileToServer, getServersInDatabase, getFilesByUser, getFilesByServer, getFileByName, deleteFile } from "./fileController.js";
+import { uploadFile, uploadMetadata, addFileToUser, addFileToServer, getServersInDatabase, getFilesByUser, getFilesByServer, getFileByName, deleteFile, getFileByBot } from "./fileController.js";
 import { generateThumbnails } from './fileHelper.js';
 
 
@@ -148,6 +148,8 @@ router.get("/servers", getServersInDatabase)
 router.get("/files/user/:userID", getFilesByUser);
 
 router.get("/files/server/:serverID", getFilesByServer);
+
+router.get('/files/:serverID/:userID/:fileName', getFileByBot);
 
 router.get("/files/:fileName", getFileByName);
 

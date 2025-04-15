@@ -252,3 +252,58 @@ export const getFileByName = async (req, res) => {
     res.status(500).json({ error: "Error fetching file" });
   }
 };
+
+export const getFileByBot = async (req, res) => {
+  try {
+    const { serverID, userID, fileName } = req.params;
+    console.log(`Searching for file: ${fileName} in server: ${serverID} and user: ${userID}`);
+
+    // First check server files
+    const server = await Server.findById(serverID);
+    if (server && server.fileList.length > 0) {
+      // Fetch all File docs with matching IDs
+      const files = await File.find({ _id: { $in: server.fileList } });
+      const serverFile = files.find(file => file.name === fileName);
+
+      if (serverFile) {
+        console.log(`File found in server: ${serverFile.name}`);
+        return res.json({
+          success: true,
+          file: serverFile,
+          location: 'server'
+        });
+      }
+    }
+
+    // Then check user files
+    const user = await User.findById(userID);
+    if (user && user.fileList.length > 0) {
+      const files = await File.find({ _id: { $in: user.fileList } });
+      const userFile = files.find(file => file.name === fileName);
+
+      if (userFile) {
+        console.log(`File found in user files: ${userFile.name}`);
+        return res.json({
+          success: true,
+          file: userFile,
+          location: 'user'
+        });
+      }
+    }
+
+    console.log(`File ${fileName} not found in server or user files`);
+    return res.status(404).json({
+      success: false,
+      error: "File not found",
+      message: `${fileName} not found in server or user files`
+    });
+
+  } catch (error) {
+    console.error("Error in getFileByBot:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Error searching for file",
+      details: error.message
+    });
+  }
+};

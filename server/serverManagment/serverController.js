@@ -36,7 +36,6 @@ export const updateServerMemberList = async (req, res) => {
     res.status(500).json({ success: false, error: "Error updating server member list" });
   }
 };
-
 // Controller function to connect a server to an instance
 export const connectServerToInstance = async (req, res) => {
   // Extract instance and server IDs from route parameters
@@ -50,6 +49,7 @@ export const connectServerToInstance = async (req, res) => {
     let instance = await Instance.findById(instanceID);
 
     if (!instance) {
+      console.log(`Instance ${instanceID} not found, creating a new one...`);
       // Create a new instance if it doesn't exist
       instance = new Instance({
         _id: instanceID, // Use discord user ID as instance _id
