@@ -194,7 +194,7 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
               <CancelIcon />
             </IconButton>
           </DialogTitle>
-          <DialogContent>
+          <DialogContent sx={{ maxHeight: '60vh', overflow: 'auto', display: 'flex', justifyContent: 'center' }}>
             {file.type === 'image' ? (
               file.extension === '.gif' ? (
                 <video 
@@ -204,12 +204,14 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
                   loop 
                   muted 
                   playsInline 
+                  style={{ maxWidth: '100%', maxHeight: '55vh', objectFit: 'contain' }}
                 />
               ) : (
                 <img 
                   className='display-img' 
                   src={filePath} 
                   alt={file.name} 
+                  style={{ maxWidth: '100%', maxHeight: '55vh', objectFit: 'contain' }}
                 />
               )
             ) : file.type === 'video' ? (
@@ -218,6 +220,7 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
                 src={filePath} 
                 controls 
                 playsInline 
+                style={{ maxWidth: '100%', maxHeight: '55vh', objectFit: 'contain' }}
               />
             ) : (
               <div className="file-placeholder-preview">
@@ -225,6 +228,7 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
               </div>
             )}
           </DialogContent>
+
 
           <DialogActions sx={{ justifyContent: 'center' }}>
             <Button onClick={copyURL} id="draggable-button">Copy URL</Button>

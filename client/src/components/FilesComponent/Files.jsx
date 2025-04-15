@@ -179,59 +179,67 @@ const Files = () => {
                 <SearchIcon className="search-icon" />
                 </div>
 
-                <FormControl size="small" className="custom-select-form"     sx={{
-    minWidth: 100,
-    fontFamily: '"Outfit", sans-serif !important',
-    '*': {
-      fontFamily: '"Outfit", sans-serif !important',
-    },
-  }}>
-                <Select
-                    labelId="filetype-label"
-                    id="filetype-select"
-                    value={fileTypeFilter}
-                    label="Type"
-                    onChange={(e) => setFileTypeFilter(e.target.value)}
-                    className="custom-select"
-                    MenuProps={{ classes: { paper: 'custom-select-menu' } }}
-                    displayEmpty
-                    sx={{
-                      color: 'rgb(146, 146, 146)',
-                      fontFamily: '"Outfit", sans-serif !important',
-                      '*': {
-                        fontFamily: '"Outfit", sans-serif !important',
-                      },
-                      fontSize: '0.88em',
-                      backgroundColor: '#111',
-                      '.MuiOutlinedInput-notchedOutline': {
-                        border: 'none',
-                      },
-                      '.MuiSvgIcon-root': { color: 'rgb(139, 139, 139)' },
-                      borderRadius: '6px',
-                      paddingRight: '32px', 
-                    }}
-
-                            >
-                <MenuItem value="all" className="custom-select-item">All</MenuItem>
-                <MenuItem value="image" className="custom-select-item">Image</MenuItem>
-                <MenuItem value="video" className="custom-select-item">Video</MenuItem>
-                <MenuItem value="audio" className="custom-select-item">Audio</MenuItem>
-                <MenuItem value="text" className="custom-select-item">Text</MenuItem>
-                <MenuItem value="other" className="custom-select-item">Other</MenuItem>
-            </Select>
-                </FormControl>
-
-                <FormControl size="small" className="custom-select-form"     sx={{
-                    minWidth: 100,
+                <FormControl
+                  size="small"
+                  className="custom-select-form"
+                  sx={{
+                    width: '150px',
                     fontFamily: '"Outfit", sans-serif !important',
                     '*': {
-                    fontFamily: '"Outfit", sans-serif !important',
+                      fontFamily: '"Outfit", sans-serif !important',
                     },
-                }}>
-                <Select
-                    labelId="filetype-label"
-                    id="filetype-select"
-                    label="sort"
+                  }}
+                >
+                  <Select
+                      labelId="filetype-label"
+                      id="filetype-select"
+                      value={fileTypeFilter}
+                      label="Type"
+                      onChange={(e) => setFileTypeFilter(e.target.value)}
+                      className="custom-select"
+                      MenuProps={{ classes: { paper: 'custom-select-menu' } }}
+                      displayEmpty
+                      sx={{
+                        color: 'rgb(146, 146, 146)',
+                        fontFamily: '"Outfit", sans-serif !important',
+                        '*': {
+                          fontFamily: '"Outfit", sans-serif !important',
+                        },
+                        fontSize: '0.88em',
+                        backgroundColor: '#111',
+                        '.MuiOutlinedInput-notchedOutline': {
+                          border: 'none',
+                        },
+                        '.MuiSvgIcon-root': { color: 'rgb(139, 139, 139)' },
+                        borderRadius: '6px',
+                        paddingRight: '32px', 
+                        textAlign: 'center',
+                      }}
+                  >
+                    <MenuItem value="all" className="custom-select-item">All</MenuItem>
+                    <MenuItem value="image" className="custom-select-item">Image</MenuItem>
+                    <MenuItem value="video" className="custom-select-item">Video</MenuItem>
+                    <MenuItem value="audio" className="custom-select-item">Audio</MenuItem>
+                    <MenuItem value="text" className="custom-select-item">Text</MenuItem>
+                    <MenuItem value="other" className="custom-select-item">Other</MenuItem>
+                  </Select>
+                </FormControl>
+
+                <FormControl
+                  size="small"
+                  className="custom-select-form"
+                  sx={{
+                    width: '175px',
+                    fontFamily: '"Outfit", sans-serif !important',
+                    '*': {
+                      fontFamily: '"Outfit", sans-serif !important',
+                    },
+                  }}
+                >
+                  <Select
+                    labelId="sort-label"
+                    id="sort-select"
+                    label="Sort"
                     value={sortOption}
                     onChange={(e) => setSortOption(e.target.value)}
                     className="custom-select"
@@ -250,16 +258,16 @@ const Files = () => {
                       },
                       '.MuiSvgIcon-root': { color: 'rgb(139, 139, 139)' },
                       borderRadius: '6px',
-                      paddingRight: '32px', 
+                      paddingRight: '32px',
+                      textAlign: 'center', 
                     }}
-
-                            >
-<MenuItem value="mostRecent" className="custom-select-item">Most Recent</MenuItem>
-<MenuItem value="oldest" className="custom-select-item">Oldest</MenuItem>
-<MenuItem value="alphabetical" className="custom-select-item">Alphabetical</MenuItem>
-
-            </Select>
+                  >
+                    <MenuItem value="mostRecent" className="custom-select-item">Most Recent</MenuItem>
+                    <MenuItem value="oldest" className="custom-select-item">Oldest</MenuItem>
+                    <MenuItem value="alphabetical" className="custom-select-item">Alphabetical</MenuItem>
+                  </Select>
                 </FormControl>
+
 
                 <div className="view-options-wrapper">
   <button className="view-button" onClick={() => setViewOptionsVisible(!viewOptionsVisible)}>
@@ -373,20 +381,19 @@ const Files = () => {
             {contextMenu.visible && (
               <ul className="custom-context-menu" style={{ top: contextMenu.y, left: contextMenu.x }}>
                 <li onClick={copyLink}>
-                  <ContentCopyIcon fontSize="small" style={{ marginRight: '8px' }} />
-                  Copy Link
+                  <ContentCopyIcon fontSize="small" />
+                  <span>Copy Link</span>
                 </li>
                 <li onClick={downloadFile}>
-                  <DownloadIcon fontSize="small" style={{ marginRight: '8px' }} />
-                  Download
+                  <DownloadIcon fontSize="small" />
+                  <span>Download</span>
                 </li>
-                <li onClick={deleteFile} style={{ color: '#d66' }}>
-                  <DeleteIcon fontSize="small" style={{ marginRight: '8px' }} />
-                  Delete
+                <li onClick={deleteFile} className="delete-option">
+                  <DeleteIcon fontSize="small" />
+                  <span>Delete</span>
                 </li>
               </ul>
             )}
-
         </div>
     );
 }
