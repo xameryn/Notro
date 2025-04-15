@@ -4,7 +4,7 @@ const ApplicationCommand = require("../../structure/ApplicationCommand");
 
 module.exports = new ApplicationCommand({
     command: {
-        name: 'register',
+        name: 'register-server',
         description: 'Pulls media from the server',
         type: 1,
         options: [
@@ -13,12 +13,6 @@ module.exports = new ApplicationCommand({
                 description: 'The address of the instance you want to register this server to',
                 type: 3,
                 required: true
-            },
-            {
-                name: 'is-local',
-                description: 'Whether this is a local instance',
-                type: 5,
-                required: false
             }
         ]
     },
@@ -32,7 +26,6 @@ module.exports = new ApplicationCommand({
      */
     run: async (client, interaction) => {
         try {
-            // Use the guildId directly
             const guildId = interaction.guildId;
             console.log('Guild ID from interaction:', guildId);
             
@@ -63,10 +56,10 @@ module.exports = new ApplicationCommand({
             console.log('Attempting to register server with:');
             console.log('- Server ID:', serverID);
             console.log('- Server Name:', serverName);
-            console.log('- Target Address:', `${targetAddress}/api/register/${instanceId}/${serverID}`);
+            console.log('- Target Address:', `${process.env.FILE_SERVER_URL}/api/register/${instanceId}/${serverID}`);
             
             const response = await fetch(
-                `${targetAddress}/api/register/${instanceId}/${serverID}?name=${encodeURIComponent(serverName)}&icon=${encodeURIComponent(iconUrl)}&address=${encodeURIComponent(instanceAddress)}`
+                `${process.env.FILE_SERVER_URL}/api/register/${instanceId}/${serverID}?name=${encodeURIComponent(serverName)}&icon=${encodeURIComponent(iconUrl)}&address=${encodeURIComponent(instanceAddress)}`
             );
             
             if (!response.ok) {
