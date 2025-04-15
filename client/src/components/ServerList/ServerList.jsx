@@ -47,6 +47,15 @@ const ServerList = ({
             <SentimentSatisfiedAltIcon style={{ fontSize: 40 }} />
           )}
           <p className="server-name">{server.name}</p>
+          {/* <button 
+            className="refresh-button" 
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedServer(server);
+            }}
+          >
+            🔄
+          </button> */}
         </a>
       ))}
     </div>

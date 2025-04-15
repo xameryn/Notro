@@ -152,18 +152,18 @@ export const addFileToServer = async (req) => {
 export const getFilesByUser = async (req, res) => {
   try {
     const userID = req.params.userID;
-    const clientIP = req.ip;
+    // const clientIP = req.ip;
     
-    const now = Date.now();
-    const recentRequest = recentRequests.get(userID);
+    // const now = Date.now();
+    // const recentRequest = recentRequests.get(userID);
     
-    if (recentRequest && now - recentRequest.timestamp < 1000) { 
-      console.log(`Duplicate request detected for user ${userID} (${recentRequest.count + 1}) - using cached response`);
-      recentRequest.count++;
+    // if (recentRequest && now - recentRequest.timestamp < 1000) { 
+    //   console.log(`Duplicate request detected for user ${userID} (${recentRequest.count + 1}) - using cached response`);
+    //   recentRequest.count++;
 
-      // Use cached response if request sent within 1 second
-      return res.json(recentRequest.response);
-    }
+    //   // Use cached response if request sent within 1 second
+    //   return res.json(recentRequest.response);
+    // }
     
     console.log("Processing request for user ID:", userID);
     
@@ -182,22 +182,22 @@ export const getFilesByUser = async (req, res) => {
       response = userFiles.fileList;
     }
     
-    recentRequests.set(userID, {
-      timestamp: now,
-      response: response,
-      count: 1
-    });
+    // recentRequests.set(userID, {
+    //   timestamp: now,
+    //   response: response,
+    //   count: 1
+    // });
     
-    // Clean up cache - attempt every 10 requests, if cache over 5 seconds old, purge
-    if (recentRequests.size > 10) {
-      const oldEntries = [];
-      for (const [key, value] of recentRequests.entries()) {
-        if (now - value.timestamp > 5000) {
-          oldEntries.push(key);
-        }
-      }
-      oldEntries.forEach(key => recentRequests.delete(key));
-    }
+    // // Clean up cache - attempt every 10 requests, if cache over 5 seconds old, purge
+    // if (recentRequests.size > 10) {
+    //   const oldEntries = [];
+    //   for (const [key, value] of recentRequests.entries()) {
+    //     if (now - value.timestamp > 5000) {
+    //       oldEntries.push(key);
+    //     }
+    //   }
+    //   oldEntries.forEach(key => recentRequests.delete(key));
+    // }
     
     res.json(response);
   } catch (error) {
