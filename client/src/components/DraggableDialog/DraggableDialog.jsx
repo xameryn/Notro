@@ -35,7 +35,10 @@ function DraggableDialog({ file, showTags = true, showFileName = true, fetchServ
   const mediumThumbnailPath = getThumbnail(file)
 
   const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => { 
+    setOpen(false);
+    setShowConfirm(false)
+  }
 
   const handleDeleteClick = async () => {
     if (!showConfirm) {
