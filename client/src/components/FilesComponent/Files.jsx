@@ -102,7 +102,9 @@ const Files = () => {
     
         if (!response.ok) throw new Error(text || "Unknown error");
     
-        toast.success("File deleted");
+        toast.success("File deleted", {
+          theme: "dark"
+        });
         fetchServerFiles();
       } catch {
         toast.error("Failed to delete file");
