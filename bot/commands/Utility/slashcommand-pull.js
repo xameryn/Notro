@@ -32,7 +32,7 @@ module.exports = new ApplicationCommand({
             const response = await fetch(`${process.env.FILE_SERVER_URL}/api/files/${serverID}/${userID}/${fileName}`);
             
             if (!response.ok) {
-                throw new Error(`Server responded with status: ${response.status}`);
+                throw new Error(`File not found.`);
             }
 
             const data = await response.json();
@@ -56,15 +56,15 @@ module.exports = new ApplicationCommand({
                 await interaction.reply({ embeds: [embed] });
             }
         } catch (error) {
-            console.error('Failed to register server:', error);
+            console.error('Failed to send:', error);
             
             if (interaction.replied || interaction.deferred) {
                 await interaction.followUp({
-                    content: `Failed to register server: ${error.message}`
+                    content: `Failed to send: ${error.message}`
                 });
             } else {
                 await interaction.reply({
-                    content: `Failed to register server: ${error.message}`
+                    content: `Failed to send: ${error.message}`
                 });
             }
         }
